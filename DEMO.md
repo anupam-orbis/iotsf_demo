@@ -248,10 +248,10 @@ streamlit run app/main.py --server.port 8502
 **Solutions:**
 ```bash
 # Verify you're in project root
-pwd  # Should show .../iotsf_demo
+pwd  # Should show the repository root
 
 # Run from project root
-cd /path/to/iotsf_demo
+cd /path/to/repo
 streamlit run app/main.py
 ```
 
@@ -280,7 +280,7 @@ python -c "import torch; print(torch.cuda.is_available())"
 ls config/config.yaml
 
 # Run from project root
-cd /path/to/iotsf_demo
+cd /path/to/repo
 streamlit run app/main.py
 ```
 

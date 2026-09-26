@@ -21,7 +21,7 @@ KEY="${KEY:-$HOME/keys/nips_east_1.pem}"
 SSH_OPTS="-i $KEY -o StrictHostKeyChecking=no -o ConnectTimeout=10"
 GPU1="${1:?Usage: $0 GPU1_HOST GPU2_HOST}"
 GPU2="${2:?Usage: $0 GPU1_HOST GPU2_HOST}"
-REMOTE_DIR="~/workspace/iotsf_demo"
+REMOTE_DIR="~/workspace/${REMOTE_PROJECT_DIR:-project}"
 
 echo "=========================================="
 echo "Deploying Chronos experiment"

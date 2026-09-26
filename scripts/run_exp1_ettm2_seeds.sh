@@ -5,7 +5,7 @@
 # Expected time: ~4 GPU-hours
 
 set -eu
-cd ~/iotsf_demo
+cd "${PROJECT_ROOT:-$(dirname "$0")/..}"
 
 SEEDS=(456 777 789 888 999)
 OUT_ROOT=results/exp1_ettm2_n10k_es

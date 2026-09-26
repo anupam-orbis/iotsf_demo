@@ -6,7 +6,7 @@
 # Expected time: ~6 GPU-hours (2 conditions × 7 seeds × ~25 min)
 
 set -eu
-cd ~/iotsf_demo
+cd "${PROJECT_ROOT:-$(dirname "$0")/..}"
 
 SEEDS=(202 303 456 777 789 888 999)
 OUT_ROOT=results/exp3_layerwise_10seed

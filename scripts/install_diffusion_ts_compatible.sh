@@ -1,6 +1,6 @@
 #!/bin/bash
 # Compatible Diffusion-TS Installation Script
-# Installs Diffusion-TS with dependencies compatible with iotsf_demo
+# Installs Diffusion-TS with dependencies compatible with this project's environment
 
 set -e
 

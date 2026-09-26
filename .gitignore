@@ -124,3 +124,6 @@ paper_8/*review_map.md
 # The supplementary bundle is a build artifact: scripts/make_supplementary.py regenerates it
 # from "git archive" at a named commit, so committing it would store the repo inside itself.
 supplementary.zip
+# ...and the extracted copy, which carries a second full copy of paper_8: committing it would
+# duplicate the paper under a path no checker scans.
+supplementary/

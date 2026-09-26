@@ -7,7 +7,7 @@ from the stealth-95 test set, and produces a side-by-side t-SNE comparison
 showing SupCon-collapse (C) vs. hard-negative rescue (D).
 
 Usage:
-    cd /Users/admin/code/iotsf_demo
+    cd <repository root>
     source .venv/bin/activate
     python scripts/generate_tsne.py
 """

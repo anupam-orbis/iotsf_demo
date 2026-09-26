@@ -86,9 +86,15 @@ def derive_terms():
         # rstrip("/") first: the configured URL here ends in a slash, and without the strip the
         # anchored match silently found nothing -- a checker that derives no term for the repo owner
         # and still prints "clean" is the exact failure this file is meant not to have.
+        # Both groups get registered. For ten rounds only group(1) was added while the comment above
+        # claimed the repo name was covered too, and the repo name is the more dangerous of the two:
+        # it is a distinctive string that a search engine maps straight back to the owner's account
+        # and its GitHub Pages site, and it appeared in 7 bundled scripts while this check printed
+        # "clean". A checker whose comment overstates what it derives is worse than no checker.
         m = re.search(r"[:/]([^/:]+)/([^/]+?)(?:\.git)?$", remote.rstrip("/"))
         if m:
             add(m.group(1), "the owner of the origin remote")
+            add(m.group(2), "the repository name of the origin remote")
     add(Path.home().name, "the name of the home directory")
 
     extra = ROOT / ".anonymity_terms"

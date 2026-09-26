@@ -1,7 +1,7 @@
 """
 Adapter module for Diffusion-TS integration.
 
-This module provides a compatibility layer between the iotsf_demo project
+This module provides a compatibility layer between this project
 and the Diffusion-TS library, handling imports and path management.
 """
 

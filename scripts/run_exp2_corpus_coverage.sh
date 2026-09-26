@@ -6,7 +6,7 @@
 # Expected time: ~2-4 GPU-hours
 
 set -eu
-cd ~/iotsf_demo
+cd "${PROJECT_ROOT:-$(dirname "$0")/..}"
 
 OUT_ROOT=results/exp2_corpus_coverage
 LOG_ROOT=logs/exp2_corpus

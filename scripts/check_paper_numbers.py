@@ -321,7 +321,7 @@ def rederive():
     for _f in sorted(_glob.glob(str(ROOT / "results/**/condition_D*.json"), recursive=True)):
         _rel = Path(_f).relative_to(ROOT).parts
         _root = _rel[1]
-        # RELATIVE, not the absolute path: the repository directory is itself called iotsf_demo, so
+        # RELATIVE, not the absolute path: the repository's own directory name contains "iot", so
         # matching "iot" against an absolute path excludes every record in the tree and the range below
         # comes out empty rather than wrong -- which is the only reason this was caught immediately.
         _low = "/".join(_rel).lower()

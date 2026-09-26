@@ -4,9 +4,9 @@
 
 ### 1. Dependency Conflicts
 **Problem:** Diffusion-TS requirements.txt had outdated/conflicting versions:
-- torch==2.0.1 (iotsf_demo uses 2.4.1)
-- pandas==1.5.0 (iotsf_demo uses 2.1.4)
-- scikit-learn==1.1.2 (iotsf_demo uses 1.4.0)
+- torch==2.0.1 (this project uses 2.4.1)
+- pandas==1.5.0 (this project uses 2.1.4)
+- scikit-learn==1.1.2 (this project uses 1.4.0)
 - Plus unnecessary dependencies (dm-control, mujoco, gluonts)
 
 **Solution:** Created minimal compatible installation
@@ -97,7 +97,7 @@ EOF
 - Adapter module handles path management
 - Model initialization completes
 - No dependency conflicts
-- Compatible with Python 3.12 + iotsf_demo environment
+- Compatible with Python 3.12 + this project's environment
 
 ⚠️ **Not Yet Working:**
 - Generation/sampling (API mismatch)
@@ -108,7 +108,7 @@ EOF
 
 ### File Structure
 ```
-iotsf_demo/
+repo/
 ├── lib/
 │   └── Diffusion-TS/          # Cloned repo (not in git)
 ├── src/
@@ -132,7 +132,7 @@ If Diffusion-TS isn't installed or fails, automatically falls back to statistica
 
 ## Benefits of This Approach
 
-1. **No dependency conflicts** - Doesn't interfere with iotsf_demo packages
+1. **No dependency conflicts** - Doesn't interfere with this project's packages
 2. **Easy to remove** - Just delete `lib/Diffusion-TS` directory
 3. **Clean separation** - Adapter isolates Diffusion-TS from main codebase
 4. **Fallback ready** - Mock mode works if real model unavailable
