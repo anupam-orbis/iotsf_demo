@@ -192,6 +192,29 @@ ones, it is those smaller ones compounded: forg.$_\text{B}$ is
 $(\text{MSE}_\text{val}-\text{MSE}_\text{ZS})/\text{MSE}_\text{ZS}$ on two nearly
 equal quantities, so a $-0.8\%$ move in the denominator against a $+3.2\%$ move in
 the numerator's larger term is amplified into $+63.5\%$ in the ratio.
+% 2026-09-26 (B5). A reviewer asks the paper to de-emphasise percent-of-zero-shot metrics, citing this
+% very reproduction as evidence that they are unstable. They are right about the metric and the
+% instability was already reported here -- but as ARITHMETIC ABOUT ONE CELL. `grep -rn "amplif"` over
+% every .tex in paper_8 returned exactly one line, the one above, so the paper had the instance and never
+% the general statement, which is the weaker of the two things to have.
+% Two sentences, and the SECOND is the one that matters, because it is the bound: the amplification is a
+% property of forg_B, and \denc does not inherit it. That was already derivable from 03_protocol.tex:96-99
+% ("Both arms share the zero-shot denominator, so $\denc$ is the raw contrast ... rescaled per cell") but
+% nothing anywhere connected the two, so a reviewer reading S9's 63.5% had no way to see that the paper's
+% headline quantity is not exposed to it. THE CLAIM IS DELIBERATELY LIMITED TO THE SIGN: a per-cell
+% rescaling by a shared positive quantity cannot flip the contrast, but it can reorder cells against each
+% other, so "sign" is what is claimed and not "ordering".
+% This whole statement sits after \section*{Conclusion} and is excluded from the 9-page limit
+% (main.tex:202-205), so it costs the body nothing -- which is why the generalisation goes here and not
+% in \S5.
+This is a property of the percent-of-zero-shot scale rather than a fact about this
+cell: wherever the fine-tuned and zero-shot losses are close, a ratio of their
+difference to one of them magnifies absolute moves that are themselves small, which
+makes forg.$_\text{B}$ the least stable quantity this paper reports.
+\textbf{$\denc$ does not inherit that instability}: both arms share the same
+zero-shot denominator, so $\denc$ is the B-versus-D contrast rescaled per cell
+(Equation~\ref{eq:denc}), and a shared positive rescaling cannot change its sign,
+which is what every claim in the paper is stated in terms of.
 Moirai scores the median of 20 sampled forecasts and TimesFM emits a point
 forecast, which is why only one of the two is reproducible to the bit.  Every
 sign-bearing field kept its sign, which is what the paper's claims are stated in

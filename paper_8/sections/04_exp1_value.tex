@@ -60,4 +60,20 @@ means seven clear \emph{this} rung of the eight; the per-rung counts, the other
 two window sets, and the four cells a near-constant rung would admit are in
 Appendix~\ref{app:baselines}.  Giving the baseline Moirai's own $96{+}h$ context
 instead of $96$ makes it the stronger denominator on \textbf{12 of 21} cells and
-takes that seven to \textbf{six} (Appendix~\ref{app:baselines:matchedlb}).
+% 2026-09-26 (B1). A reviewer asked for the equal-context sensitivity in the body. Half of it was
+% already here -- the selection-split direction -- and the half that was appendix-only is the half that
+% cuts AGAINST the concession the first half makes: on held-out windows the comparison reverses, the
+% matched map is the stronger denominator on only 7 of 21, and the count clearing 0.20 goes UP. Stating
+% only the favourable direction of a two-sided sensitivity check is the thing this paper exists to
+% object to, so both directions are now in the body and the resolution with them.
+% TWO EXISTING PATTERNS ARE REUSED VERBATIM RATHER THAN TWO NEW ONES BEING WRITTEN:
+% "the count rises from \textbf{5 to 7}" is check_paper_numbers.py:3105's held-out survivor check and
+% "every admissible rung at \textbf{0 of 21 on both splits}" is :3110's ladder-rung check. Both were
+% min_sites=1 with a single appendix site; they now have two each, so this edit TIGHTENS their guarantee
+% instead of adding surface. Bold numerals rather than "five to seven" is what makes that reuse possible
+% and it matches the count convention of "12 of 21" in the same sentence; "takes that seven to six" keeps
+% its words because :3090 reads them through the WORDS map.
+takes that seven to \textbf{six}; on held-out windows the comparison reverses, the
+count rises from \textbf{5 to 7}, and folding the matched column into the ladder
+leaves the count clearing $0.20$ against every admissible rung at \textbf{0 of 21 on
+both splits} (Appendix~\ref{app:baselines:matchedlb}).

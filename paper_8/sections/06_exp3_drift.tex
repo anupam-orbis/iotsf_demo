@@ -85,11 +85,25 @@ cells sit at milder drift and all improve
 % to keep the phrase mid-sentence and lower-case. Any rewrite here has to leave "within Moirai, the only
 % arm with enough cells to ask, $\rho{=}{+}0.168$" intact and uncapitalised: the pattern is
 % case-sensitive and allows at most 70 characters between the phrase and the value.
+
+% 2026-09-26 (A1). A PARAGRAPH BREAK AND A RUN-IN HEADING, WITH NOT ONE WORD REWORDED. A reviewer asked
+% for a dedicated "why within a backbone rather than pooled" argument and reported being unable to find
+% one. The argument has been here since round 8 -- but as a clause inside the cross-backbone paragraph,
+% where a reader skimming for it meets the Chronos/TimesFM spread first and stops. What was missing was
+% never the reasoning, it was the heading; lines 50-124 were a single paragraph carrying four distinct
+% claims, and this is the one a reviewer goes looking for by name.
+% The full version is app:crosscell's "The pooled CKA row is not a licensed analysis, and it is the row
+% that would help us" -- disjoint CKA ranges per backbone, the Simpson's-paradox reading, and the
+% concession that the pooled row is the FAVOURABLE one we decline. It is now pointed at from here, which
+% is the other half of the complaint: the argument existed in the appendix with no path to it.
+% Nothing is reworded, so "pooled CKA rho and CI" (check_paper_numbers.py:2857) keeps its only site.
+\textbf{Why within a backbone and not pooled.}
 Pooled across all 31 cells CKA does correlate with the intervention
 ($\rho{=}{+}0.567$, clustered CI $[{+}0.239,{+}0.828]$), which is not a small number
 and not one a practitioner can use: backbone and protocol are known before any CKA is
 computed, so the diagnostic has to order the outcome \emph{given} them rather than
-pool three backbones and report the gap between two of them (Figure~\ref{fig:screen}b).
+pool three backbones and report the gap between two of them (Figure~\ref{fig:screen}b;
+Appendix~\ref{app:crosscell}).
 % Round 10 (A1/B3/C4). Three changes, and the first two are length-neutral by construction because the
 % two positional patterns the comment above records still have to match: the clause
 % "within Moirai, the only arm with enough cells to ask, $\rho{=}{+}0.168$" is untouched and
@@ -111,7 +125,23 @@ pool three backbones and report the gap between two of them (Figure~\ref{fig:scr
 Measured that way, within Moirai, the only arm with enough
 cells to ask, $\rho{=}{+}0.168$ with clustered CI $[-0.469,{+}0.717]$: an interval
 that admits a moderate positive relationship, and that \textbf{does not provide a
-reliable, actionable ordering} of our cells.  Priced as a decision, freezing where
+reliable, actionable ordering} of our cells.
+% 2026-09-26 (C, then E2). THE MDE SENTENCE WAS WRITTEN HERE AND IS CUT FROM HERE, which is the cut this
+% round declared in advance rather than discovered at the page gate. It said: "Six clusters resolve
+% $|\rho|{\gtrsim}0.5$ at $80\%$ power, so what we claim is \textbf{un-usability at this sample size, not
+% absence} (Appendix~\ref{app:clustered})." That is the answer to the objection a reviewer named as the
+% one they expected to decide the paper -- that we have shown imprecision rather than failure -- and it
+% is not a hedge added to the null, it BOUNDS the null, which is the opposite. It survives in full in
+% app:clustered's "What this design could have resolved", which states the floor, the observed
+% $\rho{=}{+}0.168$ beside it, the one-decimal justification (--seedcheck: four master seeds agree at a
+% grain of 0.1 and not at 0.05) and the same "un-usability at this sample size, not absence" claim shape
+% in bold. The pointer a reader needs to get there is two sentences down, and the conclusion's
+% \S\ref{sec:exp3} pointer is unchanged. What is lost is only that a reviewer scoring \S6 alone meets
+% the number 40 appendix lines later than they would have; what is bought is the 9-page body, which
+% three whole-sentence cuts elsewhere did not close on their own. The chk() that guarded this sentence
+% ("the minimum detectable correlation (body floor)") is retired with the sentence -- this was its only
+% site -- and the appendix chk plus the two asserts on R["mde80"] still guard every printed digit.
+  Priced as a decision, freezing where
 drift is largest, as prescribed, is worth $-6.97$~pp $[-10, +14]$ against always
 adapting; the orientation that pays out of sample is the inverse
 (Appendix~\ref{app:decision}).  Nor does the

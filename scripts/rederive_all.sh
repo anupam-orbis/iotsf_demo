@@ -196,6 +196,13 @@ run "cka_loco"                     "$PY" scripts/cka_fixed_effects.py --loco --j
 # the defect this file has now had four times (last in 526b83d). --seedcheck is not run here; it is a
 # 4x10,000-draw reproducibility audit of the printed precision, documented in the script's docstring.
 run "cka_decision (post-hoc)"      "$PY" scripts/cka_decision_value.py --json --latex
+# What the SAME cells could have resolved: the minimum detectable Spearman rho for the interval above,
+# post-hoc and labelled so in its docstring, its JSON and its prose. It emits no table -- the four
+# numbers it contributes are prose, and a float for four numbers is not affordable -- so --json is its
+# ONLY emit flag and is required: without it the record the checker reads is never written and this
+# line would print "ok" while the paper quoted a stale file. Neither --seedcheck (4 seeds x the whole
+# curve, ~15 min) nor --nbootcheck is run here; both are manual audits of the printed precision.
+run "cka_correlation_mde (post-hoc)" "$PY" scripts/cka_correlation_mde.py --json
 run "sample_sweep"                 "$PY" scripts/emit_sample_sweep.py
 
 # The pre-registered positive control. TIER A even though the arm itself is TIER C: the checkpoints it

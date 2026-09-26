@@ -128,7 +128,13 @@ Intervals are primary because unanimity measures agreement among seeds rather
 than the size of an effect or our confidence in it; the registered form stays
 because retiring a criterion after seeing its outcome is not a choice we get to
 make. \textbf{Both return the same count}, so nothing in this paper turns on
-which is read. The definition is fixed for the whole paper.
+which is read.
+% 2026-09-26 (E5). Cut for \S6's MDE sentence: "The definition is fixed for the whole paper." No
+% registered site, and it asserts of a paragraph headed \textbf{Definition} the one property a
+% definition is already read as having. The thing it was guarding against -- a criterion retired after
+% its outcome was seen -- is stated two sentences above it in the form that actually argues the point
+% ("the registered form stays because retiring a criterion after seeing its outcome is not a choice we
+% get to make"), and app:corrections records every reading this paper did revise.
 
 \textbf{Conditions.} \textbf{B}~NLL-only fine-tune (baseline: how much does
 unconstrained fine-tuning drift and forget?); \textbf{C}~NLL$+$SupCon
@@ -139,7 +145,19 @@ training and overfitting); \textbf{E}~LoRA ($r{=}8$); \textbf{F}~L2-SP and
 paper turns on.  \textbf{These letters describe Moirai}; the other two backbones
 differ in objective and head, one non-natively, as the Ethics Statement's
 \emph{Scope of the claims} says.  \textbf{We name conditions rather than letter them from here on}:
-\emph{full fine-tuning} (B), \emph{frozen encoder} (D), \emph{strict frozen
+% 2026-09-26 (B2). THE ALIAS, AND THE RENAME STILL REFUSED. A reviewer asks for "frozen encoder" to
+% become "backbone-frozen intervention" throughout. The round-10 refusal below stands and its reason has
+% only got stronger since it was written: the inventory for this round counts ~36 body occurrences in 9
+% distinct phrasings, ~47 in the appendix, and 12 EMITTER-GENERATED TABLE HEADERS
+% (emit_crossbackbone.py:57, emit_dissociation.py:61, emit_positive_control.py:47 and nine others), so a
+% true rename is a scripts/ change that would rewrite a dozen tables to relabel a column. A rename that
+% moved the prose and not the tables is precisely the half-moved phrasing that has gone stale here before.
+% What was genuinely missing is smaller and is fixed here: the paper used a name it never defined. The
+% precise term now appears once, where the reader learns the vocabulary, and the paragraph immediately
+% below says why it is the right one. Guarded at min_sites=1 by "the backbone-frozen alias" so it cannot
+% half-move later -- which is the one thing the 23 unguarded glosses could always do.
+\emph{full fine-tuning} (B), \emph{frozen encoder} (D, more precisely
+\emph{backbone-frozen}), \emph{strict frozen
 encoder} (H), \emph{LoRA} (E).  We keep the letters for the tables, the clauses
 of the definition above and Equation~\ref{eq:denc}, so that no result in the body
 has to be read through a lookup.

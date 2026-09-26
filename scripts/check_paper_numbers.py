@@ -270,6 +270,24 @@ def rederive():
     R["chron_dd"], R["chron_db"] = chron["d_d"], chron["d_b"]
     R["ratio_lo"] = min(r["zs_ratio"] for r in rev_rows)
     R["ratio_hi"] = max(r["zs_ratio"] for r in rev_rows)
+    # 2026-09-26 (B3). THE TWO PER-ARM STORIES, because app:full_tables asserted only one of them.
+    # Its paragraph read "The reversals are driven by the frozen arm, whose held-out penalty is much
+    # larger than its selection-window penalty", generalising from Chronos/ETTh1 to all four -- while
+    # heldout_decomposition.py's own docstring has said the opposite since it was written: "Half the
+    # reversals are therefore not the frozen arm failing at all." The data agrees with the docstring.
+    # dD > dB holds in all four BY CONSTRUCTION (a reversal from positive to negative IS dB - dD < 0),
+    # so it is the SIGNS that carry the mechanism, not the inequality: on 2 cells both arms end worse
+    # than their own zero-shot out of sample and the frozen one collapses; on the other 2 both arms end
+    # BETTER and nothing degrades, the adapted arm merely gains more. Same sign change, different
+    # phenomenon. Registered so the appendix can state the split and cannot drift back to one story.
+    R["n_rev_frozen_collapse"] = sum(1 for r in rev_rows if r["d_b"] > 0 and r["d_d"] > 0)
+    R["n_rev_both_improve"] = sum(1 for r in rev_rows if r["d_b"] < 0 and r["d_d"] < 0)
+    # The two stories have to exhaust the reversals, or the appendix's "2 and 2" is arithmetic about a
+    # subset. A cell with arms of opposite sign would belong to neither and must be discovered here
+    # rather than by a reader adding the two numbers up.
+    assert R["n_rev_frozen_collapse"] + R["n_rev_both_improve"] == len(rev_rows), (
+        f"{len(rev_rows)} reversals split {R['n_rev_frozen_collapse']}/{R['n_rev_both_improve']}: a "
+        "reversing cell falls in neither per-arm story, so app:full_tables' two-mechanism split is wrong")
 
     # -- the four ETTm2 strict-freeze shifts, quoted in the appendix as the divergence evidence
     for tag, key in (("s96", "small_ETTm2_h96"), ("b96", "base_ETTm2_h96"),
@@ -1876,6 +1894,53 @@ def rederive():
         f'cut misplaces {R["n_miscut"]}. Appendix app:decision says the saving and misplacement '
         f'objectives "happen to agree on this data"; they no longer do, so fix the sentence.')
 
+    # -- what the within-Moirai correlation could have RESOLVED (app:clustered), registered 2026-09-26.
+    # Read from the emitter's JSON, not recomputed, for the third time for the same reason: the power
+    # curve only reproduces at the pinned SIM_SEED/SIM_BOOT, and --seedcheck establishes which grain
+    # survives reseeding. The two ICCs below ARE seed-free -- they are two ANOVA calls on the observed
+    # data -- but they are read from the same file so that one command regenerates every digit.
+    _mde = json.load(open(ROOT / "results/cka_correlation_mde.json"))
+    R["mde_icc_cka"] = _mde["structure"]["icc_x_cka"]
+    R["mde_icc_denc"] = _mde["structure"]["icc_y_denc"]
+    R["mde_n_cells"] = _mde["design"]["n_cells"]
+    R["mde_n_clusters"] = _mde["design"]["n_clusters"]
+    R["mde80"] = _mde["mde80"]
+    # The body quotes a one-decimal FLOOR ("at least 0.5"), not the simulated value, because
+    # --seedcheck reports that 0.05 is the grain four master seeds agree at and 0.01 is not. Flooring
+    # rather than rounding is the direction that cannot overstate what the design could resolve.
+    R["mde80_floor"] = None if R["mde80"] is None else int(R["mde80"] * 10) / 10
+    # No R key for the sensitivity endpoints: they do not survive reseeding even at a grain of 0.1, so
+    # the paper prints no figure for them and there is nothing to register. The ORDERING claim the prose
+    # does make (the estimated setting is the smallest of the three) is asserted inside the emitter at
+    # every master seed, which is the right place for it -- a checker assert would only see seed 0.
+    R["mde_null_rate"] = _mde["null_rejection_rate"]
+    R["mde_halfwidth"] = _mde["observed"]["half_width"]
+    R["mde_n_eff"] = _mde["structure"]["n_eff_deff"]
+    _fz = _mde["crosschecks"]["fisher_bonett_wright"]
+    R["mde_fisher_22"], R["mde_fisher_deff"], R["mde_fisher_k"] = (_fz["n22"], _fz["n_deff"],
+                                                                  _fz["n_clusters"])
+    # The sizes are quoted in WHOLE PERCENT: they are Monte-Carlo estimates on 300 and 100 realisations,
+    # so their own standard errors are ~1.4 and ~3 points and a decimal place would be noise printed as
+    # precision. Rounding here rather than in the pattern, on the cka_decision convention.
+    R["mde_null_pct"] = round(100 * _mde["null_rejection_rate"])
+    _ns = [100 * v for k, v in _mde["null_rejection_by_t"].items() if k != "that"]
+    R["mde_null_pct_sens_lo"], R["mde_null_pct_sens_hi"] = round(min(_ns)), round(max(_ns))
+    # THE ASSERT THAT PROTECTS THE SENTENCE. The appendix paragraph and S6 both say the observed rho is
+    # BELOW what this design could resolve; that is the whole point of reporting an MDE rather than a
+    # p-value. If a re-run ever puts the observed rho above the MDE then the paper's "cannot resolve"
+    # framing is wrong and the SENTENCE must be rewritten -- not the number, and not this assert.
+    assert R["mde80"] is None or R["mde80"] > abs(R["cka_rho"]), (
+        f'the observed within-Moirai rho ({abs(R["cka_rho"]):.3f}) is no longer below the '
+        f'minimum detectable one ({R["mde80"]:.3f}). S6 and app:clustered both say this design could '
+        f'not have resolved a correlation this small; rewrite those sentences, not the number.')
+    # And the honesty condition on the MDE itself: the number is only meaningful if the interval it is
+    # defined against has roughly its nominal size. A materially anti-conservative interval buys power
+    # mechanically, which would make the MDE optimistic -- reportable, but only if reported WITH the
+    # size, which is why the size has its own registered prose site rather than living in the JSON.
+    assert R["mde_null_rate"] < 0.15, (
+        f'the clustered interval rejects at {R["mde_null_rate"]:.3f} under a true rho of zero, far '
+        f'above the nominal 0.05. The MDE is then optimistic; report it beside the size and say so.')
+
     # -- the six-measure drift battery (app:driftmetrics), registered 2026-09-26. Until this round the
     # ~57 values in that appendix carried NOT ONE pattern, which made it the largest unguarded block of
     # numbers in the paper -- and it is the block that answers "is the reading specific to CKA?", so a
@@ -2510,6 +2575,16 @@ def build_checks(R):
     chk("held-out sign reversals (boxed lesson)",
         r"reverses its sign on (\d+) of our (\d+)\s+cells",
         R["n_heldout_rev"], R["n_int"])
+    # 2026-09-26 (B3). A FOURTH phrasing, in the Reproducibility Statement's scoring-protocol paragraph,
+    # unregistered until now: "reverses the sign of the frozen-encoder comparison in 4 of the 31
+    # intervention cells" matches none of the three patterns above -- they want "reverses its sign", and
+    # this site names the comparison between the verb and the count. Found by inventorying every site of
+    # the reversal result against the registered patterns rather than by reading the pass line, which is
+    # the only way a gap like this surfaces: all three checks above are min_sites=1 and each had its own
+    # site, so the suite was green with one of the four statements of the result free to drift.
+    chk("held-out sign reversals (reproducibility statement)",
+        r"reverses the sign of the frozen-encoder comparison in (\d+) of the (\d+) intervention cells",
+        R["n_heldout_rev"], R["n_int"])
 
     # --- the decomposition behind the reversals
     # The body sentence naming the largest reversal (Chronos/ETTh1, +6.8 to -39.2, a 46-point swing) is
@@ -2528,6 +2603,23 @@ def build_checks(R):
     chk("selection/held-out difficulty ratio",
         r"ratio spans \$([\d.]+)\$ to \$([\d.]+)\$ across these four cells",
         R["ratio_lo"], R["ratio_hi"])
+    # 2026-09-26 (B3). The largest reversal's magnitude, printed in prose for the first time. All three
+    # numbers were already derived in rederive() above and referenced by nothing, so the strongest true
+    # statement the arm supports -- one cell reverses by 46 points -- was the one statement the paper did
+    # not make. The swing is captured too rather than left for the reader to subtract, because a swing
+    # that stops equalling its two endpoints is the drift this check exists to catch.
+    chk("the largest reversal, both splits and the swing",
+        r"at \$\+([\d.]+)\$ on the selection windows against \$-([\d.]+)\$ held out, "
+        r"a \$([\d.]+)\$-point swing",
+        R["chron_val"], R["chron_test"], R["chron_swing"])
+    # The two per-arm stories, one check per clause because they are separated by a sentence of prose.
+    # These guard the CORRECTION: the paragraph used to assert the frozen-arm story for all four, and the
+    # assert in rederive() guarantees these two counts exhaust the reversals.
+    chk("the reversals' two stories: frozen arm collapses",
+        r"On \\textbf\{(\w+) of the four\} the frozen arm collapses",
+        R["n_rev_frozen_collapse"])
+    chk("the reversals' two stories: both arms improve",
+        r"On the \\textbf\{other (\w+)\} both arms finish", R["n_rev_both_improve"])
 
     # --- the relaxed-definition ladder. None of this was registered before 21 Sep 2026, which is how
     # the body, the appendix and the generated table came to disagree with the emitter in five places.
@@ -2804,6 +2896,51 @@ def build_checks(R):
     # duplicates of build-time output -- the exact drift failure this checker exists for. They are
     # deleted, not re-verified. Both rhos keep prose coverage elsewhere: "within-Moirai CKA rho" and
     # "gate rho within Moirai" (min_sites=3) still run, and the figure's own asserts cover the panel.
+    # --- correlations: what the within-Moirai interval could have RESOLVED (registered 2026-09-26)
+    # Every digit here is post-hoc and every one of them is quoted at a grain --seedcheck certified.
+    # The MDE is quoted as a ONE-DECIMAL FLOOR, because the four master seeds agree at a grain of 0.1 and
+    # not at 0.05; the floor is also the direction that cannot overstate what the design resolved.
+    # RETIRED 2026-09-26 (E2), with the sentence it guarded: "the minimum detectable correlation (body
+    # floor)" matched r"resolve \$\|\\rho\|\{\\gtrsim\}([\d.]+)\$ at \$80" against R["mde80_floor"], and
+    # \S6's MDE sentence was its ONLY site. That sentence was cut at the page gate (the reason is in
+    # 06_exp3_drift.tex beside the cut), so the check is deleted rather than left at min_sites=1 to fail,
+    # and NOT loosened to min_sites=0 -- a check that tolerates zero sites is how a number goes missing
+    # from this paper without the checker noticing. The quantity keeps full coverage: the appendix chk
+    # below is now its single prose site, and the two asserts on R["mde80"] above (it must exceed the
+    # observed rho, and the null rejection rate must stay under 0.15) still run on every sweep.
+    # The appendix quotes that one-decimal floor, and it is pinned to the floor rather than to the value:
+    # --seedcheck reports 0.500/0.543/0.538/0.524 over master seeds 0/1/7/13, so 0.05 is not a grain this
+    # number survives, and a two-decimal figure would be a digit no re-run of the emitter reproduces.
+    chk("the minimum detectable correlation (appendix)",
+        r"\\mathrm\{MDE\}_\{80\}\{\\gtrsim\}([\d.]+)\$", R["mde80_floor"])
+    # The sensitivity range is NOT registered as digits, deliberately: --seedcheck reports that the two
+    # non-headline settings disagree across master seeds even at a grain of 0.1 (t=0 runs 0.547-0.613,
+    # t=0.9 runs 0.500-0.567), so any interval printed for them would be a digit no re-run reproduces.
+    # The prose makes the ORDERING claim instead -- the estimated setting is the smallest of the three --
+    # and that is asserted by the emitter at every seed rather than captured here.
+    # THE MECHANISM, and the reason it is one check and not two. The claim is a CONTRAST -- CKA has
+    # almost no cluster-level variance and the outcome is almost all cluster-level -- and either number
+    # alone says nothing. A pattern that matched them together cannot have one of them silently edited
+    # into agreement with the other, which is the failure mode two min_sites=1 checks would allow.
+    chk("the two intracluster correlations, which are the mechanism",
+        r"intracluster correlation of CKA is \$([\d.]+)\$ while that of \$\\denc\$ is \$([\d.]+)\$",
+        R["mde_icc_cka"], R["mde_icc_denc"])
+    # The analytic cross-checks, pinned together with the effective n they are evaluated at, because a
+    # Fisher-z MDE quoted without its n is not checkable by a reader and not checkable here either.
+    chk("the analytic cross-checks on the MDE",
+        r"gives \$([\d.]+)\$ at \$n\{=\}22\$, \$([\d.]+)\$ at the Moulton\s+effective \$n\$ of "
+        r"\$([\d.]+)\$ and \$([\d.]+)\$ at the six clusters, and inverting the observed\s+"
+        r"half-width gives \$([\d.]+)\$",
+        R["mde_fisher_22"], R["mde_fisher_deff"], R["mde_n_eff"], R["mde_fisher_k"],
+        R["mde_halfwidth"])
+    # The size of the paper's own interval under a true zero. This is the number that says the MDE is
+    # the optimistic end rather than a tuned one, so it is registered: an appendix that dropped it
+    # would leave "0.50 is the optimistic end" asserted with nothing printed behind it.
+    chk("the size of the clustered interval under a true zero",
+        r"rejecting a true zero in \$(\d+)\\%\$ of realisations against a\s+nominal \$(\d+)\\%\$, and "
+        r"\$(\d+)\$--\$(\d+)\\%\$ in the two sensitivity",
+        R["mde_null_pct"], 5, R["mde_null_pct_sens_lo"], R["mde_null_pct_sens_hi"])
+
     chk("Moirai cell count", r"\$n\{=\}(\d+)\$ cells from six series", R["n_moirai"])
     # The intro's second copy of this denominator went with the restructure into five paragraphs; it
     # was attached to the retrospective rho, which S7 states with the same denominator two lines from
@@ -2852,6 +2989,26 @@ def build_checks(R):
         r"identically on the held-out windows \(\$\\rho\{=\}\{\+\}([\d.]+)\$\) and disagree on the "
         r"selection windows \(\$\\rho\{=\}\{-\}([\d.]+)\$ over the four shared datasets\)",
         R["xback_test_rho"], R["xback_val_rho"])
+
+    # 2026-09-26 (A0). THE CLUSTER DEFINITION, WHICH WAS WRONG IN FIGURE 1'S CAPTION FOR TEN ROUNDS.
+    # cluster_keys.cluster_of() is f"{backbone_of(cell)}|{dataset_of(cell)}" -- horizon appears NOWHERE in
+    # the key -- and clustered_inference.py records cluster_definition="(backbone, dataset)". The caption
+    # on page 2 said "clustered by dataset x horizon", which is the machinery the two hardest objections
+    # this paper receives are about. The printed counts had been corroborating the code all along: six
+    # datasets give the six Moirai clusters the paper reports, and dataset x horizon could not.
+    #
+    # ONE CHECK WITH AN ALTERNATION, NOT TWO CHECKS, for the reason recorded at "the spine sentence"
+    # below: at min_sites=2 this also fails if either site is DELETED, where two min_sites=1 checks would
+    # each still pass on its own survivor. The two phrasings are deliberately different in the paper (the
+    # caption names the axes, the appendix names the unit), so the pattern has to carry both spellings --
+    # this is exactly the per-phrasing-not-per-fact gap that let the caption drift while the appendix
+    # stayed right. There is a third correct site at app:clustered ("leaving out one (backbone, dataset)
+    # cluster at a time") which no spelling here reaches; it is not needed for the floor of 2 and adding a
+    # third alternative would make the pattern unreadable for no extra guarantee.
+    chk("the clustering unit, both spellings",
+        r"clustered by backbone\$\{\\times\}\$dataset"
+        r"|A cluster \\emph\{is\} a \(backbone, dataset\) pair",
+        min_sites=2)
 
     # --- correlations: pooled and graded
     chk("pooled CKA rho and CI",
@@ -2968,6 +3125,17 @@ def build_checks(R):
     # is an assert in rederive() over the whole sweep; this is the printed value.
     chk("prospective precision at every threshold",
         r"gives precision \$([\d.]+)\$ at every one", R["pro_prec"])
+    # 2026-09-26 (B4). TWO MORE PHRASINGS OF THE SAME 0.00, BOTH UNREGISTERED UNTIL NOW. Found by
+    # inventorying every printed "precision" against the four patterns above and below: app:limitations'
+    # recap ("scored precision $0.00$ at every threshold in [0.10, 0.60]") and the corrections appendix's
+    # ("reports precision~$0.00$ at \emph{every} threshold in {...}") match NONE of them -- different
+    # verb, different tilde, different bracket. This is the per-phrasing gap in its purest form: the arm's
+    # headline number was guarded at four sites and free to drift at two, and the two free ones are the
+    # places a reader goes to check whether the correction was really applied everywhere.
+    chk("prospective precision at every threshold (limitations recap)",
+        r"scored precision \$([\d.]+)\$ at every threshold", R["pro_prec"])
+    chk("prospective precision at every threshold (corrections appendix)",
+        r"reports precision~\$([\d.]+)\$ at \\emph\{every\} threshold", R["pro_prec"])
     chk("prospective threshold sweep, flagged counts (slash form)",
         r"\$" + r"/".join([r"(\d+)"] * 6) + r"\$ cells flagged",
         *R["pro_flagged_by_threshold"])
@@ -3743,6 +3911,14 @@ def build_checks(R):
     # not. THE OLD STRING IS GONE FROM THE PAPER: that is what makes this safe to do in one edit, because
     # a half-moved phrasing would leave this check passing on three sites plus one stale restatement.
     chk("the spine sentence, verbatim", r"is not an actionable substitute for the latter", min_sites=4)
+    # 2026-09-26 (B5). The bound on the percent-of-zero-shot instability, in S9. No number of its own --
+    # it is a statement about which quantity the 63.5% reproduction drift can and cannot reach -- so this
+    # is a presence check, on the pattern of the spine sentence above. Worth guarding because the sentence
+    # it makes safe to print is the 63.5% one directly above it: if this concession were ever cut for
+    # space, the paper would be left reporting a 63.5% reproduction swing with nothing saying that the
+    # headline contrast does not inherit it, which is strictly worse than not reporting the swing at all.
+    chk("forg_B's instability is bounded away from denc",
+        r"\\textbf\{\$\\denc\$ does not inherit that instability\}", min_sites=1)
     # The title no longer restates the spine sentence: it carries the METHODOLOGICAL claim, and the
     # body carries the empirical one. Registered as its own check, and paired with the generalised
     # claim in the conclusion so that a rewrite cannot leave the title asserting something the body
@@ -3801,6 +3977,14 @@ def build_checks(R):
     # If a later round DOES rename the family, this is the check that will name every site to move.
     chk("the degradation criterion's gloss, verbatim",
         r"criterion for harmful encoder adaptation", min_sites=4)
+    # 2026-09-26 (B2). The alias for condition D, at its one site, in \S3's naming declaration. A reviewer
+    # asked for a global rename to "backbone-frozen"; the round-10 refusal at 03_protocol.tex:147-155
+    # stands (95-odd sites in 9 phrasings, 12 of them emitter-written table headers), so what ships is the
+    # precise term defined ONCE where the vocabulary is introduced. This check is the whole reason that is
+    # a defensible half-measure rather than the half-moved phrasing the refusal warns about: the alias now
+    # cannot be deleted or reworded silently, which is more than any of the 23 glosses it explains can say.
+    chk("the backbone-frozen alias",
+        r"\\emph\{frozen encoder\} \(D, more precisely \\emph\{backbone-frozen\}\)", min_sites=1)
     chk("the CKA ordering claim, verbatim",
         r"does not provide a reliable, actionable ordering", min_sites=3)
     chk("the gate ordering claim, verbatim",

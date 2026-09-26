@@ -36,8 +36,15 @@ encoder), and the model ends $22.8\%$ \emph{worse} than not fine-tuning at all.
 Fine-tune the same checkpoint on ETTh2 and the encoder restructures far more, to
 CKA $0.460$, and the model ends $31.4\%$ \emph{better}.  Read drift as damage and
 you would have protected the run that needed no protection and left alone the one
-that did.  The pair is not a curiosity we picked out: it is Moirai-Base's whole
-drift ordering (Figure~\ref{fig:screen}b, \S\ref{sec:exp3}).
+that did.
+% 2026-09-26 (E5). Cut for \S6's MDE sentence: "The pair is not a curiosity we picked out: it is
+% Moirai-Base's whole drift ordering (Figure~\ref{fig:screen}b, \S\ref{sec:exp3})." No registered site,
+% and this is the SECOND duplicate cut from this sentence for the same reason -- the round-8 comment
+% below records the first. Figure 1's caption is on this same page and states the ordering in almost
+% these words ("Moirai-Base's two least drifted cells are its only two that degrade, and its two most
+% drifted improve the most"), and fig1_diagnostic_flow.py ASSERTS that ordering at build time, so the
+% anti-cherry-picking point is made where it is enforced rather than where it is retyped. \S6's second
+% paragraph states it a third time with all four CKA values attached.
 % Round 8. Cut from the sentence above, and cut as a DUPLICATE rather than for space: "within our
 % Moirai-Base cells the two least drifted are the only two that degrade, and the two most drifted
 % improve the most". Figure 1's caption, on this same page, states that in almost the same words, and
@@ -108,7 +115,7 @@ actionable substitute for the intervention}, and no cut on CKA separates the
 cells adaptation helped from the cells it hurt.  The labelled pairs are the paper's
 running example: Moirai-Base's two \emph{least} drifted cells are its only two
 that degrade, and its two most drifted improve the most (\S\ref{sec:exp3}).  Filled
-markers clear the gate; both $\rho$ are clustered by dataset${\times}$horizon, and
+markers clear the gate; both $\rho$ are clustered by backbone${\times}$dataset, and
 only Moirai has enough cells to ask within one backbone
 (Appendix~\ref{app:clustered}).}
 \label{fig:screen}
@@ -205,12 +212,29 @@ screen \emph{rejects} (\S\ref{sec:analysis:degradation}).
     (2 freezing-better, 4 adaptation-better, 25 inconclusive at a
     multiplicity-adjusted $q{<}0.05$; zero under the pre-registered unanimity
     criterion), so the value gate we proposed has no positive instance to
-    predict: TP~0, FP~8 on
+    % 2026-09-26 (B4). A reviewer reads this item as reporting a classifier's precision on a set with no
+    % positives, and on page 3 that reading is available: the item said "no positive instance to predict:
+    % TP~0, FP~8", which states zero prevalence and then prints a confusion matrix, leaving the reader to
+    % infer which of the two governs. Three words make it explicit -- with no positives the precision is
+    % UNDEFINED, not poor -- and the counts stay, because they are what was pre-registered and cutting
+    % them would hide the arm rather than frame it. \S7.2 already said "sensitivity and specificity are
+    % both unestimable here"; this is the same concession, moved to the site a reviewer actually reads.
+    % "TP~0, FP~8 on eight cells" IS LEFT CONTIGUOUS ON PURPOSE: it is the whole match of
+    % check_paper_numbers.py:2978 "prospective confusion counts (S1 lead)", whose only site this is, and
+    % parenthesising the counts or moving "on eight cells" would silently drop it to zero sites while the
+    % checker still reported clean. Verified by per-claim site diff, not by the pass/fail line.
+    predict, so precision is undefined, not poor: TP~0, FP~8 on
     eight cells whose predictions were frozen in git before those cells were
     trained, and $\rho{=}{-}0.293$ against the intervention outcome within
-    Moirai; a direction, not an interval claim (\S\ref{sec:exp4}).  A
-    reproducibility bundle (configs, seed lists, metric scripts, uni2ts patch,
-    both linear baselines) accompanies this paper.
+    Moirai; a direction, not an interval claim (\S\ref{sec:exp4}).
+    % 2026-09-26 (E5). Cut for the body lines this round's MDE sentence in \S6 needs: "A reproducibility
+    % bundle (configs, seed lists, metric scripts, uni2ts patch, both linear baselines) accompanies this
+    % paper." It carries NO registered site (verified by per-claim site diff, not by the pass/fail line)
+    % and it is the one sentence in this list that is not a result: ICLR requires a Reproducibility
+    % Statement, that statement is on a page the limit does not count, and it lists all five of these
+    % artifacts and more. So this was a page-3 summary of a mandatory page-10 section. Nothing is
+    % withdrawn and no pointer is lost -- the bundle is still described, in more detail, where a reader
+    % looking for it looks.
 \end{enumerate}
 
 % "Those four" was correct until this round's contribution item 3 -- the third statement of the two
