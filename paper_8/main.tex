@@ -64,9 +64,30 @@
 % three with a nearly empty middle. Broken in three deliberately instead, at roughly 29/31/33
 % characters. check_paper_numbers.py's title pattern was widened to tolerate a \\ at either break, so
 % this stays checked -- verify the RENDERED page, not the source, if it is ever reworded again.
-\title{CKA Does Not Reliably Predict\\
-       the Value of Encoder Adaptation\\
-       in Time-Series Foundation Models}
+%
+% ROUND 9, FIFTH TITLE, AND IT REVERSES THE ROUND-7 DECISION A SECOND TIME -- so read the whole block
+% above first, because the argument here is not that round 7 was wrong about the words but that it was
+% wrong about the job. Round 6 dropped "Does Not Reliably Predict ..." because a title asserting a
+% general negative invites "six datasets cannot support that"; round 7 brought it back on the argument
+% that naming the statistic (CKA) and qualifying the verb (reliably) made it NARROWER than "Representation
+% Drift Is Not a Substitute for Intervention". Two independent reviewers of the round-8 build have now
+% made the round-6 objection again, in the same words, against the round-7 wording: one calls the title
+% "slightly too strong" and says it "creates a larger burden of proof than necessary"; the other says the
+% title "currently sits somewhere between" a claim about our evaluated cells and a claim about TSFMs in
+% general. Round 7's fix was to narrow the assertion. Round 9 rejects the premise instead: the title does
+% not have to assert anything. It names the phenomenon and the object of study, and every claim is made
+% in the body where it is scoped to the cells we ran.
+% NOTHING IS WITHDRAWN AND NOTHING MOVES. The empirical claim is the spine sentence at four registered
+% sites (abstract, \S1's lead, \S\ref{sec:exp3}'s opening, the conclusion), narrowed this round to
+% "is not an actionable substitute for", which is the wording both reviewers asked for. The methodological
+% claim is the conclusion's closing sentence, still checked. C1 in Appendix~\ref{app:claims} tabulates
+% both with their strength and their scope.
+% The breaks are again BY HAND, 36/32/29 characters. That is wider than round 8's 29/31/33 and it fits:
+% before round 8 broke it, free wrap put "CKA Does Not Reliably Predict the Value of" -- 42 characters --
+% on one \LARGE small-caps line, so ~42 is the capacity and 36 is inside it. Verify the RENDERED page.
+\title{When Representation Change Misleads:\\
+       Evaluating Encoder Adaptation in\\
+       Time-Series Foundation Models}
 
 % ICLR submissions are DOUBLE-BLIND. Authors must not appear in the submitted
 % version; non-anonymous submissions are rejected without review. Uncomment
@@ -97,8 +118,8 @@ forgetting to be prevented.  Preventing it presupposes something worth
 preserving.  \textbf{Centered kernel alignment (CKA) tells us that the
 representation changed; a
 fine-tune-versus-frozen-encoder intervention tells us whether that change was
-valuable.  Across the cells we evaluate, the former does not reliably predict
-the latter.}
+valuable.  Across the cells we evaluate, the former is not an actionable
+substitute for the latter.}
 Screening \textbf{32 cells} (three backbones: Moirai-S/B/L, Chronos-T5,
 TimesFM-2.5; six datasets; two horizons) against a lookback-96 linear
 regression \emph{fit on the target data} and scored on windows disjoint from
@@ -121,14 +142,28 @@ where freezing decisively wins are cells our own screen rejects; a
 pre-registered seed top-up adds a third it \emph{admits}.  A
 pre-registered unanimity criterion returns zero under every protocol we
 evaluated.
-The outcome nonetheless spans $-51.8\%$ to $+46.1\%$ against zero-shot, and CKA
-\textbf{does not provide a reliable ordering} of it: within Moirai, the only
-backbone with enough cells to ask, $\rho{=}{+}0.168$ (clustered CI
+% Round 9 (A5). The two statistical sentences are SWAPPED, not rewritten: the out-of-sample result now
+% leads and the in-sample correlation follows as the within-backbone detail. Both reviewers of the
+% round-8 build read the abstract's rho first and the pre-registered LOCO analysis second, and both said
+% the same thing about it -- that a wide in-sample interval on 21 cells is the paper's weakest evidence
+% while the fixed-in-advance out-of-sample test is its strongest, so leading on the weak one invites the
+% power objection before the reader reaches the answer to it. Nothing is added, withdrawn or reworded:
+% every number, every bold span and both scope clauses are the round-8 ones in a different order, which
+% is what makes this affordable on a page-1 float page.
+% THREE PATTERNS RUN THROUGH THESE FIVE LINES AND ALL THREE ARE POSITIONAL, so a rewrite here is not
+% safe the way a reorder is: "within-Moirai CKA rho" (min_sites=5) allows at most 70 non-$ characters
+% between the scope clause and the value and is case-sensitive, so "within Moirai" must stay mid-sentence
+% and lower-case; "within-Moirai CKA rho (body and the claims table)" (min_sites=2) pins the literal
+% "cells to ask, $\rho{=}{+}0.168$"; and "within-Moirai CKA clustered CI" (min_sites=4) allows at most 25
+% characters between the rho and "clustered CI", which is why the CI stays in the same parenthesis.
+The outcome nonetheless spans $-51.8\%$ to $+46.1\%$ against zero-shot, and under
+an analysis fixed before it was run we find \textbf{no evidence} that CKA improves
+out-of-sample prediction of it beyond backbone identity: across 15
+leave-one-cluster-out folds it \emph{lowers} $R^2$ from $+0.201$ to $+0.176$.
+In sample CKA \textbf{does not provide a reliable ordering} either: within Moirai,
+the only backbone with enough cells to ask, $\rho{=}{+}0.168$ (clustered CI
 $[-0.469,{+}0.717]$), and no cut on CKA separates the cells encoder adaptation
-helped from the cells it hurt.  Under an analysis fixed before it was run, we find
-\textbf{no evidence} that CKA improves out-of-sample prediction beyond backbone
-identity: across 15 leave-one-cluster-out folds it \emph{lowers} $R^2$ from
-$+0.201$ to $+0.176$.
+helped from the cells it hurt.
 Two measurement choices decide this: the frozen-encoder comparison must be scored
 on \textbf{held-out} windows (4 of 31 cells otherwise reverse sign, every one of
 them flattering the frozen encoder, and two of the four are cells that pass the

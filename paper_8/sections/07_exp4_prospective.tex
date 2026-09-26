@@ -92,7 +92,22 @@ when preservation is worth the effort (here it fired eight times and was wrong
 eight times), but the gate as a \emph{disqualifier}: a cell that fails it cannot
 supply evidence about damage to pre-trained features, and 24 of our 31 fail it.
 
-\subsection{A Pre-Registered Positive Control: We Could Not Construct Forgetting}
+% Round 9 (B4). Retitled, and the two paragraphs below are REORDERED -- the counterexample first, the
+% registered bookkeeping second. Both reviewers of the round-8 build read this arm the same way and it
+% was not the way it is written: as a failed attempt to validate our own detector, whose null is
+% therefore uninformative. What it actually contains is the paper's cleanest counterexample, and the one
+% that does not depend on a benchmark supplying damage -- an engineered regime, registered in advance,
+% in which the representation is driven almost to orthogonality BY TRAINING AGAINST THE CAPABILITY and
+% the capability improves anyway. The old title named the thing that did not happen; this one names the
+% thing that did. NOTHING IS WITHDRAWN: "destruction was not achieved" is still the registered outcome
+% and still its own paragraph one paragraph below, and the arm is still labelled a positive control.
+% The reorder is page-neutral by construction -- the same sentences, the same two paragraph breaks --
+% and the "21 of 21 runs" sentence moves WITH the counterexample because it is that claim's premise:
+% "training measurably in conflict with a capability" is exactly what condition (i) establishes.
+% Every number here is matched by a per-sentence chk() (check_paper_numbers.py:3645-3700), and the
+% patterns are whitespace-flattened, so moving whole sentences is safe where rewording them is not.
+\subsection{A Pre-Registered Positive Control: Near-Orthogonal Drift, and the
+Capability Survives}
 \label{sec:exp4:poscontrol}
 % The reviewer-critical addition. Everything above establishes that these benchmarks contain no
 % degradation cell; the obvious objection is that a diagnostic cannot be shown to fail at detection
@@ -113,22 +128,22 @@ $\text{lr}\in\{10^{-4},10^{-3},10^{-2}\}$ crossed with both conditions at 3 seed
 with all three outcomes and the destruction threshold committed before the first
 run (Appendix~\ref{app:poscontrol}).
 
-\textbf{The pre-registered outcome that fired is the third: destruction was not
-achieved.}  Task B was learned in \textbf{21 of 21} runs (minimum $+56.6\%$
+\textbf{The attempt buys a sharper dissociation than the benchmark
+cells can supply.}  Task B was learned in \textbf{21 of 21} runs (minimum $+56.6\%$
 against a registered $20\%$), so this is genuine conflicting learning and not
-weight thrashing.  The registered rule was
-retention$_A\!\geq\!50\%$ in a majority of seeds under full fine-tuning; the
-maximum over all 21 runs was $+26.7\%$, in one seed, against an evaluator noise
-floor of $0.48$~pp.
+weight thrashing.
 % The ladder-extension sentence -- "we took the single declared ladder extension to lr=10^-1 and
 % stopped there, as registered" -- is cut on 2026-09-24 for page 10's line budget. It carried no
 % registered claim (no chk() matched it) and it reports protocol COMPLIANCE rather than a result: the
 % extension, its trigger and the stopping point are all in the committed registration and restated in
 % app:poscontrol, which is where a reviewer checking pre-registration discipline looks. Cutting the
 % restatement, not the record.
-
-\textbf{The attempt nonetheless buys a sharper dissociation than the benchmark
-cells can supply.}  At that top rung the representation is driven almost to
+% Round 9 (B4): THE BLANK LINE THAT STOOD HERE IS DELETED ON PURPOSE. Condition (i) above and the
+% dissociation below are now one paragraph -- "learned in 21 of 21 runs" is the premise that makes
+% "training measurably in conflict with a capability" true, and splitting them is what let a reviewer
+% read the arm as bookkeeping followed by an aside. The paragraph break it removes is spent on the
+% registered-outcome paragraph added after this one, so the section's break count is unchanged.
+At the top rung the representation is driven almost to
 orthogonality (CKA on task A's inputs $0.063$, $\ell_2$ weight drift $2795$,
 against $0.999$ and $7.2$ at the gentlest rung), and task A gets \emph{better},
 by $23.3\pm2.0\%$ in every seed; across all 21 runs the correlation between CKA
@@ -145,3 +160,15 @@ a capability, and the capability survives.}
 % these benchmarks supply no large-margin cell. The registered claim keeps its site: chk()
 % "positive control: what the arm cannot show" matches the appendix wording, and the body-form
 % pattern that matched only this sentence is deleted with it rather than left to match nothing.
+
+% Round 9 (B4). The registered outcome, moved BELOW the counterexample and otherwise verbatim. It reads
+% as a consequence here ("therefore") rather than as the arm's headline, which is what it is: the thing
+% we registered as the success condition did not happen, and the paragraph above is why that is
+% informative rather than empty. Both sentences carry chk()s -- "the registered destruction rule"
+% (min_sites=2, shared with app:poscontrol) and "the worst retention anywhere, and the noise floor it
+% beats" -- so this text is quoted, not retyped.
+\textbf{The pre-registered outcome that fired is therefore the third: destruction
+was not achieved.}  The registered rule was
+retention$_A\!\geq\!50\%$ in a majority of seeds under full fine-tuning; the
+maximum over all 21 runs was $+26.7\%$, in one seed, against an evaluator noise
+floor of $0.48$~pp.

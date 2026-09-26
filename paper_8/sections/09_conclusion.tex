@@ -27,8 +27,8 @@ rejects.
 The reason no cheap diagnostic rescues this is structural rather than statistical.
 CKA tells us that the representation changed; only the intervention (fine-tune,
 then fine-tune again with the encoder frozen) tells us whether that change was
-valuable, and \textbf{across the cells we evaluate the former does not reliably
-predict the latter}.
+valuable, and \textbf{across the cells we evaluate the former is not an
+actionable substitute for the latter}.
 % The LOCO sentence -- "there is no association to work with either: under an analysis fixed before it
 % was run we find no evidence that CKA improves out-of-sample prediction once backbone identity,
 % horizon and n are known" -- is cut on 2026-09-24 for the four printed lines page 10 needs, and it is
@@ -46,8 +46,19 @@ assumed to identify the value of a treatment that changed the representation.}
 % result is unsurprising, names WHO makes the substitution (the prescriptions it has just quoted, and
 % an earlier draft of this work), and says what measuring the cost takes. This clause was the
 % compressed version of that, so the label and the price survive here and the argument survives there.
+% Round 9 (B3). A reviewer read "the best threshold misplaces 5 of the 31" as a reported classifier
+% performance and asked, correctly, what its out-of-sample error is. There is none to report: the cut is
+% chosen by minimising misplacement ON the 31 cells it is then scored on (fig1_diagnostic_flow.py
+% searches every threshold in both orientations), so the 5 is a LOWER BOUND on what any single cut can
+% do here and not an estimate of what one would do elsewhere. That is the strongest form of the claim
+% the paper wants -- the best case for the shortcut, granted to it -- and saying so costs one line and
+% removes the reading that we are proposing a rule.
+% THE CLAUSE GOES AFTER THE NUMBER, NOT BEFORE IT: check_paper_numbers.py matches
+% /the best threshold\s+misplaces (\w+) of the (\d+)/, so any words inserted between "threshold" and
+% "misplaces" silently drop this claim's only site.
 That is a falsification and not a discovery, and here we can price it: the best
-threshold misplaces 5 of the 31 cells.
+threshold misplaces 5 of the 31 cells -- chosen on those same cells, so a lower
+bound and not a validated classifier.
 % The clause cut from here on 21 Sep 2026 -- "drift is measured AFTER the treatment and on the object
 % the treatment altered, so even a strong association would not license a decision rule" -- restated
 % the bold sentence two lines below it, which says the same thing in the general form the paper wants

@@ -193,6 +193,32 @@ assert POOLED[0] > RHO_CKA.statistic, (
     "the pooled correlation is no longer larger than the within-Moirai one, so the panel's "
     "'between backbones, not within one' label is describing the opposite of the data")
 
+# ---- the pre-registered out-of-sample result, drawn as layer 2's fourth tag line ------------------
+# Round 9 (C1). A reviewer asked for a compact table near the front giving, per question, the estimand,
+# the evidence and the conclusion. Four of its five rows are this funnel's four boxes and their tags,
+# and panel (b) carries the fifth's in-sample statistics -- the ONE thing neither panel said was the
+# pre-registered out-of-sample test, which is the paper's strongest evidence on exactly the claim box 2
+# is about. So it goes in box 2's tag rather than into a new float, at zero page cost.
+# NO NUMBERS IN THE TAG, DELIBERATELY. The tag column is ~21 characters wide at this font (the four
+# tags below are 17-22 characters per line and that is the measured limit at x = 67), which is not room
+# for "+0.201 -> +0.176" and its 15 folds, and round 7 deleted the caption's hand-typed copies of
+# computed numbers for exactly this reason. The CLAIM is drawn and the claim is what is checked here:
+# the numerals stay in the abstract and \S6, where check_paper_numbers.py registers them.
+_LOCO = json.loads((Path(__file__).resolve().parent.parent
+                    / "results/cka_loco.json").read_text())
+assert _LOCO["n_cells"] == len(ROWS), (
+    f"cka_loco.json fits {_LOCO['n_cells']} cells; this figure draws {len(ROWS)}, so the tag would "
+    f"describe an analysis of a different matrix")
+assert _LOCO["r2_loco"]["M3"] < _LOCO["r2_loco"]["M2"], (
+    f"adding CKA no longer LOWERS leave-one-cluster-out R^2 "
+    f"({_LOCO['r2_loco']['M2']:+.4f} -> {_LOCO['r2_loco']['M3']:+.4f}); box 2's tag says CKA is no "
+    f"help out of sample and that is now the opposite of the record")
+assert _LOCO["dr2"] < 0 and _LOCO["dr2_frac_not_helping"] > 0.5, (
+    f"the deciding statistic moved: dR2={_LOCO['dr2']:+.4f} with "
+    f"{_LOCO['dr2_frac_not_helping']:.2%} of draws not helping")
+assert abs(_LOCO["dr2"] - (_LOCO["r2_loco"]["M3"] - _LOCO["r2_loco"]["M2"])) < 1e-12, \
+    "cka_loco.json's dr2 is not the difference of its own two R^2 values"
+
 # ---- panel (b)'s claim, computed rather than eyeballed off the plot ----------------------------
 # The panel title says no cut on CKA separates the cells encoder adaptation helped from the cells it
 # hurt. That is a statement about the BEST such cut, so find it: over every threshold, the best rule
@@ -291,7 +317,14 @@ box(6.5, 12, "4. capability destroyed?",
 # scored off the selection windows, and that the survivors fail in the strongest possible direction --
 # the thing that was supposed to damage them improves them.
 tag(65, "measured against a\nbaseline fit on the\ncell's own data", INK_SECONDARY)
-tag(45.5, "a measurement, not a\nfilter: every cell\ncontinues", INK_SECONDARY)
+# FOUR LINES HERE, AND THE VERTICAL ROOM IS MEASURED, NOT ASSUMED. Each tag is centred on its box, so
+# a fourth line grows this one by half a line in each direction: at 4.8pt with linespacing 1.12 in a
+# 100-unit axis 115pt tall, a line is ~6.2 units, so this tag spans 45.5 +/- 9.3 = 36.2 to 54.8 against
+# box 1's tag ending at 58 and box 3's beginning at 33. Three units of clearance at each end. A FIFTH
+# line would close the gap to box 3's tag, which is why the out-of-sample result is stated without its
+# numerals -- see the assert block above. Look at the .png if this is ever reworded.
+tag(45.5, "a measurement, not a\nfilter: every cell\ncontinues, and no\nhelp out of sample",
+    INK_SECONDARY)
 tag(26, f"held-out windows, not\nthe selection windows:\n"
         f"{len(REVERSALS)} of {len(ROWS)} reverse sign", HELDOUT)
 tag(6.5, f"{len(IMPROVED)} of the {len(PASSING)} survivors\nare "

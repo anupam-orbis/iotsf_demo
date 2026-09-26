@@ -2831,11 +2831,25 @@ def build_checks(R):
     # is what answers "gate-positive evidence is concentrated in Moirai/ETTh2", and a bare count of
     # 20 does not answer it. The pattern requires all four numbers, so dropping the composition from
     # either site fails here rather than silently weakening the claim.
+    # THREE SITES SINCE ROUND 9: S1's result paragraph now states the union beside the 7 it qualifies,
+    # because two reviewers read the 7 as the scope of the drift analyses and never met the 20. The
+    # floor is RAISED with the addition rather than left at 2 -- at 2 the new site could be deleted
+    # again with every claim still reporting ok, which is the exact hole this file's own history is a
+    # record of.
     chk("ladder union and its backbones",
         r"\\textbf\{(\d+)(?: of the \d+)? clear it against at least one"
         r"(?: admissible rung)?[-: ]*\(?(\d+) Moirai, (\d+) Chronos, (\d+) TimesFM\)?\}",
         R["n_union"], R["n_union_moirai"], R["n_union_chronos"], R["n_union_timesfm"],
-        min_sites=2)
+        min_sites=3)
+    # Round 9 (B2). The sentence that tells a reader which of the two counts every "seven" in this paper
+    # means. It carries NO numeral, so no pattern above reached it, and it is the single most load-bearing
+    # clarifying sentence for the objection B1 answers -- a reader who meets 7 and 20 without it has been
+    # given a contradiction. Registered as an existence check: nothing to compare against the records,
+    # everything to lose if a page-budget cut takes it. The \emph{this} is part of the claim and is
+    # inside the pattern, because the whole distinction is carried by that one emphasised word.
+    chk("the seven-versus-twenty disambiguation, verbatim",
+        r"Where this paper says seven cells clear the gate it\s+means seven clear \\emph\{this\} rung"
+        r" of the eight")
     # --- the prospective arm under the corrected gates
     chk("prospective cells clearing the corrected gate",
         r"only (\w+) of the (\w+) clears \$0\.20\$ on either corrected split "
@@ -3575,7 +3589,13 @@ def build_checks(R):
     # so that count drops to four by exactly the same edit -- the fact did not lose a restatement, one
     # restatement changed into the spine's wording, which is what this round is for. If a later edit
     # converts another ordering site, move the count between these two lines rather than lowering one.
-    chk("the spine sentence, verbatim", r"does not reliably predict the latter", min_sites=4)
+    # Round 9 narrows the spine's VERB and leaves its four sites where they are. "does not reliably
+    # predict the latter" asserted predictive absence; two reviewers pointed out that what 31 cells, 15
+    # clusters and one within-backbone arm support is the weaker and more useful claim about decision
+    # usefulness, and asked for it in these words. So the registered string changes and the count does
+    # not. THE OLD STRING IS GONE FROM THE PAPER: that is what makes this safe to do in one edit, because
+    # a half-moved phrasing would leave this check passing on three sites plus one stale restatement.
+    chk("the spine sentence, verbatim", r"is not an actionable substitute for the latter", min_sites=4)
     # The title no longer restates the spine sentence: it carries the METHODOLOGICAL claim, and the
     # body carries the empirical one. Registered as its own check, and paired with the generalised
     # claim in the conclusion so that a rewrite cannot leave the title asserting something the body
@@ -3589,16 +3609,31 @@ def build_checks(R):
     # The title sets in three lines (main.tex records why), so the pattern tolerates a \\ at BOTH break
     # points rather than only the one. It is still one pattern over the whole claim: re-breaking the
     # title is allowed, dropping "CKA", "Reliably" or "the Value of" is not.
-    chk("the methodological claim in the title",
-        r"CKA Does Not Reliably Predict\\*\s*the Value of Encoder Adaptation\\*\s*in Time-Series"
+    # Round 9: THE TITLE NO LONGER CARRIES A CLAIM, so this check's name changed with its pattern. The
+    # comment above is kept because it records why the title asserted for three rounds; what changed is
+    # the answer to "should it assert at all", and main.tex:44-90 argues that at length. The check still
+    # earns its place: it pins the title to the phenomenon and the object of study, so a future reword
+    # that quietly reintroduces a general negative -- or drops "Encoder Adaptation", which is the only
+    # place the title names what the paper measures -- fails here rather than in review. Same \\*\s*
+    # tolerance at both hand-set break points, for the same reason: re-breaking is allowed, rewording is
+    # not. If this ever disagrees with the spine sentence above, the title is the one that is wrong.
+    chk("the title, verbatim",
+        r"When Representation Change Misleads:\\*\s*Evaluating Encoder Adaptation in\\*\s*Time-Series"
         r" Foundation Models")
     chk("the methodological claim, generalised",
         r"cannot be assumed to identify the value of a\s+treatment that changed the representation")
     # Figure 1's caption states the same claim about the figure's two axes, so it cannot use
     # former/latter -- nothing in a caption sets those up. Registered separately for that reason:
     # patterns here are case-sensitive, so neither this nor the title check can cover the other.
-    chk("the spine sentence in Figure 1's caption",
-        r"measured drift does not\s+reliably predict the value of encoder adaptation")
+    # Round 9: the long form is narrowed with the spine and the two sites that carry it are now registered
+    # as ONE check at min_sites=2 instead of one check on the caption alone. Both say the same thing in
+    # the same words -- Figure 1's caption and the Ethics Statement's "what we do claim is narrower" --
+    # and min_sites=2 is the stronger guarantee, because it also fails if either site is deleted rather
+    # than only if the caption is reworded. The two were separate when their wordings differed; they no
+    # longer differ. "former/latter" cannot be used at either site: a caption sets neither up, and the
+    # Ethics sentence names CKA explicitly because it is read out of order.
+    chk("the narrowed claim, long form (Figure 1's caption and the Ethics Statement)",
+        r"is not an actionable substitute for the\s+intervention", min_sites=2)
     chk("the ordering claim, verbatim", r"does not provide a reliable ordering", min_sites=4)
 
     # --- the pre-registered positive control (S7.3 and app:poscontrol), added 21 Sep 2026.
