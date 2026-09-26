@@ -188,6 +188,14 @@ run "value_axis (+ interaction)"   "$PY" scripts/value_axis.py --json --latex
 # bootstrap numbers in the caption are byte-reproducible from this one line; the design it fits is
 # imported from scripts/preregister_loco.py, which was committed before the models were run.
 run "cka_loco"                     "$PY" scripts/cka_fixed_effects.py --loco --json --latex
+# The same cells priced as a DECISION instead of a correlation, post-hoc and labelled so in its own
+# docstring, its table caption and the body sentence that reports it. Separate script rather than a
+# flag on cka_fixed_effects.py so that the pre-registered analysis above and this unregistered one
+# cannot be confused for each other. BOTH FLAGS ARE REQUIRED: --json writes the record the checker
+# reads and --latex writes the table digest() hashes, and an emitter invoked without its emit flag is
+# the defect this file has now had four times (last in 526b83d). --seedcheck is not run here; it is a
+# 4x10,000-draw reproducibility audit of the printed precision, documented in the script's docstring.
+run "cka_decision (post-hoc)"      "$PY" scripts/cka_decision_value.py --json --latex
 run "sample_sweep"                 "$PY" scripts/emit_sample_sweep.py
 
 # The pre-registered positive control. TIER A even though the arm itself is TIER C: the checkpoints it

@@ -139,9 +139,8 @@ six datasets.  On those seven, full fine-tuning \emph{improves} MSE in five.
 multiplicity-adjusted paired intervals the 31 cells split \textbf{2
 freezing-better, 4 adaptation-better, 25 inconclusive}, and both cells
 where freezing decisively wins are cells our own screen rejects; a
-pre-registered seed top-up adds a third it \emph{admits}.  A
-pre-registered unanimity criterion returns zero under every protocol we
-evaluated.
+pre-registered seed top-up adds a third it \emph{admits}, and the
+pre-registered unanimity form returns zero throughout.
 % Round 9 (A5). The two statistical sentences are SWAPPED, not rewritten: the out-of-sample result now
 % leads and the in-sample correlation follows as the within-backbone detail. Both reviewers of the
 % round-8 build read the abstract's rho first and the pre-registered LOCO analysis second, and both said
@@ -160,10 +159,23 @@ The outcome nonetheless spans $-51.8\%$ to $+46.1\%$ against zero-shot, and unde
 an analysis fixed before it was run we find \textbf{no evidence} that CKA improves
 out-of-sample prediction of it beyond backbone identity: across 15
 leave-one-cluster-out folds it \emph{lowers} $R^2$ from $+0.201$ to $+0.176$.
-In sample CKA \textbf{does not provide a reliable ordering} either: within Moirai,
+% Round 10 (A1/B1). Two changes in these four lines, and both are constrained by the three positional
+% patterns the comment above records, so read that first. (1) "reliable ordering" becomes "reliable,
+% ACTIONABLE ordering" at this site and at S1's contribution 2 and S6's dissociation paragraph -- the
+% three CKA sites of that phrase. The fourth site (app:prospective2) is about the GATE, not CKA, and
+% keeps the old wording; check_paper_numbers.py's single min_sites=4 check is split in two to match,
+% which is a gain in precision either way: one pattern was spanning two different subjects.
+% (2) SUBSTITUTED, not added, for the clause "and no cut on CKA separates the cells encoder adaptation
+% helped from the cells it hurt" -- which survives at S1's Figure 1 caption and in app:clustered, both
+% registered at min_sites=2 as of this round so the phrase cannot drift further. What replaces it says
+% the same thing in the units a practitioner acts in, which is the one thing the old clause could not
+% do: a cut that "separates" nothing is a fact about a scatter plot, and -6.97 pp is a price. The
+% interval is quoted to WHOLE percentage points because that is the only precision at which the
+% emitter's cluster bootstrap reproduces across seeds (cka_decision_value.py --seedcheck).
+In sample CKA \textbf{does not provide a reliable, actionable ordering} either: within Moirai,
 the only backbone with enough cells to ask, $\rho{=}{+}0.168$ (clustered CI
-$[-0.469,{+}0.717]$), and no cut on CKA separates the cells encoder adaptation
-helped from the cells it hurt.
+$[-0.469,{+}0.717]$), and acting on it as prescribed (freeze where drift is
+largest) is worth $-6.97$~pp $[-10, +14]$ against always adapting.
 Two measurement choices decide this: the frozen-encoder comparison must be scored
 on \textbf{held-out} windows (4 of 31 cells otherwise reverse sign, every one of
 them flattering the frozen encoder, and two of the four are cells that pass the

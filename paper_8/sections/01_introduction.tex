@@ -183,11 +183,23 @@ screen \emph{rejects} (\S\ref{sec:analysis:degradation}).
   \item \textbf{The intervention contrast as the estimand, and drift as a failed
     predictor of it.}  We name $\denc$ (full fine-tuning minus a frozen
     encoder) as the quantity this design manipulates, and show that CKA
-    \textbf{does not provide a reliable ordering} of it across an outcome spanning
+  % Round 10 (A1/B2). Two edits, and B2 is a RESTORATION: "a wide interval is a failure to establish an
+  % ordering, not evidence against one" stood in \S6 until 2026-09-25, when the page budget took it
+  % (06_exp3_drift.tex:95-97 records the cut verbatim). A reviewer has now asked for exactly it, as their
+  % Priority 2, and this is the cheapest printed line in the body to put it on -- the rho and its CI are
+  % already here, so the caution sits with the number it qualifies rather than a page away. The sample
+  % size comes with it: 22 cells in 6 clusters appeared on pages 1-9 ONLY inside Figure 1b's panel text
+  % and never in prose, so a reader could reach page 9 without learning what the interval is wide FROM.
+  % Paid for by dropping "and with no actionable threshold anywhere", which is now the weakest of the
+  % three things this contribution said about actionability: A1's "reliable, ACTIONABLE ordering" makes
+  % the same point in the claim itself, and \S\ref{sec:exp3} prices the threshold in pp rather than
+  % asserting none exists. Net +74 characters against the ~88 free on this item's last printed line.
+    \textbf{does not provide a reliable, actionable ordering} of it across an outcome spanning
     $-51.8\%$ to $+46.1\%$: within-backbone $\rho{=}{+}0.168$ with clustered CI
     $[-0.469,{+}0.717]$ \emph{within Moirai}, the only backbone with enough cells to
-    ask, with Chronos and TimesFM read qualitatively beside it rather than pooled
-    with it, and with no actionable threshold anywhere (\S\ref{sec:exp3}).
+    ask (22 cells, 6 clusters), with Chronos and TimesFM read qualitatively beside it
+    rather than pooled with it.  A wide interval is a failure to establish an
+    ordering, not evidence against one (\S\ref{sec:exp3}).
 
   \item \textbf{No cell meets our prespecified criterion for harmful encoder adaptation}
     (2 freezing-better, 4 adaptation-better, 25 inconclusive at a

@@ -7,10 +7,13 @@
 % rather than in limitations, because this is the section that makes the estimate. The strict-freeze
 % caveat was item (2) of S8; it is MOVED here, not restated, so this paragraph now carries its three
 % registered numbers and item (2) is a pointer.
-\textbf{What the treatment is.}  Conditions B and D differ in exactly one
-thing (whether the encoder stack's weights may move), so $\denc$
-(Equation~\ref{eq:denc}) estimates the contribution of encoder weight updates and
-not of representational change.  Where that boundary is drawn is load-bearing:
+% 2026-09-26. Compressed against \S\ref{sec:method}, which now names the estimand precisely at its
+% definition (the "designated stack" clause added this round): this paragraph's first sentence was
+% stating the same thing a second time, and what it uniquely carries is the three strict-freeze numbers
+% below. No chk() matched the removed wording.
+\textbf{What the treatment is.}  Conditions B and D differ in exactly one thing,
+whether the encoder stack's weights may move (Equation~\ref{eq:denc}), and where
+that boundary is drawn is load-bearing:
 D leaves the input projection and mask encoding trainable, and the strict freeze
 that closes that gap on 16 of the 31 cells \emph{reverses} $\denc$'s sign on 4 of
 the 16 cells we ran it on (every Moirai/ETTm2 cell, 2 of which are among the
@@ -46,7 +49,7 @@ Moirai-Small/ETTh2 at $h{=}192$ reads forg.$_\text{B}{=}{+}1.99{\pm}3.32$ with 5
 degradation.  At $h{=}96$ the positive mean ($+9.71{\pm}10.58$, 4 of 10 seeds) is
 produced by one seed that diverges under the \emph{frozen} encoder too, so it is an
 optimisation failure and not an encoder-drift effect; we report means including it
-throughout and decompose it in Appendix~\ref{app:gatecorrection}.
+throughout (Appendix~\ref{app:gatecorrection}).
 Moirai-Small/ETTm2 at $h{=}192$ runs the other way (a mean $1.10\%$ improvement
 with 3 of 5 seeds harmful), so its sign is a seed draw in either direction.
 

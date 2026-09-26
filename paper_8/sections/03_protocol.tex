@@ -16,9 +16,12 @@ at 1.0, \textbf{20 epochs with no early stopping}: every Moirai cell is read at 
 final epoch.  \textbf{22 of the 31} cells train on $1{\text{k}}$ windows, every row
 prints its own $n$, and the sweep covers
 $n{\in}\{500,1{\text{k}},2{\text{k}},5{\text{k}},10{\text{k}}\}$.
+% 2026-09-26. "without which training can appear to run while silently not propagating gradients" cut
+% for page room. It is the reason the patch matters, and app:scaler_patch opens on exactly that failure
+% mode with the diagnostic for it; the Reproducibility Statement points there too. The requirement --
+% which is the actionable half -- stays in the body, in bold, with its pointer.
 \textbf{Reproducing any Moirai fine-tune requires the \texttt{uni2ts}
-\texttt{PackedStdScaler} patch of Appendix~\ref{app:scaler_patch}}, without which
-training can appear to run while silently not propagating gradients.
+\texttt{PackedStdScaler} patch of Appendix~\ref{app:scaler_patch}}.
 
 % Review M8: the appendix reports mean-pooled against token-flattened CKA, per-layer profiles and a
 % random-init floor, but the body never said which of them its CKA column IS. Named here once, and with
@@ -71,9 +74,16 @@ split fits both the fine-tuning updates and every baseline; the \emph{selection}
 split is where any checkpoint is chosen \textbf{and where we score
 $\Vb{b}$}; the \emph{held-out} split is disjoint from both and is where every
 outcome is scored.  So a cell's admission cannot borrow the windows that later
-judge it.  We also report the retrospective variant ($\Vb{b}$ on the held-out
-windows themselves), which admits two fewer cells and changes no conclusion
-(Appendices~\ref{app:gatecorrection},~\ref{app:corrections}).
+judge it.
+% 2026-09-26. Cut for the lines this round's decision-pricing sentence in \S6 needs: "We also report
+% the retrospective variant ($\Vb{b}$ on the held-out windows themselves), which admits two fewer
+% cells and changes no conclusion (Appendices app:gatecorrection, app:corrections)." A pointer, not a
+% record -- app:gatecorrection reports the variant cell by cell with its own table, app:corrections
+% lists it among the withdrawn and revised readings, and the checker's three "gate rho, retrospective
+% variant" claims all have their sites in those two appendices, not here. No registered claim had a
+% site in this sentence ("two fewer" matches nothing in check_paper_numbers.py), which is the test
+% this project uses for whether a restatement is a restatement. The variant is still reported; the
+% body no longer says twice that it is.
 
 \textbf{The estimand, named once.} For a cell with $S$ paired seeds,
 \begin{equation}
@@ -134,9 +144,20 @@ encoder} (H), \emph{LoRA} (E).  We keep the letters for the tables, the clauses
 of the definition above and Equation~\ref{eq:denc}, so that no result in the body
 has to be read through a lookup.
 
+% Round 10 (D1). One clause added, in this paragraph's free characters, and it is a CONCESSION on fact:
+% a reviewer points out that because D leaves the input projection and mask encoding trainable, $\denc$
+% is not "the effect of adapting the encoder" but the effect of adapting one designated stack, and that
+% the paper's 23 body glosses read as the former. The fact was already stated here and in
+% \S\ref{sec:exp2}; what was missing was the NAME, so the estimand is named precisely once, at its
+% definition, and every later gloss is read through it. What is refused is renaming the 23 glosses: not
+% one of them carries a chk(), and a half-moved phrasing is how this paper's restatements have gone
+% stale before (main.tex:129-137). Instead "harmful encoder adaptation" is registered at min_sites=4
+% this round, so the gloss family is now guarded even though it is not reworded.
 \textbf{What condition~D does and does not hold fixed.} D freezes the encoder's
 own weights but leaves the input projection and mask encoding trainable, so it
-controls \emph{encoder weight updates} and not representations: its measured CKA
+controls \emph{encoder weight updates} and not representations: $\denc$ is the
+effect of adapting one \emph{designated stack}, not of changing what the encoder
+represents.  Its measured CKA
 is near but never exactly $1$ on Moirai ($0.889$--$0.9999$) and falls as low as
 $0.38$ on TimesFM, where the encoder stack's weight drift is exactly zero.
 \textbf{H}~(strict freeze) also freezes those two modules, is the only Moirai

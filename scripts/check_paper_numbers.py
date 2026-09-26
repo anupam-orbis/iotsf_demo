@@ -1840,6 +1840,91 @@ def rederive():
         f'pre-wrote for a positive dR2 instead of editing the number.')
     assert _loco["branch"] == "dR2 <= 0", f'unexpected branch: {_loco["branch"]!r}'
 
+    # -- the post-hoc decision pricing. Read from the emitter's JSON for the same reason as the LOCO
+    # ladder: the intervals only reproduce at the emitter's pinned TEX_BOOT/TEX_SEED, and only to whole
+    # percentage points, which is why every bound below is rounded HERE rather than in the pattern. A
+    # pattern that captured two decimals would match a number no re-run reproduces.
+    _dec = json.load(open(ROOT / "results/cka_decision.json"))
+    for k in ("always_freeze", "cka_oos", "cka_oos_prescribed", "cka_insample", "oracle"):
+        R[f"dec_{k}"] = _dec["saving"][k]
+        R[f"dec_{k}_lo"] = round(_dec["ci"][k][0])
+        R[f"dec_{k}_hi"] = round(_dec["ci"][k][1])
+    _g = _dec["gaps"]
+    R["dec_pct_le0"] = _g["cka_oos_minus_always_adapt"]["pct_le_zero_nearest5"]
+    R["dec_pct_le0_prescribed"] = _g["prescribed_orientation"]["pct_le_zero_nearest5"]
+    R["dec_pct_le0_vs_freeze"] = _g["cka_oos_minus_always_freeze"]["pct_le_zero_nearest5"]
+    R["dec_vs_freeze"] = _g["cka_oos_minus_always_freeze"]["point"]
+    R["dec_optimism"] = _g["insample_optimism"]["point"]
+    R["dec_optimism_lo"] = round(_g["insample_optimism"]["ci"][0])
+    R["dec_optimism_hi"] = round(_g["insample_optimism"]["ci"][1])
+    R["dec_n_frozen"] = _dec["decisions"]["oos_n_frozen"]
+    R["dec_misplaced_oos"] = _dec["decisions"]["oos_misplaced"]
+    R["dec_misplaced_ins"] = _dec["decisions"]["insample_misplaced"]
+    # Two facts the paper's prose ASSERTS and no captured group can carry, so they are asserts. (1) The
+    # prescribed orientation must stay the losing one: the appendix and S6 both say that acting on
+    # drift as the literature recommends would have cost MSE, and that sentence is false the moment
+    # this flips sign. (2) The in-sample misplacement count must keep agreeing with Figure 1b's best
+    # cut, because the appendix says the two objectives "happen to agree on this data" -- if they stop
+    # agreeing, that sentence is wrong even though both numbers are still individually right.
+    assert R["dec_cka_oos_prescribed"] < 0, (
+        f'the prescribed-orientation rule is no longer loss-making '
+        f'({R["dec_cka_oos_prescribed"]:+.2f} pp). Appendix app:decision and S6 both state that '
+        f'acting on drift in the prescribed direction would have cost MSE; rewrite those sentences '
+        f'rather than the number.')
+    assert R["dec_misplaced_ins"] == R["n_miscut"], (
+        f'the in-sample decision rule misplaces {R["dec_misplaced_ins"]} cells where Figure 1b\'s best '
+        f'cut misplaces {R["n_miscut"]}. Appendix app:decision says the saving and misplacement '
+        f'objectives "happen to agree on this data"; they no longer do, so fix the sentence.')
+
+    # -- the six-measure drift battery (app:driftmetrics), registered 2026-09-26. Until this round the
+    # ~57 values in that appendix carried NOT ONE pattern, which made it the largest unguarded block of
+    # numbers in the paper -- and it is the block that answers "is the reading specific to CKA?", so a
+    # reviewer leaning on it was leaning on hand-typed prose. The values are recomputed by IMPORTING the
+    # emitter's own group_rhos()/spearman() rather than reimplementing them here, for the reason the
+    # decision emitter imports loco_frame(): two implementations of "what is a group" would disagree in
+    # the last decimal and the disagreement would look like a stale number. Importing the module is
+    # cheap -- torch is imported inside its functions, not at module scope.
+    sys.path.insert(0, str(ROOT / "scripts"))
+    import drift_metric_battery as dmb
+    _bat = json.load(open(ROOT / "results/v52_drift_metrics/battery.json"))
+    _brecs = _bat["records"]
+    _bf = [r for r in _brecs if r.get("forgetting_pct") is not None]
+    _pooled = {m: dmb.spearman([r[m] for r in _bf], [r["forgetting_pct"] for r in _bf])[0]
+               for m in dmb.METRICS}
+    _grp = {m: dmb.group_rhos(_brecs, m) for m in dmb.METRICS}
+    R["bat_n_enc"] = len(_brecs)
+    R["bat_n_groups"] = len(_grp["linear_cka"])
+    R["bat_pooled_hi"] = max(_pooled.values())          # linear CKA, the flattering end
+    R["bat_pooled_lo"] = min(_pooled.values())          # mean cosine, the other sign
+    _SIM = ("linear_cka", "rbf_cka", "svcca", "procrustes", "mean_cosine")
+    for _m in _SIM + ("erank_ratio",):
+        R[f"bat_{_m}_glo"] = min(_grp[_m].values())
+        R[f"bat_{_m}_ghi"] = max(_grp[_m].values())
+    _er = [r["erank_ratio"] for r in _brecs]
+    R["bat_erank_above1"] = sum(1 for v in _er if v > 1)
+    R["bat_erank_min"], R["bat_erank_max"] = min(_er), max(_er)
+    # Three claims the appendix makes in words, so asserts rather than captured groups. (1) EVERY
+    # similarity measure changes sign across the groups -- that is the sentence "no measure orders the
+    # outcome either" rests on, and it is false the moment one of the five stops straddling zero.
+    # (2) The effective-rank ratio is the SINGLE exception, i.e. the one column with no negative group
+    # value; if a second column turned one-signed the appendix's "the single exception" is wrong even
+    # though every printed interval is still right. (3) The pooled range must keep spanning zero in
+    # sign, which is what makes "the pooled figures are the flattering ones" a comparison and not a
+    # restatement.
+    for _m in _SIM:
+        assert R[f"bat_{_m}_glo"] < 0 < R[f"bat_{_m}_ghi"], (
+            f'app:driftmetrics says every similarity measure changes sign across the '
+            f'{R["bat_n_groups"]} groups, but {_m} now runs '
+            f'[{R[f"bat_{_m}_glo"]:+.2f}, {R[f"bat_{_m}_ghi"]:+.2f}]')
+    assert R["bat_erank_ratio_glo"] >= 0, (
+        f'app:driftmetrics calls the effective-rank ratio the one column with no negative group '
+        f'value; its group range is now [{R["bat_erank_ratio_glo"]:+.2f}, '
+        f'{R["bat_erank_ratio_ghi"]:+.2f}]')
+    assert R["bat_pooled_lo"] < 0 < R["bat_pooled_hi"], (
+        f'the pooled rank correlations no longer span zero '
+        f'({R["bat_pooled_lo"]:+.3f} to {R["bat_pooled_hi"]:+.3f}), so app:driftmetrics\' '
+        f'"the pooled figures are the flattering ones" no longer says anything')
+
     # -- the pre-registered positive control. Read from the emitter's JSON, like the LOCO ladder and
     # for the same reason: the retention numbers come out of 21 stored run records through
     # emit_positive_control.py's own scaling, and a second implementation here would disagree with
@@ -3577,6 +3662,68 @@ def build_checks(R):
         r"\$([+-][\d.]+)\$;\s+adding CKA \\emph\{lowers\} it to \$([+-][\d.]+)\$",
         R["loco_r2_m1"], R["loco_r2_m2"], R["loco_r2_m3"])
 
+    # -- the six-measure battery (app:driftmetrics), registered 2026-09-26. This appendix is what the
+    # paper offers a reader who asks whether the reading is specific to CKA, and until this round every
+    # number in it was hand-typed and unchecked. Registered here per PHRASING, like everything else:
+    # four patterns over the two paragraphs that make claims, plus the three asserts in rederive() for
+    # the parts no captured group can carry (every measure straddling zero, effective rank being the
+    # single exception, the pooled range spanning zero).
+    chk("battery: the pooled range, and which measure is at each end",
+        r"pooled rank correlations run from \$\+([\d.]+)\$ \(linear CKA\) to\s+"
+        r"\$-([\d.]+)\$ \(mean cosine\)", R["bat_pooled_hi"], abs(R["bat_pooled_lo"]))
+    chk("battery: how many groups the per-group ranges run over",
+        r"changes sign across the (\w+) groups", R["bat_n_groups"])
+    chk("battery: the five similarity measures' per-group ranges",
+        r"linear CKA \$\[(-[\d.]+),\{\+\}([\d.]+)\]\$, RBF CKA\s+\$\[(-[\d.]+),\{\+\}([\d.]+)\]\$, "
+        r"SVCCA \$\[(-[\d.]+),\{\+\}([\d.]+)\]\$, Procrustes \$\[(-[\d.]+),\{\+\}([\d.]+)\]\$, mean\s+"
+        r"cosine \$\[(-[\d.]+),\{\+\}([\d.]+)\]\$",
+        R["bat_linear_cka_glo"], R["bat_linear_cka_ghi"],
+        R["bat_rbf_cka_glo"], R["bat_rbf_cka_ghi"],
+        R["bat_svcca_glo"], R["bat_svcca_ghi"],
+        R["bat_procrustes_glo"], R["bat_procrustes_ghi"],
+        R["bat_mean_cosine_glo"], R["bat_mean_cosine_ghi"])
+    chk("battery: the effective-rank exception, and the spectrum expanding",
+        r"above \$1\$ on (\d+) of the (\d+) encoders\s+\(\$([\d.]+)\$--\$([\d.]+)\$",
+        R["bat_erank_above1"], R["bat_n_enc"], R["bat_erank_min"], R["bat_erank_max"])
+    chk("battery: the effective-rank ratio's per-group range",
+        r"no negative group value\s+\(\$\[\+([\d.]+),\{\+\}([\d.]+)\]\$\)",
+        R["bat_erank_ratio_glo"], R["bat_erank_ratio_ghi"])
+
+    # -- the post-hoc decision pricing (Appendix app:decision, and one sentence in S6). Registered per
+    # PHRASING like the LOCO ladder above, and every interval bound is matched at WHOLE percentage
+    # points because that is the only precision at which the emitter's bootstrap reproduces across
+    # seeds; --seedcheck is what establishes that, and cka_decision_value.py's docstring records it.
+    chk("decision: the out-of-sample CKA rule and its interval",
+        r"worth \$\+([\d.]+)\$~pp out of sample", R["dec_cka_oos"], min_sites=1)
+    chk("decision: the out-of-sample rule's interval and unresolved share",
+        r"interval is \$\[([+-]\d+), ([+-]\d+)\]\$~pp and it is worth nothing or less in \$(\d+)\\%\$",
+        R["dec_cka_oos_lo"], R["dec_cka_oos_hi"], R["dec_pct_le0"])
+    # The row that cuts AGAINST the shortcut, and the one the body sentence leads on. min_sites=2:
+    # Appendix app:decision and S6. If either site is reworded away this fails, which is the point --
+    # the prescribed-orientation loss is the result that answers the reviewer's objection, so it must
+    # not silently become appendix-only.
+    chk("decision: acting on drift as prescribed loses MSE",
+        r"is worth \$-([\d.]+)\$~pp\s+\$\[([+-]\d+), ([+-]\d+)\]\$",
+        abs(R["dec_cka_oos_prescribed"]), R["dec_cka_oos_prescribed_lo"],
+        R["dec_cka_oos_prescribed_hi"], min_sites=2)
+    chk("decision: the prescribed rule's unresolved share",
+        r"worth nothing or less in \$(\d+)\\%\$ of draws", R["dec_pct_le0_prescribed"])
+    chk("decision: always-freeze, and the rule's margin over it",
+        r"ignoring CKA entirely, is worth\s+\$\+([\d.]+)\$~pp \$\[([+-]\d+), ([+-]\d+)\]\$.*?"
+        r"is \$\+([\d.]+)\$~pp, nothing or less in \$(\d+)\\%\$",
+        R["dec_always_freeze"], R["dec_always_freeze_lo"], R["dec_always_freeze_hi"],
+        R["dec_vs_freeze"], R["dec_pct_le0_vs_freeze"])
+    chk("decision: the in-sample rule and the optimism it buys",
+        r"scored on pays \$\+([\d.]+)\$~pp: the\s+\$\+([\d.]+)\$~pp gap "
+        r"\$\[([+-]?\d+), ([+-]\d+)\]\$",
+        R["dec_cka_insample"], R["dec_optimism"], R["dec_optimism_lo"], R["dec_optimism_hi"])
+    chk("decision: the oracle ceiling",
+        r"hindsight is worth\s+\$\+([\d.]+)\$~pp \$\[([+-]\d+), ([+-]\d+)\]\$",
+        R["dec_oracle"], R["dec_oracle_lo"], R["dec_oracle_hi"])
+    chk("decision: what the out-of-sample rule freezes and misplaces",
+        r"rule freezes (\d+) of the (\d+) cells and puts\s+(\d+) of them on the wrong side",
+        R["dec_n_frozen"], R["n_int"], R["dec_misplaced_oos"])
+
     # The spine sentence, which is the round's whole point: the paper's one claim has to reach the
     # reader in the SAME words in the title, the abstract, the introduction and the section that tests
     # it. Per the project's own experience, coverage here is per PHRASING and not per fact -- the
@@ -3634,7 +3781,38 @@ def build_checks(R):
     # Ethics sentence names CKA explicitly because it is read out of order.
     chk("the narrowed claim, long form (Figure 1's caption and the Ethics Statement)",
         r"is not an actionable substitute for the\s+intervention", min_sites=2)
-    chk("the ordering claim, verbatim", r"does not provide a reliable ordering", min_sites=4)
+    # Round 10 (A1). ONE check becomes TWO, and the reason is that the single pattern was spanning two
+    # different subjects: three of its four sites said it about CKA and the fourth (app:prospective2)
+    # said it about the GATE. A reviewer asked for the CKA claim to be stated as "not ACTIONABLE" rather
+    # than as a bare failure to order -- the same narrowing the spine sentence took in round 9 -- and
+    # that wording cannot be applied to the gate site, which is a different claim about a different
+    # statistic. So the CKA sites move to the new wording at min_sites=3 and the gate site is registered
+    # on its own at min_sites=1, with "The gate" IN the pattern so the two can never collapse again.
+    # Splitting is a gain in precision either way: min_sites=4 on a pattern that matched two subjects
+    # would have kept passing if a CKA site had been rewritten INTO a gate sentence, or vice versa.
+    # Round 10 (D1). The gloss family a reviewer objected to, registered rather than reworded. Their
+    # point is correct on fact -- condition D leaves the input projection and mask encoding trainable, so
+    # "harmful encoder adaptation" names the manipulated contrast loosely -- and 03_protocol.tex:153-157
+    # now names the estimand precisely at its definition. The 23 body glosses are NOT renamed, because
+    # none of them carried a pattern and a partially-moved phrasing is this paper's known failure mode.
+    # Four prose sites: the abstract (main.tex:138), contribution 3 (01_introduction.tex:204), the
+    # conclusion (:19) and the Ethics Statement's scope paragraph (09_statements.tex:85). (A fifth copy
+    # sits in a main.tex comment; collapse() at :56 drops whole-line comments, so it is not a site.)
+    # If a later round DOES rename the family, this is the check that will name every site to move.
+    chk("the degradation criterion's gloss, verbatim",
+        r"criterion for harmful encoder adaptation", min_sites=4)
+    chk("the CKA ordering claim, verbatim",
+        r"does not provide a reliable, actionable ordering", min_sites=3)
+    chk("the gate ordering claim, verbatim",
+        r"The gate does not provide a reliable ordering", min_sites=1)
+    # The clause the abstract gave up this round, registered at its two SURVIVING sites (Figure 1's
+    # caption and app:clustered) so the phrase cannot quietly drift the way this paper's restatements
+    # have before. It was unregistered while it had three sites, which is why substituting the abstract's
+    # copy for a priced version was safe to do in one edit -- and why it is registered now, when the
+    # remaining two are all that carry it. "cells" rather than the full tail: the caption writes
+    # "the cells adaptation helped" and the appendix "the cells encoder adaptation helped", which is a
+    # difference in gloss and not in claim, and a pattern spanning it would fail on the gloss.
+    chk("no cut on CKA separates the cells", r"no cut on CKA separates the\s+cells", min_sites=2)
 
     # --- the pre-registered positive control (S7.3 and app:poscontrol), added 21 Sep 2026.
     # Registered per PHRASING, not per fact, for the reason this file exists: the body and the appendix

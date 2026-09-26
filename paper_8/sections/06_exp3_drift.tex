@@ -28,18 +28,40 @@ arm (ETTh2 at CKA $0.460$ and $0.396$, $-31.4\%$ and $-36.3\%$; the whole
 eight-cell ordering is Appendix Table~\ref{tab:dissociation}); and inside
 Moirai-Large's LoRA arm the learning rate, not the rank, decides the sign at
 near-identical CKA ($0.973$ against $0.989$; Appendix~\ref{app:lora_rank}).
+% 2026-09-26. Compressed, not cut: "we read the ordering as illustrative, claim no reverse relationship
+% from $n{=}8$, and leave the negative result to the pre-registered test below" -> the first two clauses
+% are what "a counterexample and nothing more" already says, and the third is the next paragraph's
+% opening sentence. No chk() matched any of it ("illustrative", "n{=}8" and "no reverse relationship"
+% are absent from check_paper_numbers.py), and the caveat survives in the words that carry it.
 Eight cells are a \emph{counterexample} to ``low CKA means damage'' and nothing
-more: we read the ordering as illustrative, claim no reverse relationship from
-$n{=}8$, and leave the negative result to the pre-registered test below.
+more, with no reverse relationship claimed from $n{=}8$.
 
+% 2026-09-26 (B5). Cut for the lines \S6's decision-pricing sentence needs: "whose $84.5\%$ advantage
+% traces to no run record and does not reproduce". That is audit prose about a superseded figure, and a
+% reviewer asked for less of it in the main text; app:m4 keeps the whole record -- it reproduces the
+% superseded figure under the legacy estimator, prints the training mean that beats it, and names the
+% three estimators -- and check_paper_numbers.py:3897-3918 registers every number of that reproduction
+% with its sites there. The provenance claim itself was deliberately unchecked because there is no
+% record to check it against, which is what made it the safest printed line in the body to give up.
+% $+0.092$ STAYS: the "M4: the corrected gate, in the body" check has its only site in this sentence,
+% and cutting the clause it matches failed the checker before this build -- which is what that check is
+% for. The corrected gate is also the number this paragraph needs, since it is what makes the eleventh
+% cell a gate failure rather than an exception.
 \textbf{Near-identical drift, opposite consequences.}  Against the fitted baseline
 none of the ten non-Moirai cells gate-passes, nor does the eleventh we re-ran to
-check: Chronos on M4-Monthly, whose $84.5\%$ advantage traces to no run record
-and does not reproduce, scores $+0.092$ once the gate is computed as defined
-(Appendix~\ref{app:chronos_detail}).  So what the two extra backbones supply
+check: Chronos on M4-Monthly, which scores $+0.092$ once the gate is computed as
+defined (Appendix~\ref{app:chronos_detail}).  So what the two extra backbones supply
 is architectural diversity and the dissociation itself, \textbf{not a controlled
-replication}: they run at $h{=}24$ against Moirai's $h{\in}\{96,192\}$ and on
-different normalisations, and we read them qualitatively and never pool them.  Four
+% 2026-09-26. The horizon-and-normalisation half of this clause was a VERBATIM duplicate of Limitations
+% item (4) ("the non-Moirai arm runs at h=24 and the Moirai arm at h in {96,192}, on different
+% normalisations; we report them separately and never pool them"), which is the concession's own site and
+% stays untouched -- a reviewer is scoring generalisation, so the concession is the copy to keep.
+% ONE REGISTERED SITE MOVES: "the horizons, in the form the cross-backbone caveat uses"
+% (check_paper_numbers.py:2597) goes from 5 sites to 4, which is above its floor of 1 and was verified by
+% diffing per-claim site counts against HEAD rather than by reading the pass/fail line. What survives
+% here is the operative half, that we never pool them, plus the pointer; \S\ref{sec:limitations} says why.
+replication}: we read them qualitatively and never pool them
+(\S\ref{sec:limitations}).  Four
 of the five Chronos-T5-Small cells restructure to a degree that would, on the usual
 reading, be called catastrophic (CKA ${\in}[0.092, 0.169]$, at or below the
 $0.215{\pm}0.054$ an \emph{untrained} encoder of this architecture scores;
@@ -68,10 +90,31 @@ Pooled across all 31 cells CKA does correlate with the intervention
 and not one a practitioner can use: backbone and protocol are known before any CKA is
 computed, so the diagnostic has to order the outcome \emph{given} them rather than
 pool three backbones and report the gap between two of them (Figure~\ref{fig:screen}b).
+% Round 10 (A1/B3/C4). Three changes, and the first two are length-neutral by construction because the
+% two positional patterns the comment above records still have to match: the clause
+% "within Moirai, the only arm with enough cells to ask, $\rho{=}{+}0.168$" is untouched and
+% "clustered CI" still follows the value within 25 characters.
+% B3: the concession was a DEPENDENT clause -- "which admits a moderate positive relationship BUT does
+% not provide a reliable ordering" -- and a reviewer's Priority 2 is that our statistical uncertainty
+% should not be subordinated to our negative. It is now one of two things the interval does, in a
+% coordinate structure, so a reader skimming cannot take the admission as a concession made in passing.
+% Nothing is added or withdrawn: same interval, same claim, same length.
+% A1: "reliable ordering" -> "reliable, actionable ordering", the third and last CKA site (see main.tex).
+% C4: the decision price, one sentence, funded by the retrospective-variant cut in 03_protocol.tex. It
+% leads with the row that cuts against us -- the prescribed orientation LOSES 6.97 pp -- and states in
+% the same breath that the orientation which pays out of sample is the inverse of it, which is the part
+% that is not a null result. The favourable-looking row (+7.47 pp, interval covering zero) is in
+% app:decision under its own bold sentence rather than here, because one printed line cannot carry a
+% point estimate, its interval and its post-hoc status without misleading on one of the three. The
+% interval is in WHOLE percentage points: cka_decision_value.py --seedcheck shows two-decimal bounds do
+% not reproduce across bootstrap seeds.
 Measured that way, within Moirai, the only arm with enough
-cells to ask, $\rho{=}{+}0.168$ with clustered CI $[-0.469,{+}0.717]$, which admits a
-moderate positive relationship but \textbf{does not provide a reliable ordering}
-of our cells and yields no actionable threshold.  Nor does the
+cells to ask, $\rho{=}{+}0.168$ with clustered CI $[-0.469,{+}0.717]$: an interval
+that admits a moderate positive relationship, and that \textbf{does not provide a
+reliable, actionable ordering} of our cells.  Priced as a decision, freezing where
+drift is largest, as prescribed, is worth $-6.97$~pp $[-10, +14]$ against always
+adapting; the orientation that pays out of sample is the inverse
+(Appendix~\ref{app:decision}).  Nor does the
 second diagnostic \S\ref{sec:method} defines rescue it: pooled $\ell_2$ weight
 drift gives $\rho{=}{+}0.118$ with a CI including zero, and nor do five further
 geometric measures

@@ -3243,6 +3243,25 @@ one backbone and one sample size we record that as a lead for future work, not a
 diagnostic; it is exactly the kind of pattern this paper's own prospective test
 (\S\ref{sec:analysis:prospective}) was built to keep us honest about.
 
+% Round 10 (A2). A reviewer asked for the paper's claim to be stated at the level of the METRIC FAMILY
+% rather than of linear CKA alone, which is the generalisation this appendix's evidence supports and the
+% body's does not. It is stated HERE, next to that evidence and inside the page-exempt appendix, rather
+% than in \S6: the body has no free lines this round, and a generalisation printed a page away from the
+% five intervals that license it would be the kind of claim this paper's own audit trail keeps catching.
+% THE SCOPE CLAUSE IS NOT OPTIONAL. These 59 encoders are one backbone, one capacity, one horizon and
+% one sample size; they contain NONE of the paper's 31 $\denc$ cells; and their outcome column is
+% single-arm selection-split forgetting, not the intervention contrast. So the sentence is a reading of
+% this arm, hedged in both directions, and the body's claim stays where the intervention is.
+\textbf{What this licenses, and what it does not.} Read together, the six
+measures support the generalisation our title implies but the body does not
+claim: on this arm, \emph{post-fine-tuning representation similarity should not
+be assumed to identify harmful encoder adaptation}, whichever similarity is
+chosen. What that reading cannot be is a claim about $\denc$: these 59 encoders
+are one backbone at one capacity, horizon and sample size, none of them among the
+31 cells the intervention is measured on, and their outcome column is
+single-arm selection-split forgetting. A measure that failed here could still
+order a held-out intervention elsewhere, and we did not test one that does.
+
 % ============================================================
 \section{What Predicts the Intervention, and Why None of It Is a Shortcut}
 \label{app:predictor}
@@ -3529,6 +3548,84 @@ intervention.  It is also worth naming what the ladder shows about the alternati
 the interaction model M4 collapses to $+0.019$, barely better than the intercept,
 so ``CKA predicts $\denc$ but with a backbone-specific slope'' is the worst
 performing account of these data, not a rescue of the pooled correlation.
+
+% Added 26 Sep 2026. A reviewer of the previous build made the fair objection that every negative
+% result in this paper is a statement about an INTERVAL -- a wide clustered CI, a dR2 whose sign is
+% negative but whose dispersion is unquotable -- and that a reader is therefore being asked to accept
+% a null. This subsection answers it in the one framing where "not actionable" is falsifiable rather
+% than merely unproven: what the rule would have been WORTH. It is post-hoc and labelled so in three
+% places (the emitter's docstring, the table caption and the first sentence below), and it is reported
+% in the direction the numbers actually go, which is not uniformly the direction this paper argues.
+\subsection{The Same Cells Priced as a Decision, Post-Hoc}
+\label{app:decision}
+
+Every result above is a statement about an interval: a within-Moirai slope whose
+sign is not resolved, a $\Delta R^2$ that is negative but whose dispersion cannot be
+quoted.  A reader may fairly reply that none of that is evidence \emph{against} a
+relationship.  So this subsection asks the question in the units a practitioner
+would act in, where the claim is falsifiable rather than merely unproven: what would
+following a CKA rule have been \emph{worth}?  \textbf{This analysis is post-hoc.}
+Unlike Table~\ref{tab:cka_loco} nothing here was registered in advance; the policy
+family, the objective and the folds were all chosen after the outcomes were known,
+and the emitter (\texttt{scripts/cka\_decision\_value.py}) says so in its first
+paragraph.
+
+\textbf{The construction.}  A practitioner facing one cell picks full fine-tuning or
+a frozen encoder, and collects $\denc$ on every cell they freeze, so the realised
+saving of a policy against the default of always adapting is the mean over all 31
+cells of $\denc \cdot \mathbf{1}[\text{freeze}]$, in percentage points of MSE.
+Every single-threshold CKA rule lies in one family, which puts six policies on one
+scale (Table~\ref{tab:cka_decision}).  \textbf{The out-of-sample row is the only one
+a practitioner could have followed}: the cut \emph{and} its orientation are searched
+on the 14 training clusters and applied unchanged to the held-out cluster, so every
+cell's decision is taken without seeing that cell.  Candidate cuts are interior, so
+the search cannot quietly return \emph{always freeze} and have it counted as CKA
+informing anything; both degenerate policies are priced as rows of their own.
+
+% The result that does NOT go this paper's way is stated first and in its own bold sentence, rather
+% than after the two that do. It would be cheap to lead on the prescribed-orientation row (which is
+% strongly against the shortcut) and leave +7.47 to the table; the reviewer's objection is precisely
+% that the paper argues its null too hard, and burying the one number that cuts the other way is what
+% arguing too hard looks like.
+\textbf{The number that does not favour our claim, first.}  The best-orientation
+rule is worth $+7.47$~pp out of sample -- not zero, and not what a reader would
+predict from a headline that drift carries no actionable information.  Two things
+bound it.  Its interval is $[-4, +16]$~pp and it is worth nothing or less in $25\%$
+of cluster-bootstrap draws, so these cells do not \emph{establish} a saving at all:
+this is a policy whose value is unresolved, exactly as the slope's sign is
+unresolved, and the honest reading is the same in both cases.  And the orientation
+that earns it is \textbf{the inverse of the one the literature prescribes}: it
+freezes the cells whose representations moved \emph{least}.  Freezing where drift is
+largest -- what forgetting mitigation actually recommends -- is worth $-6.97$~pp
+$[-10, +14]$, and is worth nothing or less in $80\%$ of draws.  A practitioner who
+followed the prescription on these cells would have lost about seven points of MSE
+per cell relative to not measuring drift at all.
+
+\textbf{What the other rows add.}  Always freezing, ignoring CKA entirely, is worth
+$+2.91$~pp $[-13, +15]$, so the best-orientation rule's advantage over the cheap
+policy that reads no representation at all is $+4.56$~pp, nothing or less in $20\%$
+of draws.  Choosing the cut on the cells it is then scored on pays $+8.57$~pp: the
+$+1.10$~pp gap $[0, +13]$ is the price of a retrospectively chosen threshold, and it
+is what \S\ref{sec:conclusion}'s ``chosen on those same cells, so a lower bound and
+not a validated classifier'' costs, measured.  Per-cell hindsight is worth
+$+10.38$~pp $[+1, +19]$.  Out of sample the rule freezes 16 of the 31 cells and puts
+8 of them on the wrong side of its own decision, against 5 for the in-sample cut --
+the same count Figure~\ref{fig:screen}b reports for the best threshold, reached
+here by maximising saving rather than by minimising misplacement, which are
+different objectives that happen to agree on this data.
+
+\textbf{What we take from it, and what we do not.}  We do not claim this refutes a
+CKA rule: a point estimate of $+7.47$~pp is not a refutation, and one policy family
+on 15 clusters cannot speak for a per-backbone cut, a multivariate rule or a
+continuous-shrinkage policy.  What it supports is narrower and is the claim this
+paper makes: on these cells the evidence does not establish a saving stable enough
+to act on, and the direction in which acting would have paid is the opposite of the
+direction the mitigation literature points.  Both readings survive the reviewer's
+objection to the null, because neither of them is the assertion that no relationship
+exists.
+
+% tables/cka_decision.tex carries its own table environment, caption and label.
+\input{tables/cka_decision}
 
 % ============================================================
 \section{Audit Trail and Withdrawn Analyses}
