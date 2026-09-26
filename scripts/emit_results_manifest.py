@@ -50,8 +50,32 @@ TRACE = RESULTS / "manifest_trace.json"
 SWEEP = ROOT / "scripts/rederive_all.sh"
 TRACER = ROOT / "scripts/_trace_opens.py"
 
+# The interpreters this script RECORDS in the trace. Deliberately frozen to the sweep's own defaults
+# (rederive_all.sh:44-45) and NOT read from the environment, for the reason rel_to_root() documents at
+# length: manifest_trace.json ships in the supplementary bundle, and an absolute interpreter path
+# outside the repository carries the author's home directory into a released artifact. Recording the
+# canonical form also keeps the trace byte-identical whatever interpreter regenerated it.
 PY = ROOT / ".venv12/bin/python"
 PYFIG = Path("/opt/homebrew/bin/python3")
+
+# The interpreters this script actually LAUNCHES, which honour $PY/$PYFIG exactly as rederive_all.sh
+# already does. They were hardcoded to the two paths above from this file's first commit, and the
+# consequence only shows up where it matters most: .venv12/ is gitignored, so it is never in
+# `git archive` and never in the bundle, so inside an EXTRACTED bundle every one of the 26 analysis
+# emitters reported "interpreter missing" and the manifest regenerated with 55 canonical directories
+# instead of 62 -- which made scripts/rederive_all.sh's `results_manifest (--check)` line FAIL in the
+# release that a reviewer actually downloads, while passing in the working tree it was written in.
+# The sweep was already overridable; this script was the one link in the chain that was not.
+def _exec_override(name: str, default: Path) -> Path:
+    v = os.environ.get(name)
+    if not v:
+        return default
+    p = Path(v)
+    return p if p.is_absolute() else (ROOT / p)
+
+
+PY_EXEC = _exec_override("PY", PY)
+PYFIG_EXEC = _exec_override("PYFIG", PYFIG)
 
 # The one hand-maintained list: directories whose published numbers were later corrected. Kept as the
 # audit trail behind the corrections appendix. Asserted to exist, so a rename fails loudly.
@@ -108,9 +132,20 @@ def rel_to_root(p) -> str:
 
 
 def abs_interp(interp: str) -> Path:
-    """The inverse of rel_to_root, for actually invoking the thing."""
+    """The inverse of rel_to_root, for actually invoking the thing -- after the $PY/$PYFIG override.
+
+    The remap is the whole point of the split above: the trace keeps the canonical, repo-relative,
+    author-free interpreter name, and the subprocess gets whichever interpreter is actually installed
+    here. Compared against PY/PYFIG rather than against the raw string so that either spelling of the
+    recorded form (repo-relative for $PY, absolute for $PYFIG) resolves.
+    """
     p = Path(interp)
-    return p if p.is_absolute() else ROOT / p
+    p = p if p.is_absolute() else ROOT / p
+    if p == PY:
+        return PY_EXEC
+    if p == PYFIG:
+        return PYFIG_EXEC
+    return p
 
 
 def released_files():
