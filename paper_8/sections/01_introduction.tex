@@ -3,32 +3,27 @@
 \label{sec:intro}
 % ============================================================
 
-% Restructured 20 Sep 2026 into five paragraphs with one job each, around one running example. The
-% previous version opened with the premise and the screen, then a Terminology block, then the
-% definition, then contributions -- all true, and a reviewer reported not being able to tell which
-% sentence was the one to remember. The Terminology block is gone from here: under the naming
-% convention at the end of S3 the body no longer uses bare condition letters, so the block was
-% decoding notation the text had stopped using. Everything it defined is still defined in S3.
-
-% Round 8. THE FIRST PARAGRAPH NOW ENDS ON THE PAPER'S CLAIM, which is the one thing a reviewer of the
-% previous draft said they could not find quickly. It ended on "it mostly fails" -- the SCREEN's result,
-% a different finding from the title's -- and the spine sentence did not arrive until the third
-% paragraph. What was the third paragraph's first three sentences is now the end of this one; the
-% "presupposition mostly fails" sentence moved down to "The result, in three clauses", where the 7-of-31
-% count it summarises already lives. This is an exchange and not an addition: the spine sentence still
-% appears exactly ONCE in this file, which is what check_paper_numbers.py:3578 requires of it (four
-% sites: here, the abstract, S6's opening, the conclusion). Merging the two paragraphs is also why the
-% edit is affordable -- one fewer partial last line on a page-1 float page with no slack.
 Fine-tuning a time-series foundation model reshapes its internal
-representations, and a large literature treats that reshaping as damage to be
-prevented: by freezing the encoder, by regularising toward the pre-trained
-weights, by confining updates to low-rank adapters.  Every one of those
-prescriptions presupposes that the pre-trained representation was worth
-preserving \emph{on the target task}.  CKA tells us that the representation \emph{changed}.  It
-takes an intervention (fine-tune the whole model, then fine-tune it again with
-the encoder frozen, same data, same epochs) to tell us whether that change was
-\emph{valuable}.  \textbf{Across the cells we evaluate, the former is not an
-actionable substitute for the latter.}
+representations, and that reshaping is often read as forgetting: layer-wise CKA
+drops are used to locate where forgetting happens~\citep{ramasesh2021anatomy},
+representation similarity to predict how much a foundation model will
+forget~\citep{mian2026frozen}, and feature distortion to explain why fine-tuning
+underperforms out of distribution~\citep{kumar2022finetuning}.  The same reading
+motivates freezing the encoder, regularising toward the pre-trained
+weights~\citep{li2018l2sp, kirkpatrick2017ewc}, and low-rank adapters, which
+time-series work adopts partly to retain the pre-trained
+representation~\citep{gupta2024lowrank, laglil2026foundation} (and partly for
+efficiency or against overfitting).  Insofar as they protect the representation,
+those prescriptions presuppose that it was worth preserving \emph{on the target
+task}.
+
+Whether a change was harmful is an interventional question: fine-tune the whole
+model, fine-tune it again with the encoder frozen on the same data and budget, and
+compare the two on windows neither run selected on.  That costs one extra training
+run, so we do not offer CKA as a cheaper stand-in for it.  We ask the converse:
+when an analysis reads a CKA drop as evidence of forgetting, is that reading
+warranted for time-series foundation models?  Tested against the intervention, it
+is not.
 
 \textbf{One checkpoint, two datasets, opposite lessons.}  Fine-tune Moirai-Base
 on ETTh1 and its encoder barely moves (CKA $0.755$ against the pre-trained
@@ -37,221 +32,59 @@ Fine-tune the same checkpoint on ETTh2 and the encoder restructures far more, to
 CKA $0.460$, and the model ends $31.4\%$ \emph{better}.  Read drift as damage and
 you would have protected the run that needed no protection and left alone the one
 that did.
-% 2026-09-26 (E5). Cut for the round's body additions -- NOT, in the end, for \S6's MDE sentence,
-% which the page gate took too (see 06_exp3_drift.tex): "The pair is not a curiosity we picked out: it is
-% Moirai-Base's whole drift ordering (Figure~\ref{fig:screen}b, \S\ref{sec:exp3})." No registered site,
-% and this is the SECOND duplicate cut from this sentence for the same reason -- the round-8 comment
-% below records the first. Figure 1's caption is on this same page and states the ordering in almost
-% these words ("Moirai-Base's two least drifted cells are its only two that degrade, and its two most
-% drifted improve the most"), and fig1_diagnostic_flow.py ASSERTS that ordering at build time, so the
-% anti-cherry-picking point is made where it is enforced rather than where it is retyped. \S6's second
-% paragraph states it a third time with all four CKA values attached.
-% Round 8. Cut from the sentence above, and cut as a DUPLICATE rather than for space: "within our
-% Moirai-Base cells the two least drifted are the only two that degrade, and the two most drifted
-% improve the most". Figure 1's caption, on this same page, states that in almost the same words, and
-% S6's second paragraph states it with the four CKA values attached. The claim is not weakened -- the
-% figure script asserts the Moirai-Base ordering it draws, so it is checked at build time either way --
-% and the two lines this frees are what pay for the "below the baseline" clause added below.
 
-% Review M7: frame this as falsifying a shortcut in use, not as discovering a principle. Two sentences,
-% and the concession that our own earlier draft made the substitution is the strongest form of the point
-% -- it is recorded in app:corrections either way, so stating it here costs lines and not credibility.
-\textbf{We do not claim that is surprising.}  A post-treatment similarity
-statistic has no reason to identify an interventional contrast, and a reader who
-finds the negative result obvious is agreeing with us; what we claim is that the
-substitution is made anyway (by the prescriptions above, and by an earlier draft
-of this work), and that measuring what it costs takes the intervention nobody
-runs.  So we split the
-practitioner's question into four layers and answer them in order
-(Figure~\ref{fig:screen}a): is there a capability
-worth preserving at all (\S\ref{sec:forecasting})?  did the representation change
-(CKA, \S\ref{sec:exp3})?  did letting the encoder adapt
-help or hurt (\S\ref{sec:exp2})?  and does the conjunction of the first and third
-amount to destroying a demonstrated capability
-(\S\ref{sec:analysis:degradation})?  Layer~2 is the cheap measurement and layer~3
-the expensive intervention, so the paper's question is whether the first can stand
-in for the second; a fifth section asks whether the whole screen works
-\emph{prospectively} (\S\ref{sec:exp4}).
-
-% Figure 1 is declared here rather than at the head of S4 (where it lived until 20 Sep 2026) so that a
-% reader meets the paper's one claim, drawn, on page 2 instead of page 5. It is a [t] float and this
-% declaration point is past page 1's break, so it cannot be pulled back onto the abstract page. Panel
-% (b)'s x-axis is CKA as of this round -- the figure script's docstring records why it was the gate for
-% two rounds before that, and the two correlations are printed on the panel either way.
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{fig1_diagnostic_flow.pdf}
-% Round 7 (C1/C2): the caption was 11 printed lines, and most of them RE-TYPED numbers the panels
-% themselves print -- the funnel's boxes and tags carry 7 of 31, "CKA measured on all 31", the 4-of-31
-% reversal and the 0-cell verdict; panel (b) prints the best cut's 5 misplacements and both clustered
-% rhos in its own text block. Hand-typed copies of computed numbers are exactly the failure mode this
-% project keeps hitting, so they are deleted rather than re-verified, and the caption now carries the
-% claim, the two things no panel can say (what a filled marker means, what rho is clustered on) and the
-% running example. The figure script asserts the Moirai-Base ordering it draws, so the claim below is
-% checked at build time and not by a chk() on this caption.
-%
-% Round 8: the build-provenance clause moved from the FIRST sentence to the last, and the rho clause was
-% rewritten because panel (b) now prints the pooled correlation as well. Nothing is added or removed --
-% the same words in a different order, so the float's height is unchanged, which matters on a body with
-% no page slack. The reason is that the provenance clause was the first twelve words of the caption of
-% the paper's one figure: a reviewer who reads captions before bodies met an audit note before meeting
-% the claim, and reported not being able to find the paper's question quickly. The note is worth keeping
-% (it is the answer to "did you re-type these numbers?", which this project has been wrong about before)
-% but it is worth keeping LAST.
-%
-% And then it is worth not keeping at all. Moved to the end of the caption first, then CUT, when the
-% page-9/10 boundary came back six lines short: at 1.5 printed lines it was the most expensive sentence
-% in the caption and the only one making no claim about the data. The same review that could not find the
-% paper's question also asked for less audit tone in the main text, so this is the one cut this round
-% that answers two of its complaints at once. NOTHING IS WEAKENED: the counts are still computed by
-% fig1_diagnostic_flow.py from cell_matrix at build time, that script still asserts the ordering the
-% caption states, and the Reproducibility Statement says every table and figure the paper \input{}s is
-% emitter-written. The claim moved to where it is enforced; it was never the caption that made it true.
-\caption{\textbf{The whole paper.}  \textbf{(a)}~The four
-layers of \S\ref{sec:method} as a funnel over the 31 cells that carry a
-selection-split gate: CKA filters none of them, and no cell meets either form of
-the degradation definition.  \textbf{(b)}~The same cells as CKA against held-out
-$\denc$ (positive ${=}$ freezing better): \textbf{measured drift is not an
-actionable substitute for the intervention}, and no cut on CKA separates the
-cells adaptation helped from the cells it hurt.  The labelled pairs are the paper's
-running example: Moirai-Base's two \emph{least} drifted cells are its only two
-that degrade, and its two most drifted improve the most (\S\ref{sec:exp3}).  Filled
-markers clear the gate; both $\rho$ are clustered by backbone${\times}$dataset, and
-only Moirai has enough cells to ask within one backbone
+\caption{\textbf{(a)}~The screen of \S\ref{sec:method} over the 31 cells that
+carry a selection-split gate: CKA filters none of them, and no cell meets the
+degradation definition.  \textbf{(b)}~The same cells as CKA against held-out
+$\denc$ (positive ${=}$ freezing better): no cut on CKA separates the cells
+adaptation helped from the cells it hurt.  The labelled pairs are the running
+example: Moirai-Base's two \emph{least} drifted cells are its only two that
+degrade, and its two most drifted improve the most (\S\ref{sec:exp3}).  Filled
+markers clear the gate; both $\rho$ are clustered by backbone${\times}$dataset,
+and only Moirai has enough cells to estimate one within a backbone
 (Appendix~\ref{app:clustered}).}
 \label{fig:screen}
 \end{figure}
 
-\textbf{Design and scope.}  We screen \textbf{32 cells} across three backbones (Moirai
-Small 13.8M, Base 91M, Large 311M; Chronos-T5~\cite{ansari2024chronos};
-TimesFM-2.5~\cite{das2024timeseries}, with MOMENT~\cite{goswami2024moment}
-screened and excluded), six datasets and two forecast horizons, and pair each with
-a full fine-tune and a frozen-encoder run at 3--10 seeds
-(\S\ref{sec:forecasting}).  The screen is deliberately weak: it asks only whether
-the pre-trained model, zero-shot (ZS), beats a lookback-96 linear regression \emph{fit
-on the practitioner's own target data}: not a tuned supervised forecaster, not an
-ensemble, a single ridge-OLS map estimated once on the training split and applied
-unchanged.  We write that margin against a baseline $b$ as
-$\Vb{b} = 1 - \text{MSE}_{\text{ZS}}/\text{MSE}_{b}$ (a \emph{baseline-relative}
-advantage, never a property of the checkpoint alone), and score it on windows
-disjoint from every outcome we report.  \textbf{Every claim below is about the
-checkpoints, datasets and fine-tuning protocols we evaluated}, and the five
-readings we do \emph{not} claim are listed under \emph{Scope of the claims} in the
-Ethics Statement.
-% Round 8 (B4). This replaces ": we do not claim that fine-tuning is safe, nor that foundation models
-% are useless for forecasting" -- two examples, chosen ad hoc -- with a pointer to the enumerated five,
-% both of the old two among them. Named in prose rather than with \ref because the Ethics Statement is a
-% \section* and carries no number to reference. It goes HERE, in the paragraph that already bounds the
-% claims, rather than in "What is a claim here, and what is a control" as first planned: a reader looking
-% for the boundary of a claim looks where the claims are scoped, and this swap costs no lines.
-
-% Round 8. Two changes in this paragraph, both funded above. (1) It opens on the presupposition, which
-% is where "and it mostly fails" moved from the first paragraph -- that sentence summarises the 7-of-31
-% count, so it belongs beside it rather than three paragraphs earlier competing with the title's claim.
-% (2) The "below the baseline rather than short of the threshold" clause is restated here from S4's lead
-% because it is the answer to an objection a reviewer raised against the ABSTRACT's null -- suppose the
-% zero-shot model were only just short of the bar -- and the answer was five pages away. No chk() is
-% added: that fact has no prose pattern anywhere (check_paper_numbers.py:3188-3192 records why -- no
-% capture group can carry "every"), and BOTH sites are enforced by the max(_mfail) < 0 assert in
-% rederive(), so the restatement cannot drift from S4's while the fact holds.
-\textbf{The result, in three clauses.}  The presupposition mostly fails on the
-benchmarks the field actually uses.  \textbf{Seven of the 31 scored cells}
-clear the screen, all of them Moirai and on two of the six datasets: all five of
-its ETTh2 cells and two of its four on ETTm2, and every failing cell is
-\emph{below} the baseline rather than short of the threshold.
-% Round 9 (B1). Both reviewers of the round-8 build read "7 of 31" as the scope of the whole paper and
-% then objected that a 7-cell drift analysis is underpowered and Moirai-only. The answer was five pages
-% away: the drift analyses run on the LADDER UNION of 20, which spans all three backbones, and \S4 has
-% said so since round 7. The 20 appeared nowhere on pages 1-3, so a reader who stopped at page 2 -- which
-% is what a reviewer scoring novelty does -- could not have known. This states it where the 7 is stated.
-% ALL FOUR NUMBERS ARE REQUIRED HERE, not just the 20: "ladder union and its backbones" matches the
-% count and the composition together, so a site giving a bare 20 would be INVISIBLE to the checker and
-% would also fail to answer the objection it exists to answer. Its floor went 2 -> 3 with this edit.
-That seven is one rung of eight: \textbf{20 of the 31 clear it
-against at least one admissible rung (14 Moirai, 3 Chronos, 3 TimesFM)}, and that
-union is the scope every drift analysis below runs on (\S\ref{sec:forecasting}).
-Where the advantage does exist,
-letting the encoder adapt usually \emph{helps}: full fine-tuning improves MSE on
-five of the seven, by 31--42\% on the three ETTh2 cells, and the two whose mean
-shows harm carry only 4/10 and 5/10 seeds agreeing on the sign.  And \textbf{no
-cell meets our prespecified criterion for harm}: on multiplicity-adjusted paired
-intervals
-only 2 of the 31 favour freezing at these seed counts, and both are cells the
-screen \emph{rejects} (\S\ref{sec:analysis:degradation}).
+\textbf{What we test, and on what.}  We screen \textbf{32 cells}: three backbones
+(Moirai Small 13.8M, Base 91M, Large 311M; Chronos-T5~\citep{ansari2024chronos};
+TimesFM-2.5~\citep{das2024timeseries}, with MOMENT~\citep{goswami2024moment}
+screened and excluded), six datasets and two forecast horizons.  Each cell pairs
+a full fine-tune with a frozen-encoder run, and on the Moirai cells with a strict
+freeze under which nothing upstream of the forecasting head can move, at 3--10
+seeds.  We then ask four questions in order (Figure~\ref{fig:screen}a).  Is
+there a pre-trained capability worth preserving (\S\ref{sec:forecasting})?  Does
+letting the encoder adapt help or hurt (\S\ref{sec:exp2})?  Does CKA order the
+answer (\S\ref{sec:exp3})?  And where damage is forced, or looked for on other
+datasets, does CKA see it (\S\ref{sec:exp4})?  Every claim is about the
+checkpoints, datasets and protocols we evaluated; the readings we decline are
+listed under \emph{Scope of the claims} in the Ethics Statement.
 
 \textbf{Contributions.}
-
 \begin{enumerate}\itemsep1pt
-  \item \textbf{A negative result on the premise of forgetting mitigation.}
-    Screened against a linear regression fit on the target data, only 7 of 31
-    cells show a pre-trained advantage to preserve, and all seven are Moirai,
-    five on ETTh2 and two on ETTm2; four of the seven are \emph{improved} by full
-    fine-tuning in every seed, three of them by 31--42\% (\S\ref{sec:forecasting}).
-
-  \item \textbf{The intervention contrast as the estimand, and drift as a failed
-    predictor of it.}  We name $\denc$ (full fine-tuning minus a frozen
-    encoder) as the quantity this design manipulates, and show that CKA
-  % Round 10 (A1/B2). Two edits, and B2 is a RESTORATION: "a wide interval is a failure to establish an
-  % ordering, not evidence against one" stood in \S6 until 2026-09-25, when the page budget took it
-  % (06_exp3_drift.tex:95-97 records the cut verbatim). A reviewer has now asked for exactly it, as their
-  % Priority 2, and this is the cheapest printed line in the body to put it on -- the rho and its CI are
-  % already here, so the caution sits with the number it qualifies rather than a page away. The sample
-  % size comes with it: 22 cells in 6 clusters appeared on pages 1-9 ONLY inside Figure 1b's panel text
-  % and never in prose, so a reader could reach page 9 without learning what the interval is wide FROM.
-  % Paid for by dropping "and with no actionable threshold anywhere", which is now the weakest of the
-  % three things this contribution said about actionability: A1's "reliable, ACTIONABLE ordering" makes
-  % the same point in the claim itself, and \S\ref{sec:exp3} prices the threshold in pp rather than
-  % asserting none exists. Net +74 characters against the ~88 free on this item's last printed line.
-    \textbf{does not provide a reliable, actionable ordering} of it across an outcome spanning
-    $-51.8\%$ to $+46.1\%$: within-backbone $\rho{=}{+}0.168$ with clustered CI
-    $[-0.469,{+}0.717]$ \emph{within Moirai}, the only backbone with enough cells to
-    ask (22 cells, 6 clusters), with Chronos and TimesFM read qualitatively beside it
-    rather than pooled with it.  A wide interval is a failure to establish an
-    ordering, not evidence against one (\S\ref{sec:exp3}).
-
-  \item \textbf{No cell meets our prespecified criterion for harmful encoder adaptation}
-    (2 freezing-better, 4 adaptation-better, 25 inconclusive at a
-    multiplicity-adjusted $q{<}0.05$; zero under the pre-registered unanimity
-    criterion), so the value gate we proposed has no positive instance to
-    % 2026-09-26 (B4). A reviewer reads this item as reporting a classifier's precision on a set with no
-    % positives, and on page 3 that reading is available: the item said "no positive instance to predict:
-    % TP~0, FP~8", which states zero prevalence and then prints a confusion matrix, leaving the reader to
-    % infer which of the two governs. Three words make it explicit -- with no positives the precision is
-    % UNDEFINED, not poor -- and the counts stay, because they are what was pre-registered and cutting
-    % them would hide the arm rather than frame it. \S7.2 already said "sensitivity and specificity are
-    % both unestimable here"; this is the same concession, moved to the site a reviewer actually reads.
-    % "TP~0, FP~8 on eight cells" IS LEFT CONTIGUOUS ON PURPOSE: it is the whole match of
-    % check_paper_numbers.py:2978 "prospective confusion counts (S1 lead)", whose only site this is, and
-    % parenthesising the counts or moving "on eight cells" would silently drop it to zero sites while the
-    % checker still reported clean. Verified by per-claim site diff, not by the pass/fail line.
-    predict, so precision is undefined, not poor: TP~0, FP~8 on
-    eight cells whose predictions were frozen in git before those cells were
-    trained, and $\rho{=}{-}0.293$ against the intervention outcome within
-    Moirai; a direction, not an interval claim (\S\ref{sec:exp4}).
-    % 2026-09-26 (E5). Cut for this round's body additions. It did not end up funding \S6's MDE
-    % sentence, which the page gate took as well; the lines went to \S4's and \S7's additions instead.
-    % Cut: "A reproducibility
-    % bundle (configs, seed lists, metric scripts, uni2ts patch, both linear baselines) accompanies this
-    % paper." It carries NO registered site (verified by per-claim site diff, not by the pass/fail line)
-    % and it is the one sentence in this list that is not a result: ICLR requires a Reproducibility
-    % Statement, that statement is on a page the limit does not count, and it lists all five of these
-    % artifacts and more. So this was a page-3 summary of a mandatory page-10 section. Nothing is
-    % withdrawn and no pointer is lost -- the bundle is still described, in more detail, where a reader
-    % looking for it looks.
+  \item \textbf{Drift does not track the intervention.}  Within Moirai-Base the
+    least drifted cells are the only ones that degrade; a pre-registered positive
+    control drives CKA on the original task's inputs to $0.063$ while that task
+    \emph{improves} by $23.3\%$; and \pending{out-of-domain retention result}.
+    Across cells, within Moirai, the only backbone with enough cells to ask,
+    $\rho{=}{+}0.168$ (clustered CI $[-0.469,{+}0.717]$): an interval that rules out
+    a strong positive association but not a moderate one, so we claim no ordering
+    rather than the absence of one.  Out of sample, adding CKA to backbone and
+    protocol lowers leave-one-cluster-out $R^2$ from $+0.201$ to $+0.176$
+    (\S\ref{sec:exp3}).
+  \item \textbf{Two measurement prerequisites for any such comparison.}  Scoring
+    the frozen-encoder comparison on the windows it was selected on reverses its
+    sign on 4 of 31 cells, all toward flattering the frozen encoder; and an unfitted
+    linear baseline would move 17 of Moirai's 21 cells across the capability screen.
+    With both in place, \textbf{only 7 of the 31 scored cells} show a pre-trained
+    advantage over a linear regression fit on the target data, all of them Moirai
+    on ETTh2 and ETTm2 (\S\S\ref{sec:method},~\ref{sec:forecasting}).
+  \item \textbf{No harmful encoder adaptation under a prespecified definition.}
+    On multiplicity-adjusted paired intervals the 31 cells split 2 freezing-better,
+    4 adaptation-better and 25 inconclusive, and both freezing-better cells are
+    ones the screen rejects; on five of the seven that pass it, full fine-tuning
+    improves on zero-shot (\S\ref{sec:exp2}).
 \end{enumerate}
-
-% "Those four" was correct until this round's contribution item 3 -- the third statement of the two
-% boxed lessons -- was cut. The list is three items now, so the count is corrected here rather than the
-% cut reverted: nothing was withdrawn, the lessons are stated in the abstract and in S3's box.
-\textbf{What is a claim here, and what is a control.}  Those three are the paper's
-claims, argued in \S\S\ref{sec:forecasting}--\ref{sec:exp4}.  Everything else is a
-control or a boundary case, labelled where it appears: influenza-like illness
-(ILI) and an IoT anomaly detector are external cells that gate-fail, reported as case
-studies rather than evidence (Appendix~\ref{app:ili_gate}); the mitigation spectrum,
-strict freeze and the LoRA sweeps ask only whether the frozen-encoder comparison
-depends on how it is implemented
-(Appendices~\ref{app:full_tables},~\ref{app:strictfreeze},~\ref{app:lora_rank}).
-No claim above rests on any of them.
-% The retraction pointer that stood here is cut for page room, not withdrawn: S8 item (5) states that
-% the probe axis is retracted and points at the same appendix, and S9's Research Integrity statement
-% and Appendix app:corrections carry the full record. Cutting the restatement, not the record.

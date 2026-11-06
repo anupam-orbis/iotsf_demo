@@ -2705,8 +2705,11 @@ def build_checks(R):
     # The epoch budget and the absence of early stopping in ONE pattern, because the relation between
     # them is the claim: 20 epochs that may be cut short is a different protocol from 20 epochs that
     # are all run, and the paper's forgetting numbers are the final epoch's.
+    # Since the rebuttal the sentence names whose rule it is: the Moirai trainer's, over the Moirai
+    # ETT/Weather/Electricity cells. ILI, TimesFM and Chronos select a best epoch (S3, tab:trainers).
     chk("the epoch budget, and that nothing stops it early",
-        r"\\textbf\{(\d+) epochs with no early stopping\}", R["epochs_dflt"])
+        r"(\d+) epochs with no early stopping: the (\d+) Moirai cells", R["epochs_dflt"],
+        R["n_arm_moirai"])
     chk("the matrix's modal training size", r"\\textbf\{(\d+) of the (\d+)\} cells train on",
         R["n_train_modal_cells"], R["n_int"])
     # The sweep grid as one pattern: five numbers whose ORDER is the claim, so five separate chks
@@ -3275,7 +3278,7 @@ def build_checks(R):
     # arms it is 26 of 32, so an unqualified "17 cells" in a 32-cell context reads as 17 of 32 and
     # understates the correction. The pattern requires the qualifier, so dropping it fails the check.
     chk("gate flips across the threshold",
-        r"moves (\d+) of Moirai's (\d+) cells across the threshold",
+        r"move (\d+) of Moirai's (\d+) cells\s+across the threshold",
         R["n_flip_moirai"], R["n_moirai_screened"])
     # A third phrasing, in the retraction statement, where the count is the retraction's substance: it
     # is the number that makes "the entire class of cell the diagnostic was built to predict" true.
@@ -3288,7 +3291,9 @@ def build_checks(R):
     # One site, not two, since contribution 3 was deleted: S3's box is the remaining either-direction
     # site, and the abstract states the same subcount as "puts 16 of 21 on the wrong side", which the
     # check above matches. Both directions therefore still have a site apiece.
-    chk("gate flips, the pass-to-fail subcount", r", (\d+) of them to gate-fail",
+    # S3's box now states the flip from the fitted baseline's side (an unfitted one would move 16 to
+    # gate-PASS), which is the same subcount: the 16 that pass-to-fail when the estimator is corrected.
+    chk("gate flips, the pass-to-fail subcount", r", (\d+) of them to gate-pass, and so reverse",
         R["n_flip_moirai_p2f"], min_sites=1)
     chk("gate flips (appendix)", r"(\w+) cells change status: (\d+) flip",
         R["n_flip_moirai"], R["n_flip_moirai_p2f"])

@@ -3,166 +3,92 @@
 \label{sec:exp2}
 % ============================================================
 
-% Review S8 asked what exactly the treatment is whose contribution we estimate, and asked for it here
-% rather than in limitations, because this is the section that makes the estimate. The strict-freeze
-% caveat was item (2) of S8; it is MOVED here, not restated, so this paragraph now carries its three
-% registered numbers and item (2) is a pointer.
-% 2026-09-26. Compressed against \S\ref{sec:method}, which now names the estimand precisely at its
-% definition (the "designated stack" clause added this round): this paragraph's first sentence was
-% stating the same thing a second time, and what it uniquely carries is the three strict-freeze numbers
-% below. No chk() matched the removed wording.
-\textbf{What the treatment is.}  Conditions B and D differ in exactly one thing,
-whether the encoder stack's weights may move (Equation~\ref{eq:denc}), and where
-that boundary is drawn is load-bearing:
-D leaves the input projection and mask encoding trainable, and the strict freeze
-that closes that gap on 16 of the 31 cells \emph{reverses} $\denc$'s sign on 4 of
-the 16 cells we ran it on (every Moirai/ETTm2 cell, 2 of which are among the
-seven survivors below), and 15 cells rest on the ordinary freeze alone
-(Appendix~\ref{app:strictfreeze}).
-
-% ============================================================
 \subsection{What Fine-Tuning Does to the Seven Survivors}
 \label{sec:forecasting:results}
-% ============================================================
 
-The seven cells Experiment 1 admits are the entire evidence base for a claim
-about damage to valuable features, and they do not support one (Appendix
-Table~\ref{tab:gate_survivors}).
-% The clause naming the drift analyses' 31-cell scope is cut here, not lost: S4's "One rung of eight"
-% paragraph states that the 20-cell union rather than the seven is what every drift analysis runs on,
-% and S6 opens on the same scope. Three statements of one scope is two too many on a 9-page body.
+The seven cells Experiment 1 admits are the whole evidence base for a claim about
+damage to valuable features, and they do not support one
+(Table~\ref{tab:gate_survivors}).
 
 \textbf{On four of the seven, full fine-tuning improves the checkpoint in every
-seed.} On
-Moirai-Base at $h{=}96$ and $h{=}192$ and Moirai-Large at $h{=}96$, all on ETTh2,
-forgetting is $-31.4\%$, $-36.3\%$ and $-42.4\%$ against zero-shot, negative
-in 3/3 seeds each, at CKA $0.460$, $0.396$ and $0.626$, the largest
-representational change among the seven.  Freezing the encoder captures only part of that gain
-($-9.1\%$, $-16.1\%$, $-21.6\%$), so encoder adaptation is where most of the
-improvement comes from.  The fourth, Moirai-Base/ETTm2 at $h{=}192$, improves by a
-smaller $8.4\%$ and is the one survivor where freezing does slightly better
-($-9.7\%$), at CKA $0.488$.
+seed.}  On Moirai-Base at $h{=}96$ and $h{=}192$ and Moirai-Large at $h{=}96$, all
+on ETTh2, forgetting is $-31.4\%$, $-36.3\%$ and $-42.4\%$ against zero-shot,
+negative in 3/3 seeds each, at CKA $0.460$, $0.396$ and $0.626$, the largest
+representational change among the seven.  Freezing the encoder captures only part
+of that gain ($-9.1\%$, $-16.1\%$, $-21.6\%$), so most of the improvement comes
+from encoder adaptation.  The fourth, Moirai-Base/ETTm2 at $h{=}192$, improves by
+$8.4\%$, and the frozen encoder does slightly better there ($-9.7\%$).
 
 \textbf{On the remaining three, the mean harm does not survive inspection.}
 Moirai-Small/ETTh2 at $h{=}192$ reads forg.$_\text{B}{=}{+}1.99{\pm}3.32$ with 5 of
-10 seeds positive: a coin flip on the sign, and the closest the matrix comes to
-degradation.  At $h{=}96$ the positive mean ($+9.71{\pm}10.58$, 4 of 10 seeds) is
-produced by one seed that diverges under the \emph{frozen} encoder too, so it is an
-optimisation failure and not an encoder-drift effect; we report means including it
-throughout (Appendix~\ref{app:gatecorrection}).
-Moirai-Small/ETTm2 at $h{=}192$ runs the other way (a mean $1.10\%$ improvement
-with 3 of 5 seeds harmful), so its sign is a seed draw in either direction.
+10 seeds positive, the closest the matrix comes to degradation.  At $h{=}96$ the
+positive mean ($+9.71{\pm}10.58$, 4 of 10 seeds) comes from one seed that diverges
+under the frozen encoder too, an optimisation failure rather than an encoder
+effect; we keep it in every mean.  Moirai-Small/ETTm2 at $h{=}192$ improves on
+average ($1.10\%$) with 3 of 5 seeds harmful.
 
-% ============================================================
-\subsection{Sample Size, and What Mitigation Is For}
-\label{sec:forecasting:replication}
-% ============================================================
+\subsection{Where the Freezing Boundary Is Drawn}
+\label{sec:exp2:strict}
 
-Sweeping $n{\in}\{500,\ldots,10\mathrm{k}\}$ on Moirai-Small/ETTh2 at $h{=}96$
-(one of the seven survivors, so a sweep where a pre-trained advantage does
-exist) separates the two readings directly: drift grows monotonically with $n$
-(CKA $0.949$ at 500 to $0.518$ at 10k) while forgetting is non-monotonic and
-reverses sign, $+14\%$ at 500, $-2.9\%$ by 2k, $-5.3{\pm}2.1\%$ at 10k (7/10
-negative). \textbf{If drift magnitude predicted harm these columns would track;
-they do not.}  Whatever harm exists is confined to Small at $n{\leq}1$k
-(Table~\ref{tab:sample_sweep}, Figure~\ref{fig:dissociation},
-Appendices~\ref{app:n5k_trajectories},~\ref{app:limitations}).
-% 2026-09-25, page-10 funding for S5.2's mitigation sentence and S3's scope pointer. Two things are cut
-% from this paragraph and NEITHER leaves the paper. (1) "The n=10k sign is fragile: an earlier
-% three-seed record read at its final epoch gives +10.6% against the -5.3% above, on four differences
-% at once and so isolating no cause." app:limitations states it with strictly more: the three seeds and
-% that they are a subset, both epoch budgets, both zero-shot references, and the two seed-matched
-% CUDA/MPS readings -- five registered chks against this sentence's one, and the pointer above now
-% names it. This was the thinnest statement of the concession, not the load-bearing one. (2) "while the
-% largest spread across seeds sits at the n=5k crossover", which app:n5k_trajectories is the section
-% for and which the same pointer already cited. The CLAIM of this paragraph -- drift monotone,
-% forgetting not, and the +-2.1 with 7/10 negative that carries the n=10k dispersion -- is untouched.
-% C2: the sweep's split-protocol provenance -- that it predates held-out scoring, is scored on one split
-% throughout, and so reads +14.0+-3.9 at n=500 where the held-out mean above reads +9.71+-10.58 -- is a
-% correction record, and app:corrections and app:n5k_trajectories are where it belongs. The body keeps
-% the sweep's CLAIM (drift monotone, forgetting not) and S7.1 keeps the general finding that selection-
-% split scoring reverses signs. Both numbers stay registered at their appendix sites.
+The ordinary frozen encoder (D) leaves the input projection and mask encoding
+trainable, so a ``freezing wins'' reading could come from those modules adapting
+rather than from the encoder staying fixed.  We therefore ran the strict freeze
+(H) on every Moirai cell (\pending{22} cells, 3--10 seeds;
+Table~\ref{tab:strictfreeze}).  B${-}$H and B${-}$D agree in sign on
+\pending{N} cells.  They disagree on \pending{the four Moirai/ETTm2 cells
+and any of the six new ones}, and on every disagreeing cell the strict control
+moves toward adaptation: on ETTm2, Moirai-Small $h{=}96$ goes from B${-}$D
+$+7.3{\pm}2.9$ to B${-}$H $-6.8{\pm}2.0$ and Moirai-Base $h{=}96$ from $+7.0{\pm}2.4$
+to $-9.2{\pm}3.1$, so the apparent freezing advantage on that dataset was carried
+by the input projection.  The strict freeze therefore recovers no degradation case;
+it removes the ones D appeared to suggest.  All Moirai counts below are reported
+under both controls.
 
-\textbf{What mitigation is for, and what preserving a representation buys.}
-Five strategies spanning unconstrained fine-tuning to full freezing (LoRA, EWC,
-L2-SP, frozen encoder, strict freeze) are reported in
-Appendix~\ref{app:full_tables}, on Moirai-Small/ETTh2, the one cell where we ran
-the whole spectrum.  Among the four arms trained at $n{=}1{,}000$ there, the ones
-this cell can compare, the three weight-anchoring arms span CKA $0.939$--$0.972$
-and land within $0.003$ MSE of one another, so a $0.033$ spread in preservation
-buys no measurable utility; the \emph{most} preserving arm (LoRA, CKA $0.979$) is
-also the best on the task and the only one to improve on zero-shot ($-9.1\%$),
-and at $h{=}192$ the worst arm on the task is EWC, at the third-highest CKA of
-the four.  \textbf{Preserving representational similarity is not the same as
-preserving useful behaviour}, the dissociation of \S\ref{sec:exp3} read across
-mitigation strategies rather than across cells, but extending LoRA to eight
-further value-cells leaves full fine-tuning ahead on four of them
-(Appendix~\ref{app:loravaluecells}).
-% The closing sentence -- that the screen bounds what mitigation can be for, on 24 of 31 cells -- is the
-% third statement of the 24/31 count in the body: S5.3's clause (i) walk makes it as the reason 24 cells
-% leave, and S7.2 makes it as the gate's surviving use. Cut here rather than there, because those two
-% are the sentences the count is doing work in.
+\subsection{Held-Out Scoring Is a Precondition}
+\label{sec:analysis:heldout}
 
-% ============================================================
-\subsection{No Robust Degradation Instance Survives a Prespecified Definition}
+Scoring $\denc$ on the selection windows instead of the held-out ones
+\textbf{reverses its sign in 4 of the 31 intervention cells}, all in the same
+direction: on the selection windows the frozen encoder wins, on held-out windows
+full fine-tuning does (Table~\ref{tab:heldout_decomp}).  Two of the four are
+among the seven gate-passing cells (Moirai-Base and Moirai-Large on ETTh2, which
+move from $+3.8$ and $+7.2$ to $-22.3$ and $-20.8$).  A frozen-versus-full comparison
+scored on the windows a checkpoint was selected on is therefore not a weaker
+version of the held-out one; it can give the opposite answer.
+
+\subsection{No Degradation Instance Survives a Prespecified Definition}
 \label{sec:analysis:degradation}
-% ============================================================
 
-% Retitled and reframed: "no cell meets the definition" invites the reading that the zero is an
-% artefact of a strict definition, so the survival framing leads and the relaxed ladder follows in the
-% NEXT sentence rather than in a forward pointer. The relaxation sentence is the one that used to sit
-% at the end of the paragraph below; it is moved, not added.
-Applying the three-clause definition of \S\ref{sec:method} to all 31
-intervention cells returns \textbf{zero cells}: \textbf{no robust,
-seed-consistent degradation instance survives a definition fixed in advance}.
-Relaxing that definition does not manufacture one either: across 8 rungs from the
-weakest defensible one up to ours, at either gate threshold, \textbf{the largest
-count anywhere is 2}, and it is reached only by the rung that drops the means
-clause altogether and checks seed signs alone; every rung that keeps the means
-clause admits at most 1, the 5/10 seed split named below
-(Appendix~\ref{app:defsensitivity}).
+The three-clause definition of \S\ref{sec:method} returns \textbf{zero cells} of
+the 31, under both the interval and the registered form and, on Moirai, under
+both controls.  Clause~(i) removes 24 outright: they have no measured pre-trained
+advantage, so a worse score after fine-tuning replaces nothing demonstrated.
+Of the seven that remain, four fail clause~(ii) with every seed agreeing, and
+the other three fail it cell by cell (\S\ref{sec:forecasting:results}).
+Relaxing the definition does not manufacture a case: across 8 rungs, at either
+gate threshold, \textbf{the largest count anywhere is 2}, reached only when the
+means clause is dropped altogether (Appendix~\ref{app:defsensitivity}).
 
-Clause~(i) removes 24 of the 31 outright: they have no measured pre-trained
-advantage, so a worse post-fine-tuning score is benign replacement rather than
-damage.  Of the seven that survive it, four fail clause~(ii) in the strongest
-possible way: full fine-tuning \emph{improves} MSE, by 8--42\% with every seed
-agreeing.  That leaves three, and all three fail clause~(ii) cell by cell
-(\S\ref{sec:forecasting:results}); Moirai-Small/ETTh2 at $h{=}192$ remains the
-closest the matrix comes.
-% Round 7. This paragraph used to give only the 20-cell aggregate, which is an average over cells that
-% disagree and so cannot say which cells are decisive. The per-cell adjusted calls can, and they make a
-% sharper statement against our own screen than the conjunction count could: the screen rejects both
-% cells where preservation decisively wins and admits two where adaptation decisively wins. The
-% aggregate is kept as the last sentence because two registered claims match its wording.
-\textbf{Per-cell inference sharpens this rather than rescuing it.}  Paired
-$95\%$ intervals on $\denc$, Benjamini--Hochberg adjusted across the 31 cells,
-call \textbf{2 cells freezing-better, 4 adaptation-better and 25
-inconclusive}, and the two where freezing decisively wins are
-Moirai-Small/ETTh1 at both horizons, which the screen \emph{rejects}, while two
-of the four where adaptation decisively wins \emph{pass} it, at $+0.925$ and
-$+0.875$.  The interval form of the definition returns zero
-cells, as the registered form does, and still zero when a pre-registered seed
-top-up adds a third freezing-better cell, which the screen \emph{admits}
-(Moirai-Small/ETTm2 $h{=}192$, gate $+0.352$;
-Appendix~\ref{app:pairedinference}).  \textbf{What the inconclusive calls cost is
-itself reportable}: the survivors' own dispersion gives minimum detectable
-effects of $4.7$--$14.7$~pp, and Moirai-Small/ETTh2 $h{=}96$ and
-Moirai-Base/ETTm2 $h{=}192$ would need 182 and 212 paired seeds, so we report
-those two as \emph{unresolvable under this design} rather than as absent.
-Aggregated over the 20 value-cells with clustered resampling, $\denc{=}{+}0.7$
-with CI $[-11.1,{+}14.1]$ and 10 of 20 positive
-(Appendix~\ref{app:pairedinference}).
-Changing the gate's \emph{estimator} does admit cells: six of the ladder's eight
-rungs admit none, persistence admits three and GBM one.  All four rest on a
-denominator within $5\%$ of the training-mean floor and roughly twice the fitted
-ridge's error on the same windows, so a \emph{weaker} baseline is what manufactures
-a degradation cell (Appendix~\ref{app:baselines}).
+\textbf{Per-cell inference.}  Paired $95\%$ intervals on $\denc$ (F${=}$D),
+Benjamini--Hochberg adjusted across the 31 cells, call \textbf{2 cells
+freezing-better, 4 adaptation-better and 25 inconclusive}; under F${=}$H on
+Moirai, \pending{counts}.  The two freezing-better cells are Moirai-Small/ETTh1 at
+both horizons, which the screen rejects, while two of the four adaptation-better
+cells pass it, at $+0.925$ and $+0.875$.  A pre-registered seed top-up adds a third
+freezing-better cell, which the screen admits (Moirai-Small/ETTm2 $h{=}192$,
+gate $+0.352$), and the definition still returns zero
+(Appendix~\ref{app:pairedinference}).  Most calls are inconclusive because the
+design is underpowered for small effects, and we say so rather than read them as
+null: the survivors' dispersion gives minimum detectable effects of
+$4.7$--$14.7$~pp, and two survivors would need 182 and 212 paired seeds to
+resolve their observed effect.  Over the 20 value-cells, $\denc{=}{+}0.7$ with
+clustered CI $[-11.1,{+}14.1]$.  Changing the gate's estimator does admit cells
+(persistence admits three and GBM one), but all four rest on a denominator within
+$5\%$ of the training-mean floor, so a weaker baseline is what manufactures them
+(Appendix~\ref{app:baselines}).
 
-\textbf{What we are and are not saying.}  Not that fine-tuning never damages a
-pre-trained capability, but that across 32 screened cells we could not construct
-one instance that survives its own definition.  These benchmarks are the wrong
-place to look: on no cell does the advantage survive every admissible rung of an
-eight-baseline ladder, and on the seven that clear our ridge gate, fine-tuning on
-500--1{,}000 samples usually improves on it (\S\ref{sec:limitations},
-Appendix~\ref{app:corrections}).
-
+We do not conclude that fine-tuning never damages a pre-trained capability, only
+that on these benchmarks we could not find one instance that meets its own
+definition: no cell's advantage survives every admissible rung of the ladder, and
+where the fitted-ridge advantage exists, fine-tuning on 500--1{,}000 samples
+usually improves on it.

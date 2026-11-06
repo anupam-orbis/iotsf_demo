@@ -1,197 +1,60 @@
 % ============================================================
-\section{Experiment 3: Can Measured Drift Replace the Frozen Control?}
+\section{Experiment 3: Does Drift Order the Outcome?}
 \label{sec:exp3}
 % ============================================================
 
-% 2026-09-25. Two sentences cut from this lead -- "CKA tells us that the representation changed;
-% Experiment 2's intervention tells us whether the change was valuable" -- to pay for the seed-top-up
-% scoping in the abstract and \S5.3. They restate, three lines early, the boldface claim this same
-% paragraph ends on, and the abstract and the conclusion both carry the pair verbatim. The restatement
-% went; the claim did not.
-% Round 9. "This is the section the paper's title makes its claim in" became false when the title
-% stopped asserting anything (see the round-9 block in main.tex). The replacement says the same thing
-% about the PAPER rather than about the title, so it survives the next retitle: this section is where
-% the empirical claim is argued either way, and the sentence is the same length, which matters on a
-% body with no page slack.
-This is the section the paper's empirical claim is argued in.  Neither CKA nor weight drift is manipulated by that design
-(\S\ref{sec:method}), so both enter here only as candidate \emph{predictors} of
-$\denc$, and \textbf{across the cells we evaluate, the former is not an
-actionable substitute for the latter.}
+CKA is computed after fine-tuning, on the model fine-tuning changed, so it cannot
+replace the intervention as a decision rule.  It is worth testing anyway because
+that is how it is used: analyses of fine-tuned models report a CKA drop as
+evidence of forgetting (\S\ref{sec:intro}).  The question is whether such a drop
+carries information about the outcome the intervention measures.  We test it in
+three ways, from the most direct to the most aggregate.
 
 \label{sec:forecasting:nonmoirai}
-\textbf{Drift and outcome come apart inside a single backbone}: within our
-Moirai matrix, the strongest form of the finding.  Beyond the sweep of
-\S\ref{sec:forecasting:replication}: within Moirai-Base the two \emph{least}
-drifted cells are the only two that degrade (ETTh1 at CKA $0.755$ and $0.669$,
-$+22.8\%$ and $+39.5\%$) while its two most drifted improve the most within the
-arm (ETTh2 at CKA $0.460$ and $0.396$, $-31.4\%$ and $-36.3\%$; the whole
-eight-cell ordering is Appendix Table~\ref{tab:dissociation}); and inside
-Moirai-Large's LoRA arm the learning rate, not the rank, decides the sign at
-near-identical CKA ($0.973$ against $0.989$; Appendix~\ref{app:lora_rank}).
-% 2026-09-26. Compressed, not cut: "we read the ordering as illustrative, claim no reverse relationship
-% from $n{=}8$, and leave the negative result to the pre-registered test below" -> the first two clauses
-% are what "a counterexample and nothing more" already says, and the third is the next paragraph's
-% opening sentence. No chk() matched any of it ("illustrative", "n{=}8" and "no reverse relationship"
-% are absent from check_paper_numbers.py), and the caveat survives in the words that carry it.
-Eight cells are a \emph{counterexample} to ``low CKA means damage'' and nothing
-more, with no reverse relationship claimed from $n{=}8$.
+\textbf{Counterexamples within one backbone.}  Within Moirai-Base the two
+\emph{least} drifted cells are the only two that degrade (ETTh1 at CKA $0.755$
+and $0.669$, $+22.8\%$ and $+39.5\%$), while its two most drifted improve the
+most (ETTh2 at CKA $0.460$ and $0.396$, $-31.4\%$ and $-36.3\%$;
+Table~\ref{tab:dissociation}).  On Moirai-Small/ETTh2, one of the seven
+survivors, sweeping $n{\in}\{500,\ldots,10\mathrm{k}\}$ drives CKA down
+monotonically from $0.949$ to $0.518$ while held-out forgetting \emph{falls}, from
+$+5.2\%$ at 500 to $-18.5{\pm}2.8\%$ at 10k, with every seed improving on
+zero-shot from $n{=}1$k on: more drift, better outcome
+(Table~\ref{tab:sample_sweep}, Figure~\ref{fig:dissociation}).  Inside one encoder, unfreezing the top 3 of 6
+layers and all 6 gives indistinguishable task outcomes at CKA $0.716$ and $0.465$
+(10 seeds each; Appendix~\ref{app:layerunfreeze}).  Across mitigation strategies
+on that cell, the three weight-anchoring arms span CKA $0.939$--$0.972$ and land
+within $0.003$ MSE of one another (Appendix~\ref{app:full_tables}).  Each of these
+contradicts ``lower CKA, more damage'' as a rule; none of them establishes the
+reverse.
 
-% 2026-09-26 (B5). Cut for the lines \S6's decision-pricing sentence needs: "whose $84.5\%$ advantage
-% traces to no run record and does not reproduce". That is audit prose about a superseded figure, and a
-% reviewer asked for less of it in the main text; app:m4 keeps the whole record -- it reproduces the
-% superseded figure under the legacy estimator, prints the training mean that beats it, and names the
-% three estimators -- and check_paper_numbers.py:3897-3918 registers every number of that reproduction
-% with its sites there. The provenance claim itself was deliberately unchecked because there is no
-% record to check it against, which is what made it the safest printed line in the body to give up.
-% $+0.092$ STAYS: the "M4: the corrected gate, in the body" check has its only site in this sentence,
-% and cutting the clause it matches failed the checker before this build -- which is what that check is
-% for. The corrected gate is also the number this paragraph needs, since it is what makes the eleventh
-% cell a gate failure rather than an exception.
-\textbf{Near-identical drift, opposite consequences.}  Against the fitted baseline
-none of the ten non-Moirai cells gate-passes, nor does the eleventh we re-ran to
-check: Chronos on M4-Monthly, which scores $+0.092$ once the gate is computed as
-defined (Appendix~\ref{app:chronos_detail}).  So what the two extra backbones supply
-is architectural diversity and the dissociation itself, \textbf{not a controlled
-% 2026-09-26. The horizon-and-normalisation half of this clause was a VERBATIM duplicate of Limitations
-% item (4) ("the non-Moirai arm runs at h=24 and the Moirai arm at h in {96,192}, on different
-% normalisations; we report them separately and never pool them"), which is the concession's own site and
-% stays untouched -- a reviewer is scoring generalisation, so the concession is the copy to keep.
-% ONE REGISTERED SITE MOVES: "the horizons, in the form the cross-backbone caveat uses"
-% (check_paper_numbers.py:2597) goes from 5 sites to 4, which is above its floor of 1 and was verified by
-% diffing per-claim site counts against HEAD rather than by reading the pass/fail line. What survives
-% here is the operative half, that we never pool them, plus the pointer; \S\ref{sec:limitations} says why.
-replication}: we read them qualitatively and never pool them
-(\S\ref{sec:limitations}).  Four
-of the five Chronos-T5-Small cells restructure to a degree that would, on the usual
-reading, be called catastrophic (CKA ${\in}[0.092, 0.169]$, at or below the
-$0.215{\pm}0.054$ an \emph{untrained} encoder of this architecture scores;
-Appendix~\ref{app:cka_calibration}), yet outcomes across the five span
-\textbf{$-41.4\%$ on ETTm2 to $+20.6\%$ on ETTh1}, a 62-point spread in which ETTh1
-is the \emph{least} drifted and the only one that degrades; the four TimesFM-2.5
-cells sit at milder drift and all improve
-(Appendix Table~\ref{tab:crossbackbone}).
-% Round 8 (B3). "But that pooled figure is a backbone artefact by our own rule" asserted the rule without
-% stating it, and a reviewer read the within-backbone null as Simpson's-paradox special pleading -- the
-% pooled +0.567 is not a small correlation, and a paper that reports it and then sets it aside owes the
-% reason. The reason is that CONDITIONING is the whole point: backbone and protocol are known to the
-% reader before any CKA is computed, so an association that lives between backbones cannot help them, and
-% Figure 1b now prints the pooled rho beside the within-Moirai one with exactly that label. Both numbers
-% were already here; what is new is the sentence saying which question each answers.
-%
-% "MEASURED THAT WAY," IS LOAD-BEARING PUNCTUATION, NOT A FLOURISH. This rewrite first made "within
-% Moirai" the start of a sentence, which capitalised the W and silently dropped one of the six prose
-% sites of check_paper_numbers.py's min_sites=5 "within-Moirai CKA rho" check -- 425 sites became 424
-% with every claim still reporting ok, because the check still had five. The introductory clause exists
-% to keep the phrase mid-sentence and lower-case. Any rewrite here has to leave "within Moirai, the only
-% arm with enough cells to ask, $\rho{=}{+}0.168$" intact and uncapitalised: the pattern is
-% case-sensitive and allows at most 70 characters between the phrase and the value.
+\textbf{Other backbones.}  None of the nine Chronos and TimesFM cells passes the
+gate and their training protocols differ (Table~\ref{tab:trainers}), so we read
+them beside Moirai rather than pooling them.  Four of the five Chronos-T5-Small
+cells restructure to CKA $0.092$--$0.169$, at or below the $0.215{\pm}0.054$ of an
+\emph{untrained} encoder of this architecture (Appendix~\ref{app:cka_calibration}),
+yet their outcomes span $-41.4\%$ on ETTm2 to $+20.6\%$ on ETTh1, and ETTh1, the
+least drifted, is the only one that degrades.  The four TimesFM-2.5 cells sit at
+milder drift and all improve (Table~\ref{tab:crossbackbone}).
 
-% 2026-09-26 (A1). A PARAGRAPH BREAK AND A RUN-IN HEADING, WITH NOT ONE WORD REWORDED. A reviewer asked
-% for a dedicated "why within a backbone rather than pooled" argument and reported being unable to find
-% one. The argument has been here since round 8 -- but as a clause inside the cross-backbone paragraph,
-% where a reader skimming for it meets the Chronos/TimesFM spread first and stops. What was missing was
-% never the reasoning, it was the heading; lines 50-124 were a single paragraph carrying four distinct
-% claims, and this is the one a reviewer goes looking for by name.
-% The full version is app:crosscell's "The pooled CKA row is not a licensed analysis, and it is the row
-% that would help us" -- disjoint CKA ranges per backbone, the Simpson's-paradox reading, and the
-% concession that the pooled row is the FAVOURABLE one we decline. It is now pointed at from here, which
-% is the other half of the complaint: the argument existed in the appendix with no path to it.
-% Nothing is reworded, so "pooled CKA rho and CI" (check_paper_numbers.py:2857) keeps its only site.
-\textbf{Why within a backbone and not pooled.}
-Pooled across all 31 cells CKA does correlate with the intervention
-($\rho{=}{+}0.567$, clustered CI $[{+}0.239,{+}0.828]$), which is not a small number
-and not one a practitioner can use: backbone and protocol are known before any CKA is
-computed, so the diagnostic has to order the outcome \emph{given} them rather than
-pool three backbones and report the gap between two of them (Figure~\ref{fig:screen}b;
-Appendix~\ref{app:crosscell}).
-% Round 10 (A1/B3/C4). Three changes, and the first two are length-neutral by construction because the
-% two positional patterns the comment above records still have to match: the clause
-% "within Moirai, the only arm with enough cells to ask, $\rho{=}{+}0.168$" is untouched and
-% "clustered CI" still follows the value within 25 characters.
-% B3: the concession was a DEPENDENT clause -- "which admits a moderate positive relationship BUT does
-% not provide a reliable ordering" -- and a reviewer's Priority 2 is that our statistical uncertainty
-% should not be subordinated to our negative. It is now one of two things the interval does, in a
-% coordinate structure, so a reader skimming cannot take the admission as a concession made in passing.
-% Nothing is added or withdrawn: same interval, same claim, same length.
-% A1: "reliable ordering" -> "reliable, actionable ordering", the third and last CKA site (see main.tex).
-% C4: the decision price, one sentence, funded by the retrospective-variant cut in 03_protocol.tex. It
-% leads with the row that cuts against us -- the prescribed orientation LOSES 6.97 pp -- and states in
-% the same breath that the orientation which pays out of sample is the inverse of it, which is the part
-% that is not a null result. The favourable-looking row (+7.47 pp, interval covering zero) is in
-% app:decision under its own bold sentence rather than here, because one printed line cannot carry a
-% point estimate, its interval and its post-hoc status without misleading on one of the three. The
-% interval is in WHOLE percentage points: cka_decision_value.py --seedcheck shows two-decimal bounds do
-% not reproduce across bootstrap seeds.
-Measured that way, within Moirai, the only arm with enough
-cells to ask, $\rho{=}{+}0.168$ with clustered CI $[-0.469,{+}0.717]$: an interval
-that admits a moderate positive relationship, and that \textbf{does not provide a
-reliable, actionable ordering} of our cells.
-% 2026-09-26 (C, then E2). THE MDE SENTENCE WAS WRITTEN HERE AND IS CUT FROM HERE, which is the cut this
-% round declared in advance rather than discovered at the page gate. It said: "Six clusters resolve
-% $|\rho|{\gtrsim}0.5$ at $80\%$ power, so what we claim is \textbf{un-usability at this sample size, not
-% absence} (Appendix~\ref{app:clustered})." That is the answer to the objection a reviewer named as the
-% one they expected to decide the paper -- that we have shown imprecision rather than failure -- and it
-% is not a hedge added to the null, it BOUNDS the null, which is the opposite. It survives in full in
-% app:clustered's "What this design could have resolved", which states the floor, the observed
-% $\rho{=}{+}0.168$ beside it, the one-decimal justification (--seedcheck: four master seeds agree at a
-% grain of 0.1 and not at 0.05) and the same "un-usability at this sample size, not absence" claim shape
-% in bold. The pointer a reader needs to get there is two sentences down, and the conclusion's
-% \S\ref{sec:exp3} pointer is unchanged. What is lost is only that a reviewer scoring \S6 alone meets
-% the number 40 appendix lines later than they would have; what is bought is the 9-page body, which
-% three whole-sentence cuts elsewhere did not close on their own. The chk() that guarded this sentence
-% ("the minimum detectable correlation (body floor)") is retired with the sentence -- this was its only
-% site -- and the appendix chk plus the two asserts on R["mde80"] still guard every printed digit.
-  Priced as a decision, freezing where
-drift is largest, as prescribed, is worth $-6.97$~pp $[-10, +14]$ against always
-adapting; the orientation that pays out of sample is the inverse
-(Appendix~\ref{app:decision}).  Nor does the
-second diagnostic \S\ref{sec:method} defines rescue it: pooled $\ell_2$ weight
-drift gives $\rho{=}{+}0.118$ with a CI including zero, and nor do five further
-geometric measures
-(Appendices~\ref{app:crosscell},~\ref{app:driftmetrics}).  The same dissociation
-holds \emph{inside} one encoder: the two unfreeze depths we ran at 10 seeds each
-(the top 3 of 6 layers, and all 6) are indistinguishable on the task at CKA
-$0.716$ against $0.465$ (Appendix~\ref{app:layerunfreeze}).
-% 2026-09-25. Cut: "And where a cell does degrade, freezing does not save it: on Chronos/ETTh1 the
-% frozen encoder is worse still (+59.8% against +20.6%), so encoder adaptation is not the locus of the
-% damage." It is cut for CORRECTNESS first and page-10 funding second. "Where a cell does degrade" is a
-% statement about forg_B, and Chronos's per-condition forgetting is exactly the quantity this paper
-% flags forg_confounded and excludes from every forgetting comparison it makes (cell_matrix.py:474,
-% paired_inference.py:376, degradation_sensitivity.py:119): an MSE head is attached for B and D while
-% the zero-shot reference is the native decoder's. The B-vs-D CONTRAST survives that confound (the
-% mismatched denominator rescales it and cannot flip its sign), but the premise this sentence builds on
-% does not, and the Ethics Statement's Scope paragraph now says out loud that these five cells are
-% excluded wherever a forgetting comparison is made -- which this sentence was. Both numbers stay in
-% tab:crossbackbone, where crossbackbone.tex is emitter-written and the row carries its confound mark,
-% so the reader still has them with the caveat attached; what is gone is the body's inference from them.
+\textbf{Association across cells.}  Pooled over all 31 cells, CKA correlates with
+$\denc$ ($\rho{=}{+}0.567$, clustered CI $[{+}0.239,{+}0.828]$), but that is mostly
+the gap between backbones, which a practitioner knows before computing anything
+(Figure~\ref{fig:screen}b).  Within Moirai, the one backbone with enough cells,
+$\rho{=}{+}0.168$ (22 cells, 6 clusters, CI $[-0.469,{+}0.717]$; under F${=}$H,
+\pending{$\rho$ and CI}).  The interval excludes a strong positive association but
+not a moderate one.  This design would detect a true $\rho$ of $0.50$ with
+$80\%$ power (Appendix~\ref{app:clustered}), so an association of $0.5$ or more
+would probably have shown; a weaker one may exist, and we
+claim only that CKA does not \emph{establish} an ordering.  Acting on CKA as the prescriptions do,
+freezing where drift is largest, is worth $-6.97$~pp $[-10, +14]$ against always
+adapting (Appendix~\ref{app:decision}), and $\ell_2$ weight drift and five further
+geometric measures do no better (Appendices~\ref{app:crosscell},~\ref{app:driftmetrics}).
 
-% 2026-09-25. "A wide interval is a failure to establish an ordering, not evidence against one" cut
-% here, same page budget. The caution is not dropped: this paragraph still closes on "a null in
-% prediction rather than evidence of no relationship", and app:loco states it as its own sentence.
-\textbf{We find no evidence that CKA improves prediction beyond backbone identity.}  With
-the ladder and deciding statistic fixed in advance
-(\texttt{results/preregister\_loco.json}) we asked out of sample whether measuring
-CKA helps a reader who already knows the backbone, the horizon and $n$.  It does
-not: leave-one-cluster-out $R^2$ over the 15 clusters rises from $+0.000$ to
-$+0.137$ on backbone identity and $+0.201$ with horizon and $\log n$, then
-\emph{falls} to $+0.176$ once CKA is added ($\Delta R^2{=}{-}0.025$; no help in
-$69\%$ of cluster-bootstrap draws), and the backbone-specific-slope variant is
-worst of all at $+0.019$.  So the predictable part of $\denc$ is predictable from
-protocol identity, though the slope itself, $+43$~pp per unit CKA with a cluster
-interval of $[-31, +107]$, makes this a null in \emph{prediction} rather than
-evidence of no relationship (Appendix~\ref{app:loco}).
-
-% Two paragraphs were cut from here on 20 Sep 2026: the graded-screen robustness check (rho on the 20
-% gate-clearing cells against the 11 others, and the b_3 interaction) and the ILI case study's numbers.
-% Both are reported in full in the appendices pointed at below, which is where they were already
-% reported -- the body was restating them. Cut so that this section spends its lines on the
-% dissociation itself, which is the paper's one sentence, rather than on two objections it also answers.
-%
-% The two one-sentence SUMMARIES that survived that cut moved on 21 Sep 2026, VERBATIM, to
-% app:valueaxis and app:ili_gate respectively, to fund \S\ref{sec:exp4:poscontrol} on a 9-page body
-% with no slack. Verbatim rather than reworded because each carries a claim registered in
-% scripts/check_paper_numbers.py at min_sites=1 ("cells with nothing to lose"), so a reworded move
-% would have silently dropped the paper's only site for it. \label{sec:analysis:ili} moved with its
-% paragraph and the three \S\ref sites that pointed at it now point at Appendix app:ili_gate; the
-% label is gone rather than left behind pointing at a section that no longer discusses ILI.
-
+\textbf{Out-of-sample prediction.}  With the predictor ladder and the deciding
+statistic fixed in advance, leave-one-cluster-out $R^2$ over the 15 clusters rises
+from $+0.000$ to $+0.137$ on backbone identity and to $+0.201$ with horizon and
+$\log n$, then \emph{falls} to $+0.176$ once CKA is added ($\Delta R^2{=}{-}0.025$;
+no improvement in $69\%$ of cluster-bootstrap draws).  What is predictable about
+$\denc$ here is predictable from the protocol; CKA adds nothing measurable to it
+(Appendix~\ref{app:loco}).

@@ -107,28 +107,16 @@ between drift and outcome is a claim about the measurement, not about the surviv
 benchmarks, and the effect we intend is to raise the bar for claims about
 forgetting in time-series foundation models: a paper reporting that fine-tuning
 damaged pre-trained features should say what baseline established that the
-features were valuable, and how that baseline was fit.  Our own screen is the
-worked example of why: the earlier version of this work reported eight
-degradation cells on a baseline a constant predictor beats.  The controlled
+features were valuable, and how that baseline was fit.  The controlled
 comparison remains the way to answer the question for any particular cell, and
 \S\ref{sec:analysis:degradation} claims only that the harm cannot be demonstrated
 on these benchmarks.
 
-\textbf{Research integrity.}  This version corrects an earlier version of the
-same work in two ways that changed its conclusions rather than its presentation,
-and we flag both rather than absorbing them silently.  An earlier version's value
-gate used an unfitted per-window trend extrapolation as its linear baseline; a
-constant predictor beats that baseline, and correcting it changes the gate status
-of 17 of the 21 Moirai cells and removes every degradation instance the paper had;
-that is, the entire class of cell the diagnostic was built to
-predict.  Separately, we retract a linear-probe diagnostic
-reported earlier: the statistic it rests on is non-zero only where the probe
-fails to generalise, and Appendix~\ref{app:orthogonal} reports the measurement
-that establishes this on the same encoders.  Neither correction required
-re-running a model; both are documented with their audit trails in
-Appendix~\ref{sec:retraction} and Appendix~\ref{app:gatecorrection}.  Where a
-number in an earlier version could not be traced to a run record, we say so at
-the site rather than reprinting it.
+\textbf{Corrections to an earlier version.}  An earlier public version of this
+work used an unfitted linear baseline for the capability screen and reported a
+linear-probe diagnostic that does not survive a temporal split.  Both are
+corrected here, and the supplementary file \texttt{ERRATA.md} lists every
+changed claim.
 
 \textbf{Compute.}  The experiments are small by contemporary standards: no run
 exceeds 10{,}000 training windows, and the sweep reported here runs on a single

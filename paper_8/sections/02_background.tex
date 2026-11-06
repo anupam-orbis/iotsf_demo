@@ -5,21 +5,26 @@
 
 \textbf{Related work: three lines, and the gap between them.}
 \emph{(i)~Forgetting} is studied in continual learning, NLP and fine-tuning
-dynamics~\cite{kirkpatrick2017ewc, li2017lwf, luo2023forgetting,
-kumar2022finetuning, andreassen2023evolution}, and supplies the prescriptions
+dynamics~\citep{kirkpatrick2017ewc, li2017lwf, luo2023forgetting,
+kumar2022finetuning, andreassen2023evolution}, including sequential fine-tuning
+of TSFMs~\citep{karaouli2025foundation}, and supplies the prescriptions
 we test.  \textbf{This is not a continual-learning study}: no task sequence, no
 loss on a prior task, one adaptation step, so ``forgetting'' here is degradation
 relative to the same checkpoint's zero-shot on the same data, and a
 catastrophic-forgetting result and ours can hold at once.
 \emph{(ii)~TSFM adaptation} recipes span probabilistic
 fine-tuning, generative pre-training, LLM reprogramming and cross-task
-transfer~\cite{rasul2024lagllama, liu2024timer, jin2024timellm,
+transfer~\citep{rasul2024lagllama, liu2024timer, jin2024timellm,
 zhou2023onefitsall}, and are evaluated on target-task accuracy.
 \emph{(iii)~Representation analysis} supplies the measurement (representation
-similarity and probing~\cite{kornblith2019cka, hewitt2019structural,
+similarity and probing~\citep{kornblith2019cka, hewitt2019structural,
 pimentel2020information}), including work probing frozen TSFM internals
-directly~\cite{wilinski2025representations}, where we instead track how
-representations \emph{change under fine-tuning}.  \textbf{None of the three
+directly~\citep{wilinski2025representations}, where we instead track how
+representations \emph{change under fine-tuning}.  CKA has been used to localise
+forgetting~\citep{ramasesh2021anatomy}, and in vision classification a linear
+probe shows that a large CKA drop can coexist with little loss of
+knowledge~\citep{davari2022probing}; we ask the same question of TSFMs, against an
+intervention rather than a probe.  \textbf{None of the three
 establishes that the pre-trained representation was worth preserving on the
 target task}, which is the premise (i)'s prescriptions rest on and what this
 paper measures.
@@ -33,7 +38,7 @@ required.  We report $\Vb{b}$ as a continuous quantity for every cell
 (Table~\ref{tab:r2task}) rather than only its verdict, and the $0.20$ operating
 point is calibrated to ETT short-horizon benchmarks, where linear
 baselines are famously competitive with deep
-forecasters~\cite{zeng2023transformers}.  That competitiveness is the whole
+forecasters~\citep{zeng2023transformers}.  That competitiveness is the whole
 reason the gate has teeth: \textbf{7 of the 31 scored cells clear it}, all on
 Moirai and confined to two series, and in the other 24 the pre-trained model
 has no measured advantage for fine-tuning to destroy.
@@ -48,8 +53,8 @@ worse than the zero-shot one: \emph{task-level forgetting}).
 \textbf{Decoupling harmful forgetting from benign specialisation.}
 Representational change that redirects features toward the target
 (\emph{benign specialisation}) must be separated from change that discards
-generally useful structure (\emph{harmful forgetting}).  What remains, with an
-earlier probe-based criterion retracted, is \emph{value-gate conditioning}:
+generally useful structure (\emph{harmful forgetting}).  We separate them by
+\emph{value-gate conditioning}:
 change can be harmful only where the structure it discards was valuable, i.e.\ in
 a gate-pass cell; in a gate-fail cell the same change is benign by construction,
 because no demonstrated advantage existed to lose.  Gate-passing plus

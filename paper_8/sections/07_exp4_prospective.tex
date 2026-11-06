@@ -1,186 +1,44 @@
 % ============================================================
-\section{Experiment 4: Does the Screen Work Prospectively?}
+\section{Experiment 4: Does CKA See Damage Where It Can Occur?}
 \label{sec:exp4}
 % ============================================================
 
-% This finding was a bold run-in inside a section named after the prospective arm, so a reader
-% skimming headings could not see that it is here at all. It is now a heading of its own: the claim it
-% makes is the one result in the paper that changes what a practitioner should do tomorrow, and the
-% run-in it replaces said the same words. The label is unchanged -- eight cross-references resolve to
-% it. The prospective arm below needed its own heading in turn, or it would read as part of this one.
-\subsection{Held-Out Scoring Is a Precondition, Not a Refinement}
-\label{sec:analysis:heldout}
-% The mechanism paragraph that used to follow this one -- the decomposition into the frozen and adapted
-% arms and the exchangeability ratio -- now sits beside Table \ref{tab:heldout_decomp} in the appendix,
-% which is the table it describes and which had no prose of its own. The finding itself stays here, and
-% it is also one of the two lessons in the box at the end of S3.
-% The topic sentence -- "every number in this paper is scored on windows disjoint from the ones used for
-% early stopping" -- is cut as the third statement of one protocol fact: S3's three-splits paragraph
-% defines it as the protocol, the abstract states it as a headline measurement choice, and the box at the
-% end of S3 states it as a lesson. This subsection's content is what happens when you DON'T, which the
-% sentence below says on its own.
-Scoring
-$\denc$ on the selection windows instead \textbf{reverses its
-sign in 4 of the 31 intervention cells}, and \emph{every one of the four
-reverses in the same direction}, toward full fine-tuning
-(Appendix Table~\ref{tab:heldout_decomp}).
-% The largest reversal -- Chronos/ETTh1, +6.8 to -39.2, a 46-point swing -- is cut here. It is a row of
-% tab:heldout_decomp, which this sentence points at, and the claim in this paragraph is the direction of
-% all four reversals rather than the size of the biggest one. The clause that follows is the one a
-% reviewer needs, because it says the reversals reach cells the screen admits.
-Two
-of the four are among the seven gate-passing cells, so this is not confined to
-cells nobody would have looked at.
-% The mechanism clause that closed this paragraph -- the reversals are driven by the frozen arm, which
-% a distribution shift between the splits penalises more heavily -- is cut on 21 Sep 2026 to fund
-% \S\ref{sec:exp4:poscontrol}. It is not lost: the paragraph beside Table \ref{tab:heldout_decomp} in
-% app:full_tables states it at length, with the per-arm decomposition the clause was summarising, and
-% this sentence already points there. No registered claim had a site here -- the clause carried no
-% number -- so this is a deletion rather than a move.
+Every cell above is fine-tuned and scored on the same series, so Experiments 2
+and 3 measure what adaptation does to the target task.  Forgetting proper is a loss
+of what the model could do elsewhere, and a diagnostic cannot be shown to miss
+damage that never occurred.  This section looks for damage in the two places it
+can occur: on a task constructed to conflict with the pre-trained prior, and on
+datasets the model was not fine-tuned on.  Both arms were pre-registered, with
+thresholds and outcomes committed before the first run.
 
-\subsection{A Pre-Registered Prospective Test at Zero Prevalence}
-\label{sec:analysis:prospective}
-% Four paragraphs until 21 Sep 2026, and their length was itself making a claim the arm cannot
-% support: a reviewer read the space they occupied as a refutation of the gate. The full record --
-% both registered rules, the eight cells, the threshold sweep and the corrected-gate check -- moved
-% verbatim to Appendix \ref{app:prospective2}, which is scanned by scripts/check_paper_numbers.py, so
-% every registered number still has its sentence. What is left here is the arm's one result and the
-% bound its prevalence puts on it.
-% 2026-09-25. "and a diagnostic that only explains cells it has seen is worth little" cut for the same
-% line budget: it motivates the test rather than stating anything about it, and the subsection title
-% already says the test is prospective.
-Everything above is retrospective, so we tested ours forward: predictions for eight unrun
-cells were committed to git before any outcome run for them existed, and the
-scoring script decides nothing (Appendix~\ref{app:prospective2}).
-\textbf{The outcome the gate was registered to predict never occurs.}  None of
-the eight cells degraded; the gate flagged all eight, giving \textbf{TP~0, FP~8,
-FN~0}: precision $0.00$, while \textbf{sensitivity and specificity are both
-unestimable here}.  \textbf{That makes this a test at zero prevalence, and the
-prevalence bounds what it can say}: it establishes that the gate's positive
-predictions are wrong here (at the $0.20$ operating point and at every threshold
-we swept; Appendix~\ref{app:prospective2}), and it establishes nothing
-about the gate's \emph{sensitivity}, which an
-empty positive class cannot estimate.
-% Two sentences are cut here on 25 Sep 2026 to pay for the batch-3 result below, on a 9-page body whose
-% page 10 has under 48 characters of slack. Both were restatements; what replaces them is stated
-% nowhere else in the paper. (1) The threshold-independence clause -- "not merely at the 0.20 operating
-% point, since re-scoring the same predictor at every threshold we swept gives precision 0.00 at all of
-% them" -- keeps its content in the shortened em-dash clause above and its NUMBER in
-% app:prospective2, which reports the sweep beside tab:gate_sensitivity; the chk() that matched only
-% the body form is re-pointed at the appendix phrasing rather than deleted, so the fact keeps its
-% registered site. (2) "It is not a demonstration that the gate cannot work; it is a demonstration
-% that these benchmarks supply nothing for it to work on" -- the "What survives" paragraph immediately
-% below makes exactly this distinction and names what the gate is still good for, so the sentence was
-% telling a reader in the abstract what the next paragraph tells them concretely.
-\textbf{A second registered batch, graded on the corrected gate, does estimate the
-rate batch~1 cannot.}  On the 9 of its 10 registered cells the deadline allowed,
-it fires on 2, none of the 9 degrades, and so \textbf{specificity is $0.78$} with
-sensitivity still unestimable; the deferred cell is gate-failing and had no
-outcome when it was cut, so running it could only have raised that figure
-(Appendix~\ref{app:prospective3}).
-
-% The ordering paragraph that stood here moved VERBATIM to Appendix \ref{app:prospective2} on
-% 21 Sep 2026, to fund the positive control in \S\ref{sec:exp4:poscontrol} on a 9-page body with no
-% slack. Verbatim rather than reworded because two registered claims in
-% scripts/check_paper_numbers.py match only that wording. The claim itself is not lost from the body:
-% the abstract, \S\ref{sec:intro} and \S\ref{sec:drift} each state that the gate supplies no reliable
-% ordering, and rho=-0.293 appears in \S\ref{sec:intro}. What the body no longer carries is the
-% second-order point about the coefficient's instability across splits, which is a detail about a
-% quantity the paper does not ask a reader to act on.
-% Round 10 (B4). Rewritten to a reviewer's own formulation, and it is a change of STATUS, not of claim:
-% "not a predictor of harm, nor a screen for when preservation is worth the effort, but a disqualifier"
-% said what the gate is not and then named a role, and the reviewer read the role as still asserting a
-% validated instrument. "Not a validated detector ... but an operational conditioning device" says the
-% same thing about the same eight predictions with the epistemic status in the noun. The disqualifier
-% reading is unchanged and app:corrections still refers to it by that name.
-% Length-neutral within ~6 characters, which this paragraph needs: page 8 ends on its last printed line
-% with no free space. Paid for by compressing "here it fired eight times and was wrong eight times"
-% (unregistered phrasing; TP 0/FP 8 is stated in \S1 and \S7 with its own chk()).
-% The "24 of our 31 fail" site survives the rewrite: check_paper_numbers.py:2327 matches
-% r"(\d+) of our (\d+) fail", and collapse() at :56 folds every newline to a single space, so the
-% pattern reads across a source line break. It is the COUNT and the two words that must not move.
-\textbf{What survives.} Not a validated detector of preservable capability
-(eight prospective predictions, eight wrong), but an operational conditioning
-device: it decides where the harm question is askable, and a cell that fails it
-cannot supply evidence about damage to pre-trained features.  24 of our 31 fail it.
-
-% Round 9 (B4). Retitled, and the two paragraphs below are REORDERED -- the counterexample first, the
-% registered bookkeeping second. Both reviewers of the round-8 build read this arm the same way and it
-% was not the way it is written: as a failed attempt to validate our own detector, whose null is
-% therefore uninformative. What it actually contains is the paper's cleanest counterexample, and the one
-% that does not depend on a benchmark supplying damage -- an engineered regime, registered in advance,
-% in which the representation is driven almost to orthogonality BY TRAINING AGAINST THE CAPABILITY and
-% the capability improves anyway. The old title named the thing that did not happen; this one names the
-% thing that did. NOTHING IS WITHDRAWN: "destruction was not achieved" is still the registered outcome
-% and still its own paragraph one paragraph below, and the arm is still labelled a positive control.
-% The reorder is page-neutral by construction -- the same sentences, the same two paragraph breaks --
-% and the "21 of 21 runs" sentence moves WITH the counterexample because it is that claim's premise:
-% "training measurably in conflict with a capability" is exactly what condition (i) establishes.
-% Every number here is matched by a per-sentence chk() (check_paper_numbers.py:3645-3700), and the
-% patterns are whitespace-flattened, so moving whole sentences is safe where rewording them is not.
-\subsection{A Pre-Registered Positive Control: Near-Orthogonal Drift, and the
-Capability Survives}
+\subsection{A Positive Control: Near-Orthogonal Drift, and the Capability Survives}
 \label{sec:exp4:poscontrol}
-% The reviewer-critical addition. Everything above establishes that these benchmarks contain no
-% degradation cell; the obvious objection is that a diagnostic cannot be shown to fail at detection
-% when there is nothing to detect. This subsection answers it with an engineered regime, and it is
-% written to be readable as a NULL: the pre-registration fixed all three outcomes in advance, and the
-% one that fired is the one that says the control failed to construct. The full ladder, both
-% checkpoints and the divergence are in Appendix \ref{app:poscontrol}.
-% 2026-09-25. The framing sentence "A null about a detector is only as good as the regime it was
-% measured in" is folded into the boldface one that followed it, one line, same budget.
-\textbf{A diagnostic cannot be shown to fail at
-ordering damage if there is no damage to order}, so we tried to build the
-damage.  Task A is the strongest capability the screen admits
-(Moirai-Small/ETTh2, $h{=}192$, $\Vb{\text{ridge}}{=}{+}0.932$); task B is a
-synthetic series, fixed by hash before any run, whose correct forecast is the
-\emph{negation} of the seasonal-naive prior that is task A's own strongest
-admissible rung.  We fine-tuned on B and measured A over the registered
-$\text{lr}\in\{10^{-4},10^{-3},10^{-2}\}$ crossed with both conditions at 3 seeds,
-with all three outcomes and the destruction threshold committed before the first
-run (Appendix~\ref{app:poscontrol}).
 
-\textbf{The attempt buys a sharper dissociation than the benchmark
-cells can supply.}  Task B was learned in \textbf{21 of 21} runs (minimum $+56.6\%$
-against a registered $20\%$), so this is genuine conflicting learning and not
-weight thrashing.
-% The ladder-extension sentence -- "we took the single declared ladder extension to lr=10^-1 and
-% stopped there, as registered" -- is cut on 2026-09-24 for page 10's line budget. It carried no
-% registered claim (no chk() matched it) and it reports protocol COMPLIANCE rather than a result: the
-% extension, its trigger and the stopping point are all in the committed registration and restated in
-% app:poscontrol, which is where a reviewer checking pre-registration discipline looks. Cutting the
-% restatement, not the record.
-% Round 9 (B4): THE BLANK LINE THAT STOOD HERE IS DELETED ON PURPOSE. Condition (i) above and the
-% dissociation below are now one paragraph -- "learned in 21 of 21 runs" is the premise that makes
-% "training measurably in conflict with a capability" true, and splitting them is what let a reviewer
-% read the arm as bookkeeping followed by an aside. The paragraph break it removes is spent on the
-% registered-outcome paragraph added after this one, so the section's break count is unchanged.
-At the top rung the representation is driven almost to
-orthogonality (CKA on task A's inputs $0.063$, $\ell_2$ weight drift $2795$,
-against $0.999$ and $7.2$ at the gentlest rung), and task A gets \emph{better},
-by $23.3\pm2.0\%$ in every seed; across all 21 runs the correlation between CKA
-and retention is $\rho{=}{+}0.466$, the wrong sign.  \textbf{A representation can
-be moved most of the way to orthogonality by training measurably in conflict with
-a capability, and the capability survives.}
-% The limit sentence -- "a retention loss is hard to CONSTRUCT here, not impossible, and task A is
-% worth only +0.081 over seasonal-naive, so this tests DETECTION rather than the value of what is
-% lost" -- is cut on 2026-09-24 for page 10's line budget, and it is a strict subset of a paragraph
-% that already says more: app:poscontrol's "What this arm cannot show, as registered" carries the
-% +0.081, the detection-versus-value framing verbatim, the impossibility point AND two limits this
-% sentence never made (generalisation beyond one backbone/series/task B, and whether a sign-inverting
-% target resembles deployment). S8's item (1) carries the general form -- the screen is a low bar and
-% these benchmarks supply no large-margin cell. The registered claim keeps its site: chk()
-% "positive control: what the arm cannot show" matches the appendix wording, and the body-form
-% pattern that matched only this sentence is deleted with it rather than left to match nothing.
+Task A is the strongest capability the screen admits (Moirai-Small/ETTh2,
+$h{=}192$, $\Vb{\text{ridge}}{=}{+}0.932$).  Task B is a synthetic series, fixed
+by hash before any run, whose correct forecast is the \emph{negation} of the
+seasonal-naive prior, task A's own strongest admissible baseline.  We fine-tuned
+on B under $\text{lr}\in\{10^{-4},10^{-3},10^{-2}\}$ with both encoder conditions
+at 3 seeds and measured A (Appendix~\ref{app:poscontrol}).  Task B was learned in
+\textbf{21 of 21} runs (minimum $+56.6\%$ against a registered $20\%$).  At the top
+rung CKA on task A's inputs falls to $0.063$ and $\ell_2$ drift reaches $2795$,
+against $0.999$ and $7.2$ at the gentlest, and task A gets \emph{better}, by
+$23.3{\pm}2.0\%$ in every seed; across the 21 runs CKA and retention correlate at
+$\rho{=}{+}0.466$, the wrong sign for a damage detector.  The registered
+destruction threshold (retention loss ${\geq}50\%$ in a majority of seeds) was
+never reached: the worst run lost $26.7\%$.  A representation can be driven most
+of the way to orthogonality by training in conflict with a capability, and the
+capability survives.
 
-% Round 9 (B4). The registered outcome, moved BELOW the counterexample and otherwise verbatim. It reads
-% as a consequence here ("therefore") rather than as the arm's headline, which is what it is: the thing
-% we registered as the success condition did not happen, and the paragraph above is why that is
-% informative rather than empty. Both sentences carry chk()s -- "the registered destruction rule"
-% (min_sites=2, shared with app:poscontrol) and "the worst retention anywhere, and the noise floor it
-% beats" -- so this text is quoted, not retyped.
-\textbf{The pre-registered outcome that fired is therefore the third: destruction
-was not achieved.}  The registered rule was
-retention$_A\!\geq\!50\%$ in a majority of seeds under full fine-tuning; the
-maximum over all 21 runs was $+26.7\%$, in one seed, against an evaluator noise
-floor of $0.48$~pp.
+\subsection{Out-of-Domain Retention}
+\label{sec:exp4:ood}
+
+We fine-tuned each of the seven gate-passing Moirai cells under full
+fine-tuning, the frozen encoder and the strict freeze (3 seeds each) and scored
+every final checkpoint zero-shot on the held-out windows of the four datasets it
+was not trained on, measuring CKA on those datasets' own inputs
+(Appendix~\ref{app:ood}).  The registered threshold for harmful forgetting is a
+loss at least 10~pp larger under full fine-tuning than under the strict freeze, in
+every seed.  \pending{Result: how many (cell, dataset) pairs meet it; retention
+range for B, D, H; Spearman between 1$-$CKA and retention with its cell-clustered
+interval; which registered outcome (O1/O2/O3) fired.}

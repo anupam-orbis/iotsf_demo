@@ -4,76 +4,47 @@
 \label{sec:forecasting:gate}
 % ============================================================
 
-To ask whether fine-tuning damages valuable pre-trained features we first have
-to find a cell where such features are demonstrably present.  This section
-reports that search, and it comes out negative: across \textbf{32 screened
+A claim that fine-tuning damages valuable pre-trained features needs a cell where
+such features are demonstrably present.  Across \textbf{32 screened
 cells} (21 Moirai: three capacities, five datasets, two horizons; 5
-Chronos-T5, 5 TimesFM-2.5 and 1 Moirai/ILI), \textbf{seven} clear the value gate,
-and all seven are Moirai: five on ETTh2 and two on ETTm2.  The gate is scored on
-selection windows, which exist for 31 of the 32 (TimesFM/Electricity has no
-paired frozen-encoder run, so it is screened but carries neither a gate nor an
+Chronos-T5, 5 TimesFM-2.5 and 1 Moirai/ILI), seven clear the gate, and all seven
+are Moirai: five on ETTh2 and two on ETTm2.  The gate is scored on selection
+windows, which exist for 31 of the 32 (TimesFM/Electricity has no paired
+frozen-encoder run, so it is screened but carries neither a gate nor an
 intervention row), and every denominator below is 31.
-Figure~\ref{fig:screen}a is this screen emptying.
-% Two cuts here, both funding Phase B's added lines and neither losing a fact.
-% (1) The clause explaining why Figure 1 is declared in S1 rather than here was about the paper's
-% layout, not its evidence, and the figure's own comment block records the reason for a future editor.
-% (2) The "Setup follows S3" paragraph restated S3 and this section's own opening: the horizons, the two
-% sample sizes, the 3--10 seeds and the selection-split scoring are all in S3's training-details and
-% three-splits paragraphs, and the sentence above already says the gate is scored on selection windows.
-% No registered claim had a site in either.
 
-\textbf{Moirai: 7 of 21} (Appendix Table~\ref{tab:r2task}).  ETTh2 clears at
-every capacity: Small $h{=}96$ ($+0.874$) and $h{=}192$ ($+0.932$), Base
-$h{=}96$ ($+0.777$) and $h{=}192$ ($+0.925$), Large $h{=}96$ ($+0.875$).
-ETTm2 clears at two of four, Small $h{=}192$ ($+0.352$) and Base $h{=}192$
-($+0.211$).  Every other dataset fails at every capacity, and every failing cell
-is below the baseline rather than short of the threshold (Table~\ref{tab:r2task}).
-Capacity does not help: Moirai-Base is 6.6$\times$ larger than
-Moirai-Small and \emph{further} behind the baseline on both ETTh1 and Weather.
+\textbf{Moirai: 7 of 21} (Table~\ref{tab:r2task}).  ETTh2 clears at every
+capacity: Small $h{=}96$ ($+0.874$) and $h{=}192$ ($+0.932$), Base $h{=}96$
+($+0.777$) and $h{=}192$ ($+0.925$), Large $h{=}96$ ($+0.875$).  ETTm2 clears
+at two of four, Small $h{=}192$ ($+0.352$) and Base $h{=}192$ ($+0.211$).
+Every other dataset fails at every capacity, and every failing cell is below the
+baseline rather than short of the threshold.  Capacity does not help: Moirai-Base
+is 6.6$\times$ larger than Moirai-Small and further behind the baseline on both
+ETTh1 and Weather.
 
-\textbf{Chronos-T5-Small: 0 of 5} and \textbf{TimesFM-2.5: 0 of 4}
-(\S\ref{sec:forecasting:nonmoirai}, Appendix Table~\ref{tab:crossbackbone}).
-All nine cells fall in a narrow band about zero, $-0.275$ to $+0.082$, and none
-reaches the threshold.
-% C2: the split-instability of the within-band ORDERING is a provenance fact about a quantity this
-% paper does not ask a reader to act on, and app:corrections is its record. Cut here; the sentence
-% after it is what the reader needs and it now states its own scope.
-The dataset contrast holds on both splits: ETTh2, where Moirai clears the gate at every capacity, is where
-Chronos is \emph{below} the fitted baseline ($-0.184$ on selection, $-0.325$ on
-held-out), so the advantage is not a property of the dataset alone.
+\textbf{Chronos-T5-Small: 0 of 5; TimesFM-2.5: 0 of 4}
+(Table~\ref{tab:crossbackbone}).  All nine fall in a narrow band about zero,
+$-0.275$ to $+0.082$.  On ETTh2, where Moirai clears at every capacity, Chronos
+is below the fitted baseline ($-0.184$ on selection, $-0.325$ on held-out), so
+the advantage is not a property of the dataset alone.
 
-% This paragraph replaces two -- the eight-rung enumeration and a third-window-set paragraph -- that
-% between them ran ~24 printed lines here. Every number they carried is in Appendix \ref{app:baselines}
-% and \ref{app:baselines:traintail} already, verbatim, so nothing moved and nothing was retyped: the
-% appendix was always the record and the body was restating it. A reviewer asked for the ladder to read
-% as a robustness check rather than as a second headline, which is what it is.
-\textbf{One rung of eight.}  The screen's emptiness is not one estimator's
-artefact.  Scoring the same numerator against a \textbf{ladder} of eight
-baselines (on the same selection windows, with the training mean as an
-admissibility floor), and measuring each cell against the \emph{strongest}
-admissible rung it faces, \textbf{no cell of the 31 clears $0.20$}, and none does
-on either of two further window sets.  \textbf{20 of the 31 clear it against at
-least one admissible rung (14 Moirai, 3 Chronos, 3 TimesFM)}: that union, not the
-seven, is the scope every drift analysis below runs on, so those analyses are not
-confined to one backbone.  Where this paper says seven cells clear the gate it
-means seven clear \emph{this} rung of the eight; the per-rung counts, the other
-two window sets, and the four cells a near-constant rung would admit are in
-Appendix~\ref{app:baselines}.  Giving the baseline Moirai's own $96{+}h$ context
-instead of $96$ makes it the stronger denominator on \textbf{12 of 21} cells and
-% 2026-09-26 (B1). A reviewer asked for the equal-context sensitivity in the body. Half of it was
-% already here -- the selection-split direction -- and the half that was appendix-only is the half that
-% cuts AGAINST the concession the first half makes: on held-out windows the comparison reverses, the
-% matched map is the stronger denominator on only 7 of 21, and the count clearing 0.20 goes UP. Stating
-% only the favourable direction of a two-sided sensitivity check is the thing this paper exists to
-% object to, so both directions are now in the body and the resolution with them.
-% TWO EXISTING PATTERNS ARE REUSED VERBATIM RATHER THAN TWO NEW ONES BEING WRITTEN:
-% "the count rises from \textbf{5 to 7}" is check_paper_numbers.py:3105's held-out survivor check and
-% "every admissible rung at \textbf{0 of 21 on both splits}" is :3110's ladder-rung check. Both were
-% min_sites=1 with a single appendix site; they now have two each, so this edit TIGHTENS their guarantee
-% instead of adding surface. Bold numerals rather than "five to seven" is what makes that reuse possible
-% and it matches the count convention of "12 of 21" in the same sentence; "takes that seven to six" keeps
-% its words because :3090 reads them through the WORDS map.
-takes that seven to \textbf{six}; on held-out windows the comparison reverses, the
-count rises from \textbf{5 to 7}, and folding the matched column into the ladder
-leaves the count clearing $0.20$ against every admissible rung at \textbf{0 of 21 on
-both splits} (Appendix~\ref{app:baselines:matchedlb}).
+\textbf{One rung of eight.}  Scored against a ladder of eight baselines on the
+same windows, with the training mean as an admissibility floor, \textbf{no cell of
+the 31 clears $0.20$} against the strongest admissible rung it faces, and none
+does on two further window sets.  \textbf{20 of the 31 clear it against at
+least one admissible rung (14 Moirai, 3 Chronos, 3 TimesFM)}, and that union is
+the scope of every drift analysis below, so those analyses span all three
+backbones.  ``Seven cells clear the gate'' always means seven clear the fitted
+ridge rung; per-rung counts, a matched-lookback baseline and the four cells a
+near-constant rung would admit are in Appendix~\ref{app:baselines}.
+
+\textbf{Prospectively, the gate is a conditioning device, not a detector.}
+\label{sec:analysis:prospective}%
+Predictions for eight unrun cells were committed to git before any of them was
+trained.  None of the eight degraded and the gate flagged all eight
+(\textbf{TP~0, FP~8, FN~0}), a test at zero prevalence that shows the gate's
+positive predictions were wrong here and says nothing about its sensitivity.  A
+second registered batch, on 9 of its 10 cells, gives specificity $0.78$
+(Appendices~\ref{app:prospective2},~\ref{app:prospective3}).  What the gate does
+is decide where the harm question can be asked at all: a cell that fails it has
+no demonstrated advantage to lose, and 24 of our 31 fail it.

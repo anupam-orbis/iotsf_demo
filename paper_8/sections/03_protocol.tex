@@ -3,196 +3,85 @@
 \label{sec:method}
 % ============================================================
 
-\textbf{Moirai for forecasting.}
-Moirai~\cite{woo2024moirai} predicts a probabilistic distribution
-over a target horizon given context.  For ETT forecasting we report
-MSE on the median of 20 forecast samples at $h{=}96$ and $h{=}192$
-(Appendix~\ref{app:moirai_median}); the IoT anomaly score of the
-negative control is defined in Appendix~\ref{app:cnn_detail}.
+\textbf{Models and training.}
+Moirai~\citep{woo2024moirai} predicts a probabilistic distribution over the
+horizon; we report MSE on the median of 20 forecast samples at $h{=}96$ and
+$h{=}192$ (Appendix~\ref{app:moirai_median}).  Moirai is trained with AdamW
+($\eta{=}10^{-4}$, weight decay $10^{-4}$), batch size 16 and gradient clipping
+at 1.0, for 20 epochs with no early stopping: the 21 Moirai cells on ETT, Weather and
+Electricity are read at their final epoch.  The other trainers select an epoch on
+the selection windows (never the held-out ones): Moirai/ILI and TimesFM restore
+their best epoch under patience 3 and 7, and Chronos keeps its best of 30 epochs
+under full fine-tuning and trains its frozen-feature head to convergence
+(Table~\ref{tab:trainers}).  \textbf{22 of the 31} cells train on $1{\text{k}}$
+windows, and every table prints each cell's own $n$.  Reproducing a Moirai
+fine-tune requires the \texttt{uni2ts} scaler patch of
+Appendix~\ref{app:scaler_patch}.
 
-\textbf{Training details.}
-AdamW ($\eta{=}10^{-4}$, weight decay $10^{-4}$), batch size 16, gradient clipping
-at 1.0, \textbf{20 epochs with no early stopping}: every Moirai cell is read at its
-final epoch.  \textbf{22 of the 31} cells train on $1{\text{k}}$ windows, every row
-prints its own $n$, and the sweep covers
-$n{\in}\{500,1{\text{k}},2{\text{k}},5{\text{k}},10{\text{k}}\}$.
-% 2026-09-26. "without which training can appear to run while silently not propagating gradients" cut
-% for page room. It is the reason the patch matters, and app:scaler_patch opens on exactly that failure
-% mode with the diagnostic for it; the Reproducibility Statement points there too. The requirement --
-% which is the actionable half -- stays in the body, in bold, with its pointer.
-\textbf{Reproducing any Moirai fine-tune requires the \texttt{uni2ts}
-\texttt{PackedStdScaler} patch of Appendix~\ref{app:scaler_patch}}.
+\textbf{Three splits.}  The \emph{training} split fits the fine-tuning updates
+and every baseline; the \emph{selection} split is where any checkpoint is chosen
+and where the capability screen is scored; the \emph{held-out} split is disjoint
+from both and is where every outcome is scored.  A cell's admission therefore
+never uses the windows that later judge it.
 
-% Review M8: the appendix reports mean-pooled against token-flattened CKA, per-layer profiles and a
-% random-init floor, but the body never said which of them its CKA column IS. Named here once, and with
-% no new numerals beyond the window count: the flattened and per-layer values stay in the appendices
-% this points at, because restating them here costs printed lines and a second set of chk() sites for
-% numbers already covered there. The window count is deliberately NOT given: it is 300 on the Moirai
-% arms and 200 on the non-Moirai ones, so a single number here would be wrong for a third of the matrix,
-% and the per-arm counts are in the appendices with the protocols they belong to.
-\textbf{Representation diagnostics, and which representation is primary.}  Two
-metrics: linear CKA~\cite{kornblith2019cka} between pre-trained and fine-tuned
-encoder representations, and weight drift ($\ell_2$ distance from pre-trained
-parameters).  \textbf{Every CKA in the body is of the final encoder output,
-mean-pooled over tokens}, on a fixed prefix of the selection split: the
-comparison a practitioner holding two checkpoints can actually make, and the one
-variant that needs no choice of layer or token position.  The choice is not free:
-computed token-flattened instead, the same encoders read uniformly high and the
-per-layer profile compresses too far to order.  That variant, the per-layer
-profiles and a random-initialisation floor are all reported
-(Appendices~\ref{app:layerunfreeze},~\ref{app:randominit}).
+\textbf{Capability screen.}  A checkpoint can only have a capability worth
+preserving relative to something a practitioner could deploy instead, so the
+baseline is part of the quantity: for a baseline $b$,
+$\Vb{b} = 1-\text{MSE}_\text{ZS}/\text{MSE}_b$, positive when the zero-shot (ZS)
+model beats $b$.  We threshold it at $0.20$, a prespecified operating point and
+not an established boundary, and call the result the \emph{gate}.  Our primary
+$b$ is one ridge map $\R^{96 \times F} \to \R^{h \times F}$ ($\lambda{=}10^{-4}$)
+fit by least squares on the training windows and applied unchanged to the
+selection windows.  It sees $96$ steps of context against the pre-trained
+model's $96{+}h$, which if anything favours the pre-trained model;
+\S\ref{sec:forecasting} also scores a ladder of eight baselines.
 
-% Review S13/S19: name the screen precisely once, here, and document "gate" as its short form rather
-% than renaming 276 sites. "Capability worth preserving" is defined in this paragraph's first sentence
-% and used as the shorthand from here on, which is what S19 asked for.
-\textbf{Baseline-relative pre-trained advantage.}  Nothing can be said about a
-checkpoint having a \emph{capability worth preserving} except relative to a
-baseline, so the baseline belongs in the quantity.  For a baseline
-$b$, $\Vb{b} = 1-\text{MSE}_\text{ZS}/\text{MSE}_b$ is positive when the
-pre-trained model beats $b$, and thresholding it at $0.20$ (a prespecified
-operating point, not an established boundary) is the \emph{baseline-relative
-capability screen}, for which we write \emph{gate} in tables, figures and code.
-\textbf{$\Vb{b}$ is a property of the pair, not of the checkpoint}: every
-count we report is a count against a named $b$, and
-\S\ref{sec:forecasting:gate} reports a ladder of eight.
-% Review M3 asked for the consequence of baseline-relativity to be said out loud rather than left to be
-% inferred from the property-of-the-pair sentence above it. Two lines, and they are what make the
-% eight-rung ladder a necessary part of the design rather than a robustness check.
-\emph{Capability worth preserving} is therefore not a property a checkpoint
-\emph{has}: a claim of that form would be a claim against every baseline a
-practitioner might deploy instead, and the ladder is the closest this design comes
-to making one.  Our primary $b$ is one
-ridge map $\R^{96 \times F} \to \R^{h \times F}$ ($\lambda{=}10^{-4}$) fit by
-least squares on the \emph{training} windows and applied unchanged to the
-evaluation windows, on the train-normalised scale the runs report (up to 300
-windows).  Both terms see the same targets, and the pre-trained model sees
-$96{+}h$ steps of context against the baseline's $96$, which if anything makes
-$\Vb{b}$ generous to the pre-trained model.
+\textbf{Conditions.}  Full fine-tuning (B) updates every parameter.  The frozen
+encoder (D) freezes the encoder stack but leaves the input projection and mask
+encoding trainable, so its CKA is near but not exactly $1$ on Moirai
+($0.889$--$0.9999$).  The strict freeze (H) also freezes those two modules,
+so only the output head trains and the encoder's output is fixed by construction
+(CKA exactly $1.000$).  LoRA ($r{=}8$), L2-SP and EWC are reported as a
+mitigation spectrum in Appendix~\ref{app:full_tables}.
+Figure~\ref{fig:freezeboundary} shows which modules move under each.
 
-\textbf{Three splits, and which quantity each one scores.} The \emph{training}
-split fits both the fine-tuning updates and every baseline; the \emph{selection}
-split is where any checkpoint is chosen \textbf{and where we score
-$\Vb{b}$}; the \emph{held-out} split is disjoint from both and is where every
-outcome is scored.  So a cell's admission cannot borrow the windows that later
-judge it.
-% 2026-09-26. Cut for the lines this round's decision-pricing sentence in \S6 needs: "We also report
-% the retrospective variant ($\Vb{b}$ on the held-out windows themselves), which admits two fewer
-% cells and changes no conclusion (Appendices app:gatecorrection, app:corrections)." A pointer, not a
-% record -- app:gatecorrection reports the variant cell by cell with its own table, app:corrections
-% lists it among the withdrawn and revised readings, and the checker's three "gate rho, retrospective
-% variant" claims all have their sites in those two appendices, not here. No registered claim had a
-% site in this sentence ("two fewer" matches nothing in check_paper_numbers.py), which is the test
-% this project uses for whether a restatement is a restatement. The variant is still reported; the
-% body no longer says twice that it is.
-
-\textbf{The estimand, named once.} For a cell with $S$ paired seeds,
+\textbf{The estimand.}  For a cell with $S$ paired seeds and a frozen arm F,
 \begin{equation}
 \label{eq:denc}
 \denc \;=\; \frac{1}{S}\sum_{s=1}^{S} 100 \cdot
-\frac{\mathcal{L}_\text{test}(\text{B}_s) - \mathcal{L}_\text{test}(\text{D}_s)}
+\frac{\mathcal{L}_\text{test}(\text{B}_s) - \mathcal{L}_\text{test}(\text{F}_s)}
      {\mathcal{L}_\text{test}(\text{ZS})},
 \end{equation}
-the difference in forgetting between full fine-tuning~(B) and the frozen
-encoder~(D), positive when freezing does better.  Both arms share the zero-shot
-denominator, so $\denc$ is the raw contrast
-$\mathcal{L}_\text{test}(\text{B})-\mathcal{L}_\text{test}(\text{D})$ rescaled per
-cell to make different loss scales comparable, with no sign or ordering changed.
-It is the estimand because it is the contrast this design \emph{manipulates}: B
-and D differ in exactly one thing, whether the encoder's weights may move.
-\textbf{Representation drift is not manipulated.}  CKA is an observational
-\emph{post-treatment} measurement (taken after the intervention, on the object
-the intervention changed), so it enters only as a candidate \emph{predictor} of
-$\denc$.  That asymmetry is why a CKA-to-outcome association would not license a
-CKA-based decision rule even had we found one.
+positive when freezing does better.  The shared zero-shot denominator only
+rescales each cell so that different loss scales are comparable.  On Moirai, where
+every cell has both controls, we lead with F${=}$H, the cleaner contrast, and
+report F${=}$D beside it; across backbones we use F${=}$D, the one control all
+three share.  The two disagree in sign on \pending{N of 22} Moirai cells
+(\S\ref{sec:exp2}).  $\denc$ is the contrast the design \emph{manipulates}.
+CKA is a \emph{post-treatment} measurement, taken on the object the treatment
+changed, so it can only be a candidate predictor of $\denc$, and that is the
+role we test.
 
-% Round 7: the registered clauses are UNCHANGED -- moving a pre-registered definition after seeing
-% outcomes is the thing the registration exists to prevent -- but a unanimity conjunction is a count
-% of agreeing seeds, not an effect with an uncertainty, and the reviewer is right that a headline
-% cannot rest on it. So the interval form is stated beside it and made primary, and both are reported.
-% The "unanimity because an exact test cannot reach p<0.05 on 28 of 31 cells" justification is deleted
-% from here rather than reworded: app:pairedinference argues it at length under its own heading, and
-% those lines are what pays for the sentences added here.
-\textbf{Definition (degradation of a demonstrated capability), and its interval
-form.} A cell counts as degradation when all three clauses hold: (i)~$\Vb{b} \ge
-0.20$ on selection windows, so there is a measured pre-trained advantage over
-$b$; (ii)~full fine-tuning ends worse than not fine-tuning at all,
-forg.$_\text{B} > 0$; and (iii)~the frozen encoder ends better,
-forg.$_\text{D} < 0$, localising the loss to encoder weight updates rather than
-to the data or the epoch budget. \textbf{Clauses (ii) and (iii) are reported two
-ways}: as pre-registered, each holds in \emph{every} seed; and (primary from
-this revision) as a paired interval, the $95\%$ CI on
-$\text{B}{-}\text{ZS}$ lying entirely above zero and the CI on
-$\text{D}{-}\text{ZS}$ entirely below, propagating the zero-shot reference's own
-error and adjusted for multiplicity (Appendix~\ref{app:pairedinference}).
-Intervals are primary because unanimity measures agreement among seeds rather
-than the size of an effect or our confidence in it; the registered form stays
-because retiring a criterion after seeing its outcome is not a choice we get to
-make. \textbf{Both return the same count}, so nothing in this paper turns on
-which is read.
-% 2026-09-26 (E5). Cut for this round's body additions -- not for \S6's MDE sentence, which the page
-% gate took as well (see 06_exp3_drift.tex). Cut: "The definition is fixed for the whole paper." No
-% registered site, and it asserts of a paragraph headed \textbf{Definition} the one property a
-% definition is already read as having. The thing it was guarding against -- a criterion retired after
-% its outcome was seen -- is stated two sentences above it in the form that actually argues the point
-% ("the registered form stays because retiring a criterion after seeing its outcome is not a choice we
-% get to make"), and app:corrections records every reading this paper did revise.
+\textbf{Representation diagnostics.}  Linear CKA~\citep{kornblith2019cka}
+between pre-trained and fine-tuned representations, and weight drift ($\ell_2$
+distance from the pre-trained parameters).  Every CKA in the body is of the final
+encoder output, mean-pooled over tokens, on a fixed prefix of the selection split:
+the comparison a practitioner holding two checkpoints can make without choosing a
+layer or token position.  Token-flattened and per-layer variants and a
+random-initialisation floor are in
+Appendices~\ref{app:layerunfreeze} and~\ref{app:randominit}.
 
-\textbf{Conditions.} \textbf{B}~NLL-only fine-tune (baseline: how much does
-unconstrained fine-tuning drift and forget?); \textbf{C}~NLL$+$SupCon
-(Appendix~\ref{app:full_tables});
-\textbf{D}~frozen encoder (control: separates encoder updates from head
-training and overfitting); \textbf{E}~LoRA ($r{=}8$); \textbf{F}~L2-SP and
-\textbf{G}~EWC. Conditions~D and~B are the comparison every claim in this
-paper turns on.  \textbf{These letters describe Moirai}; the other two backbones
-differ in objective and head, one non-natively, as the Ethics Statement's
-\emph{Scope of the claims} says.  \textbf{We name conditions rather than letter them from here on}:
-% 2026-09-26 (B2). THE ALIAS, AND THE RENAME STILL REFUSED. A reviewer asks for "frozen encoder" to
-% become "backbone-frozen intervention" throughout. The round-10 refusal below stands and its reason has
-% only got stronger since it was written: the inventory for this round counts ~36 body occurrences in 9
-% distinct phrasings, ~47 in the appendix, and 12 EMITTER-GENERATED TABLE HEADERS
-% (emit_crossbackbone.py:57, emit_dissociation.py:61, emit_positive_control.py:47 and nine others), so a
-% true rename is a scripts/ change that would rewrite a dozen tables to relabel a column. A rename that
-% moved the prose and not the tables is precisely the half-moved phrasing that has gone stale here before.
-% What was genuinely missing is smaller and is fixed here: the paper used a name it never defined. The
-% precise term now appears once, where the reader learns the vocabulary, and the paragraph immediately
-% below says why it is the right one. Guarded at min_sites=1 by "the backbone-frozen alias" so it cannot
-% half-move later -- which is the one thing the 23 unguarded glosses could always do.
-\emph{full fine-tuning} (B), \emph{frozen encoder} (D, more precisely
-\emph{backbone-frozen}), \emph{strict frozen
-encoder} (H), \emph{LoRA} (E).  We keep the letters for the tables, the clauses
-of the definition above and Equation~\ref{eq:denc}, so that no result in the body
-has to be read through a lookup.
+\textbf{Definition (degradation of a demonstrated capability).}  A cell is a
+degradation when (i)~$\Vb{b} \ge 0.20$ on selection windows, (ii)~full fine-tuning
+ends worse than zero-shot, and (iii)~the frozen arm ends better than zero-shot,
+which localises the loss to encoder updates rather than to the data or the epoch
+budget.  Clauses (ii) and (iii) are tested as paired 95\% intervals on
+$\text{B}{-}\text{ZS}$ and $\text{F}{-}\text{ZS}$, propagating the zero-shot
+reference's error and adjusted across cells by Benjamini--Hochberg
+(Appendix~\ref{app:pairedinference}), and also in the pre-registered form in
+which every seed must agree.  \textbf{Both return the same count}.  Every ${\pm}$
+in the body is a standard error over seeds.
 
-% Round 10 (D1). One clause added, in this paragraph's free characters, and it is a CONCESSION on fact:
-% a reviewer points out that because D leaves the input projection and mask encoding trainable, $\denc$
-% is not "the effect of adapting the encoder" but the effect of adapting one designated stack, and that
-% the paper's 23 body glosses read as the former. The fact was already stated here and in
-% \S\ref{sec:exp2}; what was missing was the NAME, so the estimand is named precisely once, at its
-% definition, and every later gloss is read through it. What is refused is renaming the 23 glosses: not
-% one of them carries a chk(), and a half-moved phrasing is how this paper's restatements have gone
-% stale before (main.tex:129-137). Instead "harmful encoder adaptation" is registered at min_sites=4
-% this round, so the gloss family is now guarded even though it is not reworded.
-\textbf{What condition~D does and does not hold fixed.} D freezes the encoder's
-own weights but leaves the input projection and mask encoding trainable, so it
-controls \emph{encoder weight updates} and not representations: $\denc$ is the
-effect of adapting one \emph{designated stack}, not of changing what the encoder
-represents.  Its measured CKA
-is near but never exactly $1$ on Moirai ($0.889$--$0.9999$) and falls as low as
-$0.38$ on TimesFM, where the encoder stack's weight drift is exactly zero.
-\textbf{H}~(strict freeze) also freezes those two modules, is the only Moirai
-condition at CKA exactly $1.000$, and reverses $\denc$'s sign on 4 of the 16 cells we ran
-it on: every Moirai/ETTm2 cell.  Figure~\ref{fig:freezeboundary} draws which
-modules move under each (Appendix~\ref{app:strictfreeze}).
-
-\textbf{Dispersion.} Every ${\pm}$ in the body and in every generated table is
-the standard error of the mean over seeds; where an appendix table or passage
-uses a standard deviation instead it says so, and says which, where it does.
-
-% The two lessons of this round, boxed because they are the parts of this paper most likely to be
-% useful to someone who disagrees with its conclusion: both are choices we got wrong first, and both
-% move results against us. The prose that used to state (1) in S7 and (2) in S4 is now a pointer, so
-% the box costs its frame and not its content. No package added -- fbox+minipage only; the preamble is
-% at its limit and a new float or tcolorbox risks a reflow the page budget cannot absorb.
 \begin{center}
 \fbox{\begin{minipage}{0.95\linewidth}
 \small
@@ -201,10 +90,9 @@ uses a standard deviation instead it says so, and says which, where it does.
 Scoring $\denc$ on the selection windows instead reverses its sign on 4 of our 31
 cells, and all four reverse toward flattering the frozen encoder
 (\S\ref{sec:analysis:heldout}).
-\emph{(2)~Fit the linear baseline.}  An earlier version of this work reached the
-opposite conclusion from a baseline that was an unfitted per-window trend
-extrapolation (a denominator a constant predictor beats), and correcting the
-estimator moves 17 of Moirai's 21 cells across the threshold, 16 of them to
-gate-fail (Appendix~\ref{app:gatecorrection}).
+\emph{(2)~Fit the linear baseline.}  An unfitted per-window trend extrapolation,
+a denominator a constant predictor beats, would move 17 of Moirai's 21 cells
+across the threshold, 16 of them to gate-pass, and so reverse the conclusion
+(Appendix~\ref{app:gatecorrection}).
 \end{minipage}}
 \end{center}

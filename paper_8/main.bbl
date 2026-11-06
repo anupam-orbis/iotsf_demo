@@ -1,4 +1,4 @@
-\begin{thebibliography}{20}
+\begin{thebibliography}{27}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -25,11 +25,30 @@ Abhimanyu Das et~al.
 \newblock In \emph{International Conference on Machine Learning (ICML)}, 2024.
 \newblock URL \url{https://arxiv.org/abs/2310.10688}.
 
+\bibitem[Davari et~al.(2022)Davari, Asadi, Mudur, Aljundi, and
+  Belilovsky]{davari2022probing}
+MohammadReza Davari, Nader Asadi, Sudhir Mudur, Rahaf Aljundi, and Eugene
+  Belilovsky.
+\newblock Probing representation forgetting in supervised and unsupervised
+  continual learning.
+\newblock In \emph{IEEE/CVF Conference on Computer Vision and Pattern
+  Recognition (CVPR)}, 2022.
+\newblock URL \url{https://arxiv.org/abs/2203.13381}.
+
 \bibitem[Goswami et~al.(2024)]{goswami2024moment}
 Mononito Goswami et~al.
 \newblock {MOMENT}: A family of open time-series foundation models.
 \newblock In \emph{International Conference on Machine Learning (ICML)}, 2024.
 \newblock URL \url{https://arxiv.org/abs/2402.03885}.
+
+\bibitem[Gupta et~al.(2024)Gupta, Bhatti, Parmar, Dan, Liu, Shen, and
+  Lee]{gupta2024lowrank}
+Divij Gupta, Anubhav Bhatti, Suraj Parmar, Chen Dan, Yuwei Liu, Bingjie Shen,
+  and San Lee.
+\newblock Low-rank adaptation of time series foundational models for
+  out-of-domain modality forecasting.
+\newblock \emph{arXiv preprint arXiv:2405.10216}, 2024.
+\newblock URL \url{https://arxiv.org/abs/2405.10216}.
 
 \bibitem[Hewitt \& Manning(2019)Hewitt and Manning]{hewitt2019structural}
 John Hewitt and Christopher~D. Manning.
@@ -48,6 +67,15 @@ Ming Jin, Shiyu Wang, Lintao Ma, Zhixuan Chu, James~Y. Zhang, Xiaoming Shi,
 \newblock In \emph{International Conference on Learning Representations
   (ICLR)}, 2024.
 \newblock URL \url{https://arxiv.org/abs/2310.01728}.
+
+\bibitem[Karaouli et~al.(2025)Karaouli, Coquenet, Fromont, Mermillod, and
+  Reyboz]{karaouli2025foundation}
+Nouha Karaouli, Denis Coquenet, Elisa Fromont, Martial Mermillod, and Marina
+  Reyboz.
+\newblock Foundation vs. specialized models: Evaluating catastrophic forgetting
+  in continual time series forecasting.
+\newblock \emph{arXiv preprint arXiv:2510.00809}, 2025.
+\newblock URL \url{https://arxiv.org/abs/2510.00809}.
 
 \bibitem[Khosla et~al.(2020)]{khosla2020supcon}
 Prannay Khosla et~al.
@@ -81,6 +109,20 @@ Ananya Kumar, Aditi Raghunathan, Robbie Jones, Tengyu Ma, and Percy Liang.
   (ICLR)}, 2022.
 \newblock URL \url{https://arxiv.org/abs/2202.10054}.
 
+\bibitem[Laglil et~al.(2026)Laglil, Pracca, Devijver, and
+  Gaussier]{laglil2026foundation}
+Morad Laglil, Bertrand Pracca, Emilie Devijver, and Eric Gaussier.
+\newblock Foundation models and fine-tuning: Toward a new generation of models
+  for time series forecasting.
+\newblock \emph{arXiv preprint arXiv:2607.23146}, 2026.
+\newblock URL \url{https://arxiv.org/abs/2607.23146}.
+
+\bibitem[Li et~al.(2018)Li, Grandvalet, and Davoine]{li2018l2sp}
+Xuhong Li, Yves Grandvalet, and Franck Davoine.
+\newblock Explicit inductive bias for transfer learning with convolutional
+  networks.
+\newblock In \emph{International Conference on Machine Learning (ICML)}, 2018.
+
 \bibitem[Li \& Hoiem(2018)Li and Hoiem]{li2017lwf}
 Zhizhong Li and Derek Hoiem.
 \newblock Learning without forgetting.
@@ -113,6 +155,14 @@ Yair Meidan, Michael Bohadana, Yael Mathov, Yisroel Mirsky, Asaf Shabtai,
   2018.
 \newblock \doi{10.1109/MPRV.2018.03367731}.
 
+\bibitem[Mian et~al.(2026)Mian, Cranmer, Favero, and
+  Mukhopadhyay]{mian2026frozen}
+Haaris Mian, Miles Cranmer, Alessandro Favero, and Payel Mukhopadhyay.
+\newblock Frozen in time: How a physics foundation model forgets under
+  sim-to-real adaptation.
+\newblock \emph{arXiv preprint arXiv:2610.40857}, 2026.
+\newblock URL \url{https://arxiv.org/abs/2610.40857}.
+
 \bibitem[Pimentel et~al.(2020)Pimentel, Valvoda, Hall~Maudslay, Zmigrod,
   Williams, and Cotterell]{pimentel2020information}
 Tiago Pimentel, Josef Valvoda, Rowan Hall~Maudslay, Ran Zmigrod, Adina
@@ -121,6 +171,14 @@ Tiago Pimentel, Josef Valvoda, Rowan Hall~Maudslay, Ran Zmigrod, Adina
 \newblock In \emph{Proceedings of the 58th Annual Meeting of the Association
   for Computational Linguistics (ACL)}, pp.\  4609--4622, 2020.
 \newblock \doi{10.18653/v1/2020.acl-main.420}.
+
+\bibitem[Ramasesh et~al.(2021)Ramasesh, Dyer, and Raghu]{ramasesh2021anatomy}
+Vinay~V. Ramasesh, Ethan Dyer, and Maithra Raghu.
+\newblock Anatomy of catastrophic forgetting: Hidden representations and task
+  semantics.
+\newblock In \emph{International Conference on Learning Representations
+  (ICLR)}, 2021.
+\newblock URL \url{https://arxiv.org/abs/2007.07400}.
 
 \bibitem[Rasul et~al.(2024)Rasul, Ashok, Williams, Ghonia, Bhagwatkar,
   Khorasani, Bayazi, Adamopoulos, Riachi, Hassen, Bilo{\v{s}}, Garg, Schneider,

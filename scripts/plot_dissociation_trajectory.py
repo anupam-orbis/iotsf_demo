@@ -1,138 +1,79 @@
-"""Four-panel trajectory figure for the drift-utility case study.
+"""Two-panel trajectory figure for the sample-size sweep on Moirai-Small/ETTh2 (h=96, condition B).
 
-Panel 1: CKA decay vs n (geometric drift)
-Panel 2: Trained-head Ridge ΔR² vs n (rising)
-Panel 3: Probe asymmetry at n=10k (trained head vs orthogonal probes)
-Panel 4: Forgetting % vs n (non-monotonic)
+Panel (a): CKA against the pre-trained encoder, by n.
+Panel (b): forgetting by n, held-out (the outcome) and selection-window (for contrast).
+
+Every point is read from the run records through emit_sample_sweep.sweep_data(), the same loader
+that writes tables/sample_sweep.tex. The previous version of this figure hard-coded its numbers and
+carried two panels of the retracted linear-probe statistic; both are gone.
 
 Output: paper_8/figures/dissociation_trajectory.pdf
 """
 from __future__ import annotations
 
+import statistics as st
+import sys
 from pathlib import Path
 
 import matplotlib.pyplot as plt
-import numpy as np
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(REPO_ROOT / "scripts"))
+from emit_sample_sweep import sweep_data  # noqa: E402
+
 OUT_PATH = REPO_ROOT / "paper_8" / "figures" / "dissociation_trajectory.pdf"
 
-# Headline numbers from tables/sample_sweep.tex + appendix per-seed breakdown.
-ROWS = [
-    (500,   0.949, 0.010, +14.0, 6.7,  +0.12, 0.02),
-    (1000,  0.936, 0.025, +13.4, 9.1,  +0.13, 0.00),
-    (2000,  0.814, 0.042, -2.9,  5.9,  +0.39, 0.35),
-    (5000,  0.546, 0.082, +6.6,  10.0, +0.50, 0.26),
-]
-V16_FE_N10K = dict(n=10000, cka=0.407, cka_sd=0.088, forg=+7.5,  forg_sd=8.2,
-                    dR2=+0.78, dR2_sd=0.14)
-V17_ES_N10K = dict(n=10000, cka=0.461, cka_sd=0.232, forg=-11.7, forg_sd=5.3,
-                    dR2=+0.56, dR2_sd=0.14)
+# Categorical slots 1 and 2 of the default palette, validated light-mode (CVD dE 24.7).
+SERIES_1, SERIES_2 = "#2a78d6", "#eb6834"
+INK, INK_MUTED, GRID = "#0b0b0b", "#52514e", "#e4e3df"
 
-# Orthogonal probe data (Appendix J.1)
-ORTH_ETTH2 = {"trained": (+0.67, 0.23), "lag1": (-0.052, 0.041),
-              "mean": (-0.033, 0.019), "var": (-0.048, 0.030)}
-ORTH_ETTM2 = {"trained": (+6.43, 3.08), "lag1": (-0.052, 0.038),
-              "mean": (-0.022, 0.014), "var": (-0.040, 0.029)}
+
+def mean_sem(rows, key):
+    v = [r[key] for r in rows]
+    return st.mean(v), (st.stdev(v) / len(v) ** 0.5 if len(v) > 1 else 0.0)
 
 
 def main():
-    ns = [r[0] for r in ROWS]
-    ckas = [r[1] for r in ROWS]
-    cka_sds = [r[2] for r in ROWS]
-    forgs = [r[3] for r in ROWS]
-    forg_sds = [r[4] for r in ROWS]
-    dR2s = [r[5] for r in ROWS]
-    dR2_sds = [r[6] for r in ROWS]
+    data = sweep_data()
+    ns = [n for n, _, _ in data]
+    cka = [mean_sem(rows, "final_cka") for _, rows, _ in data]
+    held = [mean_sem(rows, "heldout_forgetting_pct") for _, rows, _ in data]
+    sel = [mean_sem(rows, "forgetting_pct") for _, rows, _ in data]
+    es = [tag == "cuda" for _, _, tag in data]
 
-    fig, (ax_cka, ax_dR2, ax_asym, ax_forg) = plt.subplots(
-        1, 4, figsize=(14.0, 3.0), dpi=150)
-
-    for ax in [ax_cka, ax_dR2, ax_forg]:
+    plt.rcParams.update({"font.size": 8, "axes.edgecolor": INK_MUTED, "axes.labelcolor": INK,
+                         "xtick.color": INK_MUTED, "ytick.color": INK_MUTED})
+    fig, (ax_a, ax_b) = plt.subplots(1, 2, figsize=(6.8, 2.4), dpi=150)
+    for ax in (ax_a, ax_b):
         ax.set_xscale("log")
-        ax.set_xlabel("Fine-tuning samples $n$")
-        ax.set_xticks([500, 1000, 2000, 5000, 10000])
+        ax.set_xticks(ns)
         ax.set_xticklabels(["500", "1k", "2k", "5k", "10k"])
-        ax.grid(True, which="both", ls=":", alpha=0.3)
+        ax.minorticks_off()
+        ax.set_xlim(400, 12500)
+        ax.set_xlabel("fine-tuning samples $n$")
+        ax.grid(True, axis="y", color=GRID, lw=0.6)
+        ax.spines[["top", "right"]].set_visible(False)
 
-    # --- Panel 1: CKA ---
-    ax_cka.errorbar(ns, ckas, yerr=cka_sds, fmt="o-", color="#1f77b4",
-                    capsize=3, label="final-epoch")
-    ax_cka.errorbar([V16_FE_N10K["n"]], [V16_FE_N10K["cka"]],
-                    yerr=[V16_FE_N10K["cka_sd"]],
-                    fmt="o", color="#1f77b4", capsize=3)
-    ax_cka.errorbar([V17_ES_N10K["n"]], [V17_ES_N10K["cka"]],
-                    yerr=[V17_ES_N10K["cka_sd"]],
-                    fmt="s", color="#d62728", capsize=3,
-                    markersize=8, label="early-stopped")
-    ax_cka.axhline(1.0, color="grey", lw=0.5, ls="--")
-    ax_cka.set_ylabel("CKA (vs.\\ pre-trained)")
-    ax_cka.set_title("(a) Geometric drift")
-    ax_cka.set_ylim(0.0, 1.05)
-    ax_cka.legend(fontsize=7, loc="lower left")
+    def series(ax, pts, color, label):
+        m = [p[0] for p in pts]
+        e = [p[1] for p in pts]
+        ax.errorbar(ns, m, yerr=e, color=color, lw=2, capsize=0, elinewidth=1, label=label)
+        # The n=10k point is early-stopped (Table tab:trainers); drawn hollow so the protocol
+        # change is visible rather than averaged into the line.
+        for x, y, stop in zip(ns, m, es):
+            ax.plot([x], [y], "o", ms=5, color=color, mfc="white" if stop else color, mew=1.5)
 
-    # --- Panel 2: Trained-head ΔR² ---
-    ax_dR2.errorbar(ns, dR2s, yerr=dR2_sds, fmt="o-", color="#1f77b4",
-                    capsize=3, label="final-epoch")
-    ax_dR2.errorbar([V16_FE_N10K["n"]], [V16_FE_N10K["dR2"]],
-                    yerr=[V16_FE_N10K["dR2_sd"]],
-                    fmt="o", color="#1f77b4", capsize=3)
-    ax_dR2.errorbar([V17_ES_N10K["n"]], [V17_ES_N10K["dR2"]],
-                    yerr=[V17_ES_N10K["dR2_sd"]],
-                    fmt="s", color="#d62728", capsize=3,
-                    markersize=8, label="early-stopped")
-    ax_dR2.axhline(0.0, color="grey", lw=0.5, ls="--")
-    ax_dR2.set_ylabel("$\\Delta R^2$ (trained head)")
-    ax_dR2.set_title("(b) Trained-head $\\Delta R^2 \\uparrow$")
-    ax_dR2.legend(fontsize=7, loc="lower right")
+    series(ax_a, cka, SERIES_1, None)
+    ax_a.set_ylim(0, 1.05)
+    ax_a.set_ylabel("CKA vs. pre-trained")
+    ax_a.set_title("(a) drift grows with $n$", loc="left", color=INK)
 
-    # --- Panel 3: Probe asymmetry (dot plot) ---
-    ax_asym.grid(True, which="both", ls=":", alpha=0.3)
-    # ETTh2 probes
-    x_h2 = [0, 1, 2, 3]
-    vals_h2 = [ORTH_ETTH2["trained"][0], ORTH_ETTH2["lag1"][0],
-               ORTH_ETTH2["mean"][0], ORTH_ETTH2["var"][0]]
-    errs_h2 = [ORTH_ETTH2["trained"][1], ORTH_ETTH2["lag1"][1],
-               ORTH_ETTH2["mean"][1], ORTH_ETTH2["var"][1]]
-    colors_h2 = ["#1f77b4", "#2ca02c", "#2ca02c", "#2ca02c"]
-
-    # ETTm2 probes (normalised: divide trained head by 10 for visual scale)
-    vals_m2 = [ORTH_ETTM2["lag1"][0], ORTH_ETTM2["mean"][0], ORTH_ETTM2["var"][0]]
-    errs_m2 = [ORTH_ETTM2["lag1"][1], ORTH_ETTM2["mean"][1], ORTH_ETTM2["var"][1]]
-
-    for i, (v, e, c) in enumerate(zip(vals_h2, errs_h2, colors_h2)):
-        ax_asym.errorbar([i - 0.12], [v], yerr=[e], fmt="o", color=c,
-                         capsize=3, markersize=8,
-                         label="ETTh2" if i == 0 else None)
-    # ETTm2 orthogonal probes (offset slightly)
-    for i, (v, e) in enumerate(zip(vals_m2, errs_m2)):
-        ax_asym.errorbar([i + 1 + 0.12], [v], yerr=[e], fmt="^", color="#9467bd",
-                         capsize=3, markersize=7,
-                         label="ETTm2" if i == 0 else None)
-
-    ax_asym.axhline(0.0, color="grey", lw=0.5, ls="--")
-    ax_asym.set_xticks([0, 1, 2, 3])
-    ax_asym.set_xticklabels(["96-step\n(trained)", "lag-1", "mean", "var"],
-                            fontsize=7)
-    ax_asym.set_ylabel("$\\Delta R^2$")
-    ax_asym.set_title("(c) Probe asymmetry ($n{=}10$k)")
-    ax_asym.set_xlabel("Probe target")
-    ax_asym.legend(fontsize=7, loc="upper right")
-
-    # --- Panel 4: Forgetting ---
-    ax_forg.errorbar(ns, forgs, yerr=forg_sds, fmt="o-", color="#1f77b4",
-                     capsize=3, label="final-epoch")
-    ax_forg.errorbar([V16_FE_N10K["n"]], [V16_FE_N10K["forg"]],
-                     yerr=[V16_FE_N10K["forg_sd"]],
-                     fmt="o", color="#1f77b4", capsize=3)
-    ax_forg.errorbar([V17_ES_N10K["n"]], [V17_ES_N10K["forg"]],
-                     yerr=[V17_ES_N10K["forg_sd"]],
-                     fmt="s", color="#d62728", capsize=3,
-                     markersize=8, label="early-stopped")
-    ax_forg.axhline(0.0, color="grey", lw=0.5, ls="--")
-    ax_forg.set_ylabel("Forgetting \\%")
-    ax_forg.set_title("(d) Task forgetting")
-    ax_forg.legend(fontsize=7, loc="lower left")
+    ax_b.axhline(0, color=INK_MUTED, lw=0.8)
+    series(ax_b, held, SERIES_1, "held-out (outcome)")
+    series(ax_b, sel, SERIES_2, "selection windows")
+    ax_b.set_ylabel("forgetting (%), $<0$ is better")
+    ax_b.set_title("(b) held-out forgetting falls", loc="left", color=INK)
+    ax_b.legend(frameon=False, fontsize=7, loc="lower left", labelcolor=INK)
 
     fig.tight_layout()
     OUT_PATH.parent.mkdir(parents=True, exist_ok=True)

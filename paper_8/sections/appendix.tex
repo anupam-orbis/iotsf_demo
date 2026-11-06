@@ -210,7 +210,7 @@ For comparison, MPS early-stopped $k{=}10$ gave $-$5.7$\pm$10.4\% (8/10 neg,
 $-$11.7$\pm$5.3\% (all 5 negative, \texttt{v17\_etth2\_n10k\_es}); the
 final-epoch runs gave $+$10.6$\pm$9.8\% on $k{=}3$
 (\texttt{v16\_etth2\_n10k}), which is the sign fragility
-\S\ref{sec:forecasting:replication} reports.  \emph{That last record does not
+\S\ref{sec:exp3} reports.  \emph{That last record does not
 isolate early stopping as the cause, and we do not read it that way}: it differs
 from the reported reading in four respects at once: its three seeds
 (101, 456, 789) are a subset of the ten that happens to contain two of the three
@@ -271,6 +271,51 @@ on task~A's inputs falls to $0.063$ while task~A itself \emph{improves}.  Our
 negative claim is about \emph{identifying} damage from similarity alone
 (\S\ref{sec:limitations}, item~6), not about CKA's validity as a measure of
 similarity, which we do not dispute.
+
+% ============================================================
+\section{Training Protocol per Trainer}
+\label{app:trainers}
+The 31 intervention cells come from four trainers, and their stopping rules
+differ.  Every entry is read from the stored run records except where marked
+$^{d}$, which is the trainer's default, not overridden by its launcher.  Epoch
+selection, where it happens, uses the selection windows only; the held-out
+windows every outcome is scored on take no part in it.
+
+\begin{table}[ht]
+\centering
+\caption{\textbf{Training protocol per trainer.}  ``Final'' means the cell is read
+at its last epoch; ``best'' means the epoch with the lowest selection-window loss
+is restored before held-out scoring.}
+\label{tab:trainers}
+\small
+\begin{tabular}{@{}llllll@{}}
+\toprule
+cells & trainer & $n$ & lr & epochs & epoch read \\
+\midrule
+Moirai, 21 cells & \texttt{finetune\_forecasting.py} & 500--1k & $10^{-4}$ & 20 & final \\
+Moirai-Small/ILI & \texttt{finetune\_ili.py} & 452 & $10^{-4}$ & 20 & best, patience 3 \\
+TimesFM-2.5, 4 cells & \texttt{finetune\_timesfm.py} & 1k & $10^{-4}$ & 20 & best, patience $7^{d}$ \\
+Chronos-T5, 5 cells, B & \texttt{chronos\_mse\_finetune.py} & 8k & $10^{-4}$ & 30 & best, patience $7^{d}$ \\
+Chronos-T5, 5 cells, D & \texttt{chronos\_frozen\_converged.py} & 8k & $10^{-3}$ & ${\leq}3000$ & best, patience 200 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Under D, Chronos trains only a head on cached frozen-encoder features, so it is
+run to convergence rather than for a fixed budget.  The ILI cell also differs in
+checkpoint (Moirai 1.0-R-small) and lookback (104).  The sample-size sweep
+(Table~\ref{tab:sample_sweep}) is separate from these cells: its
+$n{\leq}5\text{k}$ points use the first row's protocol, and its $n{=}10\text{k}$
+point is early-stopped on a 10-epoch budget.
+
+% ============================================================
+\section{Out-of-Domain Retention Arm}
+\label{app:ood}
+The design, thresholds and outcomes of this arm are fixed in
+\texttt{results/v59\_ood\_retention/preregistration.json}, committed before its
+first run.  Checkpoints are scored with the positive control's evaluator
+(\texttt{scripts/eval\_retention.py}), unchanged.  \pending{per-cell table and
+retention-versus-CKA figure}
 
 % ============================================================
 \section{uni2ts PackedStdScaler Patch Details}
@@ -390,7 +435,7 @@ evaluation protocol.
 
 \textbf{Condition C's objective and its contrastive labels.}
 Condition~B fine-tunes on NLL only; condition~C adds a supervised contrastive
-term~\cite{khosla2020supcon},
+term~\citep{khosla2020supcon},
 $\mathcal{L}(\theta) = \mathcal{L}_{\text{NLL}}(\theta) +
 \lambda\,\mathcal{L}_{\text{SupCon}}(\mathbf{z}, \mathbf{y};\, \tau)$, with
 $\lambda = 0.5$ and $\tau = 0.07$.  Condition~C appears in this paper only as a
@@ -555,7 +600,7 @@ source (\texttt{results/gate\_val\_side.json}, via
 \paragraph{The mitigation spectrum, cell by cell.}
 Table~\ref{tab:mitigation_spectrum} reports five strategies spanning
 unconstrained fine-tuning to full freezing, all on Moirai/ETTh2. The body
-(\S\ref{sec:forecasting:replication}) states only the conclusion; the per-method
+(\S\ref{sec:exp3}) states only the conclusion; the per-method
 readings are here. \textbf{LoRA} ($r{=}8$, $\alpha{=}16$) improves over
 zero-shot at $h{=}96$ at CKA $0.979$, but is not uniformly safe: on
 Moirai-Large it fails at the default learning rate ($+25.7\%$) and only a
@@ -589,20 +634,14 @@ counts are printed in every table rather than summarised into one figure.
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{figures/dissociation_trajectory.pdf}
-\caption{Cost--benefit dynamics on Moirai-Small/ETTh2 (condition B, $h{=}96$).
-(a)~CKA decays monotonically with $n$ (final-epoch vs.\ early-stopped markers);
-(d)~forgetting is non-monotonic and protocol-dependent. Panels~(b) and~(c)
-plot the linear-probe $\Delta R^2$ statistic and its sign asymmetry, both
-\textbf{retracted} (\S\ref{sec:retraction}); they are reproduced unaltered as
-a record of the withdrawn analysis and support no claim here. The
-dissociation this figure is cited for is the contrast between (a) and (d):
-drift monotone in $n$, outcome not.}
+\caption{Sample-size sweep on Moirai-Small/ETTh2 (full fine-tuning, $h{=}96$),
+read from the same records as Table~\ref{tab:sample_sweep}; error bars are
+standard errors over seeds.  (a)~CKA against the pre-trained encoder falls as
+$n$ grows.  (b)~Held-out forgetting falls with it, so more drift goes with a
+better outcome; scored on the selection windows instead, forgetting is
+non-monotonic.  Hollow markers at $n{=}10$k are the early-stopped arm.}
 \label{fig:dissociation}
 \end{figure}
-
-The joint trajectory is plotted in Fig.~\ref{fig:dissociation}; panels~(a)
-and~(d) carry the claim: a monotone drift curve beside a non-monotone
-outcome curve.
 
 % ============================================================
 \section{The Pre-Registered Prospective Test, in Full}
@@ -1506,7 +1545,7 @@ Mean$\pm$std & .137$\pm$.012 & $+$6.6$\pm$10.0 & .546$\pm$.082 & $+$.50$\pm$.26 
 \subsection{$n{=}5{,}000$ per-epoch trajectory analysis}
 \label{app:n5k_trajectories}
 
-To support the mechanistic claim in \S\ref{sec:forecasting:replication}, we plot the
+To support the mechanistic claim in \S\ref{sec:exp3}, we plot the
 per-epoch training trajectories of all seven $n{=}5{,}000$ seeds,
 colour-coded by forgetting mode.  Figure~\ref{fig:n5k_trajectories}
 shows val MSE and weight drift across training.  High-forgetting seeds
@@ -1550,7 +1589,7 @@ Code and frozen analysis plan are in supplementary material.
 \label{app:cnn_detail}
 % ============================================================
 
-The IoT negative-control evaluation uses N-BaIoT~\cite{meidan2018n}
+The IoT negative-control evaluation uses N-BaIoT~\citep{meidan2018n}
 with 12 network-flow features and 128-timestep windows
 (\texttt{data/nbaiot\_benign\_windows.npy}, shape $1096{\times}128{\times}12$);
 the anomaly
@@ -3853,7 +3892,7 @@ premise the degradation reading rests on. The defined estimator is stronger by
 a factor of about three on ETTh1 and $9.4$ on Weather. Two independent checks
 say the correction runs in the right direction: the fitted ETTh1 $h{=}96$ MSE
 of $0.4145$ is in line with published multivariate Linear/DLinear results
-\cite{zeng2023transformers}, and Moirai zero-shot losing to a supervised
+\citep{zeng2023transformers}, and Moirai zero-shot losing to a supervised
 linear model on ETTh1 is a known result, whereas $1.2207$ is not a physically
 plausible score for any linear baseline on this cell. Note also an asymmetry
 the definition imposes and which we retain: Moirai sees $\text{lookback}+h$

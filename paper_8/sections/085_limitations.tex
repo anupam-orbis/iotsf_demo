@@ -1,78 +1,24 @@
 % ============================================================
-% Broader impact used to close this section. It now lives in the Ethics Statement, which is where
-% ICLR puts it and which is excluded from the page limit; it also duplicated the "read too broadly"
-% paragraph there almost sentence for sentence.
 \section{Limitations}
 \label{sec:limitations}
 % ============================================================
 
-Full detail is in Appendix~\ref{app:limitations}; broader impact is in the Ethics Statement.
-(1)~\emph{A null result is not a proof of absence, and the screen is a low bar.}
-% The sentence cut here -- "we report that no cell in our matrix meets the degradation definition, not
-% that degradation does not occur" -- paraphrased the italic concession immediately above it rather than
-% adding to it, and this is page 9, where the body spills. The concession itself stays, and so does the
-% sentence below that says what WOULD settle the question.
-What would settle it is a cell with a \emph{large}
-pre-trained margin over a \emph{strong} baseline, and that is the combination these
-benchmarks do not supply (\S\ref{sec:forecasting:gate},
-Appendix~\ref{app:baselines}).
-% Considered and REJECTED as page funding this round: the coverage sentence below is a concession about
-% generalization, which is one of the two scores review 7 is holding down, and cutting a concession to
-% buy lines for the sentences that answer the same reviewer is a bad trade even though app:limitations
-% item (3) would keep the record. The lines came from S7.3's protocol detail instead.
-The drift analyses run on the 20-cell union
-spanning all three backbones, but the seven-survivor agreement in
-\S\ref{sec:analysis:degradation} rests on one backbone and two series
-(Appendix~\ref{app:limitations}).
-% The relaxed-definition ladder was spelled out here as well as in S5.3. S5.3 now leads with it, so
-% this is a pointer: the counts, the two rungs and the coin-flip cell are all still in the body.
-% Trimmed 21 Sep 2026 to fund \S\ref{sec:exp4:poscontrol}: the concession stays, the clause explaining
-% what S5.3 does with it goes, because S5.3 now leads with exactly that and this item points at it.
-% Item (2) used to state the strict-freeze coverage and reversal counts here. They are now stated in
-% S5's opening paragraph, where the estimate they qualify is made, so this is a pointer and not a cut:
-% the counts, the two affected survivors and the 15-cell remainder are all still in the body.
-(2)~\emph{The frozen encoder controls encoder weight updates, not
-representations} (\S\ref{sec:method}); how much of $\denc$ rests on where that
-boundary is drawn is quantified in \S\ref{sec:exp2} and
-Appendix~\ref{app:strictfreeze}.
-% The second half of this item -- that the closest candidate is the 5/10 split -- is now the closing
-% clause of S5.3's opening, so it is a pointer here rather than a second statement of the same cell.
-% Round 7: this item used to justify the unanimity requirement, which is no longer the primary rule, so
-% the concession is restated as what the seed counts actually cost -- the power bound. Naming the two
-% unresolvable cells with their required n is a stronger concession than "seed counts are small".
-(3)~\emph{Seed counts are small:} 3 to 10 per cell, so most per-cell calls are
-inconclusive by construction, and two of the seven survivors would need 182 and
-212 paired seeds to resolve their observed effect
-(\S\ref{sec:analysis:degradation}).
-(4)~\emph{Horizon confounds the cross-backbone comparison.} The non-Moirai arm
-runs at $h{=}24$ and the Moirai arm at $h{\in}\{96,192\}$, on different
-normalisations; we report them separately and never pool them.
-(5)~\emph{A retracted axis.} With the probe diagnostic withdrawn
-(Appendix~\ref{sec:retraction}) we say whether restructuring was necessary, not what it changed.
-% The two illustrations cut from item (6) on 21 Sep 2026 -- a representation drifting far while carrying
-% the task information in a transformed basis, and a small drift destroying one critical direction --
-% are in app:limitations, which is what "full detail is in" at the head of this section points at. They
-% illustrated the claim rather than adding one, and \S\ref{sec:exp4:poscontrol} needed the two lines.
-% Item (6) -- "Similarity is not mechanism: our negative claim is about IDENTIFYING damage from
-% similarity alone, not about CKA's validity as a measure of similarity" -- is cut on 2026-09-25 for
-% page 10's last two lines. WHY THIS TOOK THREE BUILDS, because it will come up again: page 9 carries
-% no float but TWO section headings (8 and 9), and on a \flushbottom body the stretchable glue around
-% them absorbs roughly two lines of change in EITHER direction -- cutting this item alone moved the
-% page-9/10 boundary by zero lines, and restoring it moved it by zero lines too. On top of that,
-% \widowpenalty forbids leaving exactly one line of the closing paragraph on page 10, so a cut that
-% frees one effective line gets pushed straight back to a two-line spill. The consequence for anyone
-% trimming this page later: cuts here are CUMULATIVE and buy nothing until they exceed the glue's range
-% and clear the full two lines at once, so measure the boundary only after the whole batch, never after
-% one edit. Provenance for this item's content: app:limitations item (7) gives BOTH directions (low CKA
-% need not mean loss; high CKA need not mean retention) and ties them to the positive control's CKA
-% 0.063 with task A improving, and S9's bold closing claim plus S3's post-treatment paragraph draw the
-% identify-versus-measure distinction in the body. No chk() matched this sentence, so no registered
-% claim loses a site. The other five items stay: (5) is the retraction, which has no body restatement
-% as a limitation, and the rest are concessions about generalisation and power -- the very things the
-% reviews scored down, so cutting one to fund the sentences answering the same reviewer is the bad
-% trade the comment at the top of item (1) already refused.
-% Item (7) was a three-item recap -- the n=10k sign being protocol-dependent, the ILI cell's ~450
-% windows, and the two falsified pre-registrations. Cut for page room, not because any of it is
-% withdrawn: each is stated where it arises (S5.2, S6.4 and the whole of S7, which reports its own
-% pre-registered predictor scoring precision 0.00), and it is restated as item (6) of
-% Appendix \ref{app:limitations}, which is page-exempt, so the list lost nothing but its recap.
+(1)~\emph{One backbone carries the within-backbone evidence.}  The seven
+gate-passing cells and the within-backbone association are Moirai on two
+series; Chronos and TimesFM gate-fail everywhere and use different trainers, so
+they show the dissociation but do not replicate the analysis
+(\S\ref{sec:exp3}).  \pending{second-family runs on gate-passing datasets, if
+completed}.
+(2)~\emph{A null is not a proof of absence.}  What would settle the harm question
+is a cell with a large pre-trained margin over a strong baseline, which these
+benchmarks do not supply (\S\ref{sec:forecasting}).
+(3)~\emph{Seed counts are small}, 3 to 10 per cell, so most per-cell calls are
+inconclusive by construction (\S\ref{sec:analysis:degradation}).
+(4)~\emph{Horizon differs by backbone}: $h{=}24$ for Chronos and TimesFM,
+$h{\in}\{96,192\}$ for Moirai, so the two are never pooled.
+(5)~\emph{Out-of-domain retention is measured on the paper's own benchmarks}, not
+on Moirai's pre-training corpus (\S\ref{sec:exp4:ood}).
+(6)~\emph{We measure whether restructuring was necessary, not what it changed}:
+linear probes on these encoders do not generalise under a temporal split
+(Appendix~\ref{sec:retraction}).  Further detail is in
+Appendix~\ref{app:limitations}.

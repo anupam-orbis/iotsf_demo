@@ -2,29 +2,27 @@
 \begin{table}[t]
 \centering
 \caption{\textbf{Sample-size sweep on Moirai-Small/ETTh2} ($h{=}96$, condition~B).
-Drift grows monotonically (CKA$\downarrow$ as $n\uparrow$) while forgetting is
-\emph{non-monotonic} and reverses sign: positive at $n{\leq}1{,}000$, negative at
-$n{=}2{,}000$, positive again at $n{=}5{,}000$ and negative at $n{=}10{,}000$
-($7/10$ seeds negative, Wilson CI $[0.40, 0.89]$).
-\textbf{If drift magnitude predicted harm the CKA and Forg.\ columns would
-track; they do not}: the dissociation of
-\S\ref{sec:forecasting:replication} measured inside a single cell.
-\textbf{Dispersion here is the sample standard deviation over seeds}
-($\text{ddof}{=}1$), not the standard error the rest of the paper reports
-(\S\ref{sec:method}): what this table is about is how the spread across seeds
-moves with $n$ (the $n{=}5{,}000$ crossover \emph{is} a rise in seed
-variance), and SEM would hide that behind $k$, which rises at the same place.}
+On held-out windows drift grows (CKA$\downarrow$ as $n\uparrow$) while forgetting
+\emph{falls}: more data moves the encoder further and leaves the model further ahead
+of zero-shot ($10/10$ seeds negative at $n{=}10{,}000$, Wilson CI
+$[0.72, 1.00]$).  \textbf{If drift magnitude predicted harm the two columns
+would rise together; they move in opposite directions.}  Scored on the selection
+windows instead (\emph{sel.}), forgetting is non-monotonic in $n$, the
+selection-split effect of \S\ref{sec:analysis:heldout}.
+Dispersion here is the sample standard deviation over seeds
+($\text{ddof}{=}1$), not the standard error the rest of the paper reports,
+because the table is about how the spread across seeds moves with $n$.}
 \label{tab:sample_sweep}
 \small
-\begin{tabular}{@{}rrccc@{}}
+\begin{tabular}{@{}rrcccc@{}}
 \toprule
-Samples & $k$ & MSE & Forg.\% & CKA \\
+Samples & $k$ & held-out MSE & Forg.\% & Forg.\% (sel.) & CKA \\
 \midrule
-500 & 3 & .148{\tiny$\pm$.008} & +14.0{\tiny$\pm$6.7} & .949{\tiny$\pm$.010} \\
-1{,}000 & 3 & .147{\tiny$\pm$.010} & +13.4{\tiny$\pm$9.1} & .936{\tiny$\pm$.025} \\
-2{,}000 & 3 & .126{\tiny$\pm$.008} & $-$2.9{\tiny$\pm$5.9} & .814{\tiny$\pm$.042} \\
-5{,}000 & 7 & .137{\tiny$\pm$.012} & +6.6{\tiny$\pm$10.0} & .546{\tiny$\pm$.082} \\
-10{,}000$^{\mathrm{cuda}}$ & 10 & .120{\tiny$\pm$.007} & $-$5.3{\tiny$\pm$6.6} & .518{\tiny$\pm$.199} \\
+500 & 3 & .518{\tiny$\pm$.096} & +5.2{\tiny$\pm$19.5} & +14.0{\tiny$\pm$6.7} & .949{\tiny$\pm$.010} \\
+1{,}000 & 3 & .461{\tiny$\pm$.019} & $-$6.4{\tiny$\pm$3.8} & +13.4{\tiny$\pm$9.1} & .936{\tiny$\pm$.025} \\
+2{,}000 & 3 & .429{\tiny$\pm$.019} & $-$12.8{\tiny$\pm$3.8} & $-$2.9{\tiny$\pm$5.9} & .814{\tiny$\pm$.042} \\
+5{,}000 & 7 & .401{\tiny$\pm$.015} & $-$18.5{\tiny$\pm$3.0} & +6.6{\tiny$\pm$10.0} & .546{\tiny$\pm$.082} \\
+10{,}000$^{\mathrm{cuda}}$ & 10 & .401{\tiny$\pm$.044} & $-$18.5{\tiny$\pm$8.8} & $-$5.3{\tiny$\pm$6.6} & .518{\tiny$\pm$.199} \\
 \bottomrule
 \end{tabular}
 
@@ -33,11 +31,11 @@ Samples & $k$ & MSE & Forg.\% & CKA \\
 $^{\mathrm{cuda}}$The $n{=}10{,}000$ row is the CUDA arm (A10G): 10 deterministic seeds, 10 epochs \emph{with} early
 stopping (mean best epoch $4.2{\pm}1.3$).  Every
 smaller $n$ is MPS, 20 epochs \emph{without} early stopping.  That is the
-protocol dependence \S\ref{sec:forecasting:replication} discusses;
+protocol difference Table~\ref{tab:trainers} lists;
 Appendix~\ref{app:limitations}~(2) gives the $n{=}10{,}000$ seeds and the
 matched MPS comparisons, and Appendix~\ref{app:n5k_trajectories} the
 trajectories of the 7 $n{=}5{,}000$ seeds.
-Rows read \texttt{final\_val\_mse}, \texttt{forgetting\_pct} and
+Rows read \texttt{test\_mse}, \texttt{forgetting\_pct} and
 \texttt{final\_cka} from the per-run records in
 \texttt{results/v8\_final/n\{500,1000,2000,5000\}},
 \texttt{results/v9\_n5k\_seeds} and
