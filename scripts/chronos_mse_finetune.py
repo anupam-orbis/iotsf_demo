@@ -78,6 +78,34 @@ DATASETS = {
         "lookback": 96,
         "horizon": 24,
     },
+    # Second-family candidates (rebuttal, Nov 2026). Traffic and Exchange are built from
+    # laiguokun/multivariate-time-series-data with the last series as OT, the long-horizon benchmark
+    # convention; splits are its 70/10/20 (train = int(0.7 T), test = int(0.2 T), val = remainder).
+    # ILI keeps the 579/193/194 chronological split the paper's Moirai ILI cell uses.
+    "Traffic": {
+        "local": "data/forecasting/Traffic.csv",
+        "target_col": "OT",
+        "n_train": 12280,   # int(0.7 * 17,544)
+        "n_val": 1756,      # 17,544 - 12,280 - 3,508
+        "lookback": 96,
+        "horizon": 24,
+    },
+    "Exchange": {
+        "local": "data/forecasting/Exchange.csv",
+        "target_col": "OT",
+        "n_train": 5311,    # int(0.7 * 7,588)
+        "n_val": 760,       # 7,588 - 5,311 - 1,517
+        "lookback": 96,
+        "horizon": 24,
+    },
+    "ILI": {
+        "local": "data/national_illness.csv",
+        "target_col": "OT",
+        "n_train": 579,
+        "n_val": 193,
+        "lookback": 96,
+        "horizon": 24,
+    },
     "ETTm1": {
         "url": "https://raw.githubusercontent.com/zhouhaoyi/ETDataset/main/ETT-small/ETTm1.csv",
         "target_col": "OT",
