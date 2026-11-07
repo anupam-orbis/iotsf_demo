@@ -16,7 +16,11 @@
 # Resumes by output-file existence.
 set -uo pipefail
 cd "$(dirname "$0")/.." || exit 1
-PY=.venv-probe/bin/python
+# Device and interpreter default to the Mac setup this arm was registered on; the GPU instance sets
+# DEVICE=cuda PY=.venv/bin/python. The registration fixes the protocol, not the device, and the
+# device each run used is recorded in its training log.
+PY=${PY:-.venv-probe/bin/python}
+DEVICE=${DEVICE:-mps}
 export PYTORCH_ENABLE_MPS_FALLBACK=1
 export HF_HUB_OFFLINE=1
 OUT=results/v59_ood_retention
@@ -24,7 +28,16 @@ REG=$OUT/preregistration.json
 LOGS=logs/v59_ood_retention
 mkdir -p "$LOGS"
 [ -f "$REG" ] || { echo "no registration at $REG"; exit 1; }
-git log --format=%h -1 -- "$REG" | grep -q . || { echo "$REG is not committed"; exit 1; }
+# This arm runs on the GPU instance. A RUN_ELSEWHERE marker stops the Mac's queued copy from
+# duplicating it, unless a device was chosen explicitly.
+if [ -f "$OUT/RUN_ELSEWHERE" ] && [ -z "${DEVICE_SET:-}" ]; then
+  echo "skipping: $OUT/RUN_ELSEWHERE says this arm runs elsewhere ($(cat "$OUT/RUN_ELSEWHERE"))"; exit 0
+fi
+if [ -d .git ]; then
+  git log --format=%h -1 -- "$REG" | grep -q . || { echo "$REG is not committed"; exit 1; }
+else  # a copy without history (the GPU instance) must carry the commit the registration landed in
+  [ -s "$OUT/REGISTRATION_COMMIT" ] || { echo "no .git and no $OUT/REGISTRATION_COMMIT"; exit 1; }
+fi
 
 while pgrep -f run_strict_freeze_rest.sh > /dev/null; do sleep 300; done
 echo "start $(date '+%F %T')"
@@ -47,7 +60,7 @@ while read -r SIZE DS H N OODS; do
         echo "=== train $TAG  $(date '+%F %T')"
         $PY -u scripts/finetune_forecasting.py --data-path "data/forecasting/$DS.csv" \
           --condition "$ARM" --model-size "$SIZE" --horizon "$H" --epochs 20 --seed "$S" \
-          --max-train-samples "$N" --device mps --results-dir "$RD" --save-final-state \
+          --max-train-samples "$N" --device "$DEVICE" --results-dir "$RD" --save-final-state \
           > "$LOGS/train_$TAG.log" 2>&1
         if [ ! -f "$J" ] || [ ! -f "$ST" ]; then
           echo "    TRAIN FAILED; see $LOGS/train_$TAG.log"; MISSING+=("train:$TAG"); continue
@@ -61,7 +74,7 @@ while read -r SIZE DS H N OODS; do
           echo "    checkpoint gone before eval on $O"; MISSING+=("eval:$TAG:$O"); ALL_EVAL=0; continue
         fi
         $PY -u scripts/eval_retention.py --state "$ST" --task-a-data "data/forecasting/$O.csv" \
-          --model-size "$SIZE" --horizon "$H" --device mps --out "$E" \
+          --model-size "$SIZE" --horizon "$H" --device "$DEVICE" --out "$E" \
           > "$LOGS/eval_${TAG}_$O.log" 2>&1
         if [ -f "$E" ]; then
           grep -aE '^retention_A' "$LOGS/eval_${TAG}_$O.log" | sed "s/^/    $O: /"
@@ -70,7 +83,7 @@ while read -r SIZE DS H N OODS; do
         fi
       done
       if [ "$SIZE" != small ] && [ $ALL_EVAL -eq 1 ] && [ -f "$ST" ]; then
-        printf '%s\t%s\t%s\n' "$ST" "$(shasum -a 256 "$ST" | cut -d' ' -f1)" "$(date '+%F %T')" \
+        printf '%s\t%s\t%s\n' "$ST" "$( (command -v sha256sum >/dev/null && sha256sum "$ST" || shasum -a 256 "$ST") | cut -d' ' -f1)" "$(date '+%F %T')" \
           >> "$OUT/deleted_checkpoints.tsv" && rm -f "$ST"
       fi
     done
