@@ -176,14 +176,12 @@ def main():
           f"smaller $n$ is MPS, {small[0][0]} epochs \\emph{{without}} early stopping.  That is the",
           "protocol difference Table~\\ref{tab:trainers} lists;",
           "Appendix~\\ref{app:limitations}~(2) gives the $n{=}10{,}000$ seeds and the",
-          "matched MPS comparisons, and Appendix~\\ref{app:n5k_trajectories} the",
-          f"trajectories of the {len(data[3][1])} $n{{=}}5{{,}}000$ seeds.",
+          "matched MPS comparisons.",
           "Rows read \\texttt{test\\_mse}, \\texttt{forgetting\\_pct} and",
           "\\texttt{final\\_cka} from the per-run records in",
           "\\texttt{results/v8\\_final/n\\{500,1000,2000,5000\\}},",
           "\\texttt{results/v9\\_n5k\\_seeds} and",
-          "\\texttt{results/v19\\_cuda\\_etth2\\_n10k}.  The three withdrawn linear-probe columns",
-          "this table used to carry are retained as a record in \\S\\ref{sec:retraction}.}",
+          "\\texttt{results/v19\\_cuda\\_etth2\\_n10k}.}",
           "\\end{table}"]
     OUT.write_text("\n".join(L) + "\n")
 

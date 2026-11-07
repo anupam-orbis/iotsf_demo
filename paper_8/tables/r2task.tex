@@ -13,7 +13,7 @@ judgement made after seeing the outcome. The \emph{held-out} columns are the ret
 variant, reported as a sensitivity analysis. Bold marks a pass on the \emph{primary} split
 in both columns of that row, so the bold set is the one the body's counts refer to.
 \textbf{Not a linear probe}: this is a ratio of forecast MSEs computed through
-Moirai's own forecasting head, and is unaffected by the retraction of the
+Moirai's own forecasting head, and shares no machinery with a
 linear-probe $\Delta R^2$ axis.
 \textbf{Estimator, exactly}: $\text{MSE}_{\text{ZS}}$ is the median of 20
 Moirai forecast samples at extended lookback (context $+$ horizon);
@@ -60,10 +60,8 @@ Backbone & Dataset & $h{=}96$ & $h{=}192$ & $h{=}96$ & $h{=}192$ \\
 The selection set contains the held-out set and adds two (ETTm2, ETTm2), so the retrospective variant is the stricter of the two here.
 The primary survivors span two datasets: ETTh2, ETTm2.
 $\Vb{\text{ridge}}{<}0$ means the linear baseline wins outright.
-These values supersede the ones printed in earlier versions of this table,
-which were computed against a per-window trend extrapolation rather than the
-fitted regression the gate is defined with; the substitution and its
-consequences are documented in Appendix~\ref{app:gatecorrection}.
+Appendix~\ref{app:gatecorrection} compares these against an unfitted
+per-window trend baseline.
 \texttt{Electricity7} is Electricity restricted to 7 of its 370 series (six
 \texttt{MT} series plus \texttt{OT}), a deliberate protocol deviation that
 keeps the cell dimensionality-matched to ETT/Weather.}

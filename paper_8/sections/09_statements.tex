@@ -135,10 +135,7 @@ others to avoid.
 JSON records (none is assembled by hand), and
 \texttt{scripts/rederive\_all.sh} runs all of them in one command and then reports
 which generated files changed.  A clean run means the PDF agrees with the run
-records; any diff is a number that was stale.  There is one exception and it is
-marked where it appears: the two inline tabulars in \S\ref{sec:retraction}
-transcribe a \emph{withdrawn} computation whose probe records are too sparse to
-re-derive, and they support no claim in this paper.  The per-run records carry the
+records; any diff is a number that was stale.  The per-run records carry the
 fields the tables use (\texttt{final\_cka}, \texttt{forgetting\_pct},
 \texttt{final\_val\_mse}, \texttt{final\_weight\_drift} and the early-stopping
 block), together with the seed, epoch budget and sample count, so the dispersion
@@ -247,8 +244,8 @@ reader has the hashes and our word, and the ordering itself is verifiable agains
 the repository released with the paper.  The Chronos/M4-Monthly re-run of
 Appendix~\ref{app:chronos_detail} carries a second registration
 (\texttt{results/chronos\_m4/preregistration.json}), on the same terms and with
-the same check available.  That arm is \emph{not} prospective (the superseded
-runs' outcome was already known), so what its registration fixes is only what
+the same check available.  That arm is \emph{not} prospective (an earlier run on
+the cell had already been seen), so what its registration fixes is only what
 was still fixable: the gate's estimator and split, the seeds, the decision rule,
 and what each gate outcome would be taken to mean.  The gate was computed after
 that file was committed, which matters because the estimator was itself one of
@@ -273,17 +270,13 @@ from \texttt{scripts/cell\_matrix.py} and \emph{assert} at draw time every count
 body quotes from them: the number of gate-passing cells, the number of degradation
 cells, the number of sign reversals and the sign of each correlation.  A run record
 that moved would fail the figure rather than change it silently, which is the one
-staleness path the table emitters do not cover.  (This sentence used to sit in the
-caption of Figure~\ref{fig:screen}; it is a statement about the release, and the body
-has no page to spare for it.)
+staleness path the table emitters do not cover.
 
 \textbf{What we release.}  The analysis and experiment scripts, the per-run JSON
 records behind every table, the emitter for every table and the one-command
 re-derivation script, the benchmark-data manifest, every pre-registration file, and
 the \LaTeX{} source and style files needed to build this paper.  Model checkpoints
-are excluded for size; the appendices state which runs retained a checkpoint,
-because two re-measurements we would otherwise have made were blocked by runs
-whose checkpoints were not kept (Appendix~\ref{app:noisefloor}).
+are excluded for size; the appendices state which runs retained a checkpoint.
 
 % ============================================================
 % Required by the ICLR 2027 main track.  Placed with the other statements, after the
@@ -324,7 +317,7 @@ AI-assisted work included.  Such errors did occur, and the two kinds we hit
 repeatedly are worth naming:
 tables whose numbers had been typed by hand and then drifted from the records
 they were supposed to summarise, and claims that were reworded in one place while
-a restatement elsewhere kept the superseded figure.  Neither was caught by
+a restatement elsewhere kept the old figure.  Neither was caught by
 rereading the paper; each was caught by a mechanical check.  That is the reason
 having a verification apparatus is critical, and it is
 the part of this methodology we would recommend to anyone writing a paper this

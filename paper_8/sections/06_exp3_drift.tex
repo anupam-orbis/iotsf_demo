@@ -20,9 +20,9 @@ survivors, sweeping $n{\in}\{500,\ldots,10\mathrm{k}\}$ drives CKA down
 monotonically from $0.949$ to $0.518$ while held-out forgetting \emph{falls}, from
 $+5.2\%$ at 500 to $-18.5{\pm}2.8\%$ at 10k, with every seed improving on
 zero-shot from $n{=}1$k on: more drift, better outcome
-(Table~\ref{tab:sample_sweep}, Figure~\ref{fig:dissociation}).  Inside one encoder, unfreezing the top 3 of 6
-layers and all 6 gives indistinguishable task outcomes at CKA $0.716$ and $0.465$
-(10 seeds each; Appendix~\ref{app:layerunfreeze}).  Across mitigation strategies
+(Table~\ref{tab:sample_sweep}, Figure~\ref{fig:dissociation}).  Inside one encoder, unfreezing all 6 layers
+rather than the top 3 lowers CKA from $0.716$ to $0.465$ and improves held-out
+forgetting from $-9.5\%$ to $-22.9\%$ (10 seeds each; Appendix~\ref{app:layerunfreeze}).  Across mitigation strategies
 on that cell, the three weight-anchoring arms span CKA $0.939$--$0.972$ and land
 within $0.003$ MSE of one another (Appendix~\ref{app:full_tables}).  Each of these
 contradicts ``lower CKA, more damage'' as a rule; none of them establishes the

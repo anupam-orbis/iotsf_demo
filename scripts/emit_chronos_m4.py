@@ -37,7 +37,7 @@ OUT_GATE = ROOT / "paper_8/tables/chronos_m4_gate.tex"
 # Rung display names and the order the ladder is read in: the superseded denominator first, the
 # paper's primary second, then the eight-rung ladder from weakest to strongest.
 RUNG_LABEL = {
-    "trend": r"trend (superseded)", "fitted": r"fitted ridge \textbf{(primary)}",
+    "trend": r"trend (unfitted)", "fitted": r"fitted ridge \textbf{(primary)}",
     "constant": r"constant (floor)", "persistence": "persistence",
     "seasonal_naive": "seasonal naive", "ar": "AR", "dlinear": "DLinear",
     "ridge_tuned": "ridge, tuned", "mlp": "MLP", "gbm": "GBM",

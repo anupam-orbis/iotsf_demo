@@ -8,7 +8,7 @@
 \cmidrule(lr){2-3}\cmidrule(lr){4-5}
 Denominator & MSE & $\Vb{b}$ & MSE & $\Vb{b}$ & Admissible \\
 \midrule
-trend (superseded) & $1.801$ & $+0.448$ & $2.187$ & $+0.590$ & --- \\
+trend (unfitted) & $1.801$ & $+0.448$ & $2.187$ & $+0.590$ & --- \\
 fitted ridge \textbf{(primary)} & $1.095$ & $+0.092$ & $1.132$ & $+0.209$ & \checkmark \\
 \midrule
 constant (floor) & $1.739$ & $+0.428$ & $2.514$ & $+0.644$ & floor \\
@@ -21,6 +21,6 @@ MLP & $1.054$ & $+0.057$ & $0.855$ & $-0.048$ & \checkmark \\
 GBM & $1.003$ & $+0.008$ & $0.983$ & $+0.089$ & \checkmark \\
 \bottomrule
 \end{tabular}
-\\[2pt]\footnotesize The admissibility column is the \emph{selection} split, the split every admission decision is made on. trend (superseded) is admissible on the held-out split and not on the selection split, the constant floor being $2.514$ there against $1.739$ here.
+\\[2pt]\footnotesize The admissibility column is the \emph{selection} split, the split every admission decision is made on. trend (unfitted) is admissible on the held-out split and not on the selection split, the constant floor being $2.514$ there against $1.739$ here.
 \\[2pt]\footnotesize AR, DLinear and the tuned ridge agree with the primary denominator to eight significant figures, which is not a coincidence and not an error: M4-Monthly is univariate, so all four reduce to the same least-squares map $\mathbb{R}^{96}\!\to\!\mathbb{R}^{18}$.
 \end{center}

@@ -204,6 +204,7 @@ run "cka_decision (post-hoc)"      "$PY" scripts/cka_decision_value.py --json --
 # curve, ~15 min) nor --nbootcheck is run here; both are manual audits of the printed precision.
 run "cka_correlation_mde (post-hoc)" "$PY" scripts/cka_correlation_mde.py --json
 run "sample_sweep"                 "$PY" scripts/emit_sample_sweep.py
+run "layerunfreeze"                "$PY" scripts/emit_layerunfreeze.py
 
 # The pre-registered positive control. TIER A even though the arm itself is TIER C: the checkpoints it
 # was scored from are gitignored, but the per-run JSONs and the retention JSONs are committed, and this

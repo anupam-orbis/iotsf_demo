@@ -1,4 +1,4 @@
-\begin{thebibliography}{27}
+\begin{thebibliography}{26}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -144,16 +144,6 @@ Yun Luo, Zhen Yang, Fandong Meng, Yafu Li, Jie Zhou, and Yue Zhang.
 \newblock An empirical study of catastrophic forgetting in large language
   models during continual fine-tuning.
 \newblock \emph{arXiv preprint arXiv:2308.08747}, 2023.
-
-\bibitem[Meidan et~al.(2018)Meidan, Bohadana, Mathov, Mirsky, Shabtai,
-  Breitenbacher, and Elovici]{meidan2018n}
-Yair Meidan, Michael Bohadana, Yael Mathov, Yisroel Mirsky, Asaf Shabtai,
-  Dominik Breitenbacher, and Yuval Elovici.
-\newblock {N-BaIoT}: Network-based detection of {IoT} botnet attacks using deep
-  autoencoders.
-\newblock \emph{IEEE Pervasive Computing}, 17\penalty0 (3):\penalty0 12--22,
-  2018.
-\newblock \doi{10.1109/MPRV.2018.03367731}.
 
 \bibitem[Mian et~al.(2026)Mian, Cranmer, Favero, and
   Mukhopadhyay]{mian2026frozen}

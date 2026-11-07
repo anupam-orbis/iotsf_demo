@@ -1,0 +1,41 @@
+% Shared by main.tex and supplement.tex.
+% ---- Core packages ----
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{url}
+\usepackage{booktabs}         % professional tables
+\usepackage{amsmath, amssymb}
+\usepackage{mathtools}          % provides \coloneqq and extends amsmath
+\usepackage{graphicx}
+\usepackage{subcaption}       % subfigures
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{xcolor}
+\usepackage{multirow}
+\usepackage{makecell}          % stacked header cells in the wide appendix tables
+\usepackage{microtype}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, shapes.geometric, fit, backgrounds}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+% hyperref must load after most other packages
+\usepackage{xr-hyper}           % cross-references between main.tex and supplement.tex
+\usepackage[hidelinks]{hyperref}
+
+% ---- Macros ----
+\newcommand{\R}{\mathbb{R}}
+% The paper's estimand, named once in S3 and used everywhere after. A macro rather than a literal so
+% that the manipulated contrast (B minus D) and the symbol can never drift apart across 30-odd sites.
+\newcommand{\denc}{\Delta_\text{enc}}
+% The value score, for the same reason, and with the baseline IN the symbol. It was written
+% R^2_\text{task}(PT) at 24 prose sites through 20 Sep 2026, which invited exactly the misreading a
+% reviewer made: that it measures an absolute property of the checkpoint. It does not -- it is a
+% comparison against one baseline b, and every count the screen produces is a count against that b.
+% \Vb takes the baseline as an argument so no site can quote the score without naming it.
+\newcommand{\Vb}[1]{V_{#1}}
+\newcommand{\Vbest}{\Vb{\text{best}}}
+% Draft-only marker for a number or sentence that waits on a run still in progress. It renders as a
+% red box so it cannot be missed on the page, and scripts/check_paper_numbers.py fails while any
+% \pending{} remains in a rendered source file.
+\newcommand{\pending}[1]{\fcolorbox{red}{white}{\textcolor{red}{\scriptsize PENDING: #1}}}
