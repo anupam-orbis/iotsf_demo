@@ -29,7 +29,12 @@
 # ORDER: cheapest first, so a closed window loses whole cells at the tail.
 set -uo pipefail
 cd "$(dirname "$0")/.." || exit 1
-PY=.venv-probe/bin/python
+# Device and interpreter default to the Mac; the GPU instance sets DEVICE=cuda PY=.venv/bin/python.
+# ONLY=<size>_<dataset>_h<H> restricts the run to one cell (used to move the Large/Weather cell, at
+# ~11 min per epoch on MPS, to the A10G). The device each run used is in its log.
+PY=${PY:-.venv-probe/bin/python}
+DEVICE=${DEVICE:-mps}
+ONLY=${ONLY:-}
 export PYTORCH_ENABLE_MPS_FALLBACK=1
 export HF_HUB_OFFLINE=1
 OUT=results/v58_strictfreeze_rest
@@ -38,6 +43,7 @@ mkdir -p "$LOGS"
 MISSING=()
 
 cell() {  # size dataset horizon n_train
+  [ -n "$ONLY" ] && [ "$ONLY" != "$1_$2_h$3" ] && return
   for S in 42 123 456; do
     D_="$OUT/$1_$2_h$3/condition_H"
     J="$D_/condition_H_h$3_s$S.json"
@@ -46,7 +52,7 @@ cell() {  # size dataset horizon n_train
     echo "=== $1/$2 h$3 n=$4 cond H seed $S  $(date '+%F %T')"
     $PY -u scripts/finetune_forecasting.py --data-path "data/forecasting/$2.csv" \
       --condition H --model-size "$1" --horizon "$3" --epochs 20 --seed "$S" \
-      --max-train-samples "$4" --device mps --results-dir "$D_" > "$L" 2>&1
+      --max-train-samples "$4" --device "$DEVICE" --results-dir "$D_" > "$L" 2>&1
     RC=$?
     if [ $RC -ne 0 ] || [ ! -f "$J" ]; then
       echo "    FAILED (exit $RC, json $( [ -f "$J" ] && echo present || echo missing )); see $L"
