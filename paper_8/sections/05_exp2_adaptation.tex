@@ -33,10 +33,9 @@ average ($1.10\%$) with 3 of 5 seeds harmful.
 The ordinary frozen encoder (D) leaves the input projection and mask encoding
 trainable, so a ``freezing wins'' reading could come from those modules adapting
 rather than from the encoder staying fixed.  We therefore ran the strict freeze
-(H) on every Moirai cell (\pending{22} cells, 3--10 seeds;
+(H) on every Moirai cell (22 cells, 3--10 seeds;
 Table~\ref{tab:strictfreeze}).  B${-}$H and B${-}$D agree in sign on
-\pending{N} cells.  They disagree on \pending{the four Moirai/ETTm2 cells
-and any of the six new ones}, and on every disagreeing cell the strict control
+18 cells.  They disagree on the four Moirai/ETTm2 cells, and on every disagreeing cell the strict control
 moves toward adaptation: on ETTm2, Moirai-Small $h{=}96$ goes from B${-}$D
 $+7.3{\pm}2.9$ to B${-}$H $-6.8{\pm}2.0$ and Moirai-Base $h{=}96$ from $+7.0{\pm}2.4$
 to $-9.2{\pm}3.1$, so the apparent freezing advantage on that dataset was carried
@@ -72,7 +71,8 @@ means clause is dropped altogether (Appendix~\ref{app:defsensitivity}).
 \textbf{Per-cell inference.}  Paired $95\%$ intervals on $\denc$ (F${=}$D),
 Benjamini--Hochberg adjusted across the 31 cells, call \textbf{2 cells
 freezing-better, 4 adaptation-better and 25 inconclusive}; under F${=}$H on
-Moirai, \pending{counts}.  The two freezing-better cells are Moirai-Small/ETTh1 at
+the 22 Moirai cells, \textbf{0 freezing-better}, 3 adaptation-better and 19
+inconclusive.  The two freezing-better cells are Moirai-Small/ETTh1 at
 both horizons, which the screen rejects, while two of the four adaptation-better
 cells pass it, at $+0.925$ and $+0.875$.  A pre-registered seed top-up adds a third
 freezing-better cell, which the screen admits (Moirai-Small/ETTm2 $h{=}192$,

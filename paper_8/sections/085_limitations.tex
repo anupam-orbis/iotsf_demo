@@ -3,12 +3,13 @@
 \label{sec:limitations}
 % ============================================================
 
-(1)~\emph{One backbone carries the within-backbone evidence.}  The seven
-gate-passing cells and the within-backbone association are Moirai on two
-series; Chronos and TimesFM gate-fail everywhere and use different trainers, so
-they show the dissociation but do not replicate the analysis
-(\S\ref{sec:exp3}).  \pending{second-family runs on gate-passing datasets, if
-completed}.
+(1)~\emph{One backbone carries the within-backbone association.}  The seven
+gate-passing matrix cells are Moirai on two series.  Of three further datasets we
+screened, only Traffic admits Chronos and TimesFM, marginally on held-out windows
+($+0.231$, $+0.207$); a pre-registered arm there finds full fine-tuning better
+than the strict freeze in every seed on both (Chronos $-39.3$~pp, TimesFM
+$-10.2$~pp) at CKA $0.144$ and $0.242$ (Appendix~\ref{app:secondfamily}).  Two
+cells on one dataset replicate the per-cell finding, not the correlation.
 (2)~\emph{A null is not a proof of absence.}  What would settle the harm question
 is a cell with a large pre-trained margin over a strong baseline, which these
 benchmarks do not supply (\S\ref{sec:forecasting}).

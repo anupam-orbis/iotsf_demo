@@ -34,7 +34,10 @@ OWN_A_DIRS = ("results/v43_moirai_matrix", "results/v47_prospective")
 # v45 covers ETTh1/Weather/ILI; v51 the five cells clearing the fitted-linear gate; v53 the four
 # Moirai/ETTm2 cells that clear it under another rung of the baseline ladder.
 STRICT_FREEZE_DIRS = ("results/v45_strict_freeze", "results/v51_strictfreeze_etth2",
-                      "results/v53_strictfreeze_ettm2")
+                      "results/v53_strictfreeze_ettm2",
+                      # The six Moirai cells H did not cover (rebuttal, Nov 2026). Fifteen runs on
+                      # MPS; the three Large/Weather h96 runs on the A10G (logs name the device).
+                      "results/v58_strictfreeze_rest")
 
 # Condition-E (LoRA, r=8, alpha=16) run dirs, same <dir>/<cell>/condition_E/ layout. v54 is the arm
 # that took LoRA off Moirai-Small/ETTh2: before it, E existed on two cells and every "LoRA is the
