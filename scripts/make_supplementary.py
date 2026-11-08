@@ -187,6 +187,21 @@ def main():
             shutil.rmtree(q, ignore_errors=True)
         print(f"  dropped {n:4d}  {prefix}  -- {why}")
 
+    # ---- the paper source's full-line comments, in the BUNDLE'S copy only. They are the drafting
+    # history (what changed in which round, and why), which belongs in the repository, not in front of
+    # reviewers. Full-line comments only: an end-of-line % that suppresses a space is kept, and nothing
+    # that compiles changes, so the bundled PDFs still match the bundled source. Generated tables keep
+    # their headers, because the re-derivation sweep compares them byte for byte.
+    n_lines = 0
+    for q in [staged / "paper_8/main.tex", staged / "paper_8/supplement.tex",
+              *sorted((staged / "paper_8/sections").glob("*.tex"))]:
+        if not q.exists():
+            continue
+        kept = [ln for ln in q.read_text().splitlines(keepends=True) if not ln.lstrip().startswith("%")]
+        n_lines += len(q.read_text().splitlines()) - len(kept)
+        q.write_text("".join(kept))
+    print(f"  stripped {n_lines} full-line comment lines from the paper source (drafting history)")
+
     files = sorted(q for q in staged.rglob("*") if q.is_file())
 
     fail = []
