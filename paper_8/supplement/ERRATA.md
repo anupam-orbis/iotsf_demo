@@ -1,8 +1,7 @@
 # Errata: changes from the earlier public version
 
 An earlier version of this work was publicly available before submission. This file lists every
-claim that changed. The paper itself carries one sentence pointing here. Withdrawn analyses are
-kept, unedited, in `withdrawn_analyses.tex` (not compiled) for anyone auditing them.
+claim that changed. The paper itself carries one sentence pointing here.
 
 ## Corrected measurements
 

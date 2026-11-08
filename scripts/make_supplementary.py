@@ -65,6 +65,8 @@ DROP = {
     "paper_8/response_letter.md": "correspondence with the venue (tracked by mistake; see below)",
     "paper_8/main.fdb_latexmk": "latexmk's build database, machine-local",
     "paper_8/main.fls": "latexmk's file list, machine-local",
+    "paper_8/supplement/withdrawn_analyses.tex":
+        "uncompiled record of withdrawn analyses; ERRATA.md lists every changed claim",
 }
 
 # Checked for by name in the staged tree, in addition to the structural guarantee git archive gives.
