@@ -35,7 +35,7 @@ traced path does not. Every other `run` line is traced, figure scripts included.
   absence of a positive signal, not proof of irrelevance.
 - **ORPHAN** (1): never opened at all, by any emitter, at any call site.
 
-142 directories, 63 top-level JSON records, 39 registered emitters traced.
+142 directories, 63 top-level JSON records, 40 registered emitters traced.
 
 ## Superseded, and why
 
@@ -166,7 +166,7 @@ These are what a clean clone re-derives every table and figure from.
 | `results/v56_pool3` | CANONICAL | 4 | -- | `cell_matrix.py:new_moirai_cells`, `gate_all_cells.py:_zs_val_refs`, `gate_zs_noise.py:replicates`, `score_prospective.py:check_gate_agreement` |
 | `results/v57_prospective3` | CANONICAL | 66 | yes | `cell_matrix.py:new_moirai_cells`, `cell_matrix.py:timesfm_cells`, `gate_zs_noise.py:replicates`, `score_prospective.py:load3` |
 | `results/v58_strictfreeze_rest` | CANONICAL | 18 | -- | `cell_matrix.py:strict_freeze_cells`, `gate_zs_noise.py:replicates`, `strict_freeze_inference.py:per_seed_bh` |
-| `results/v59_ood_retention` | CANONICAL | 317 | yes | `score_ood_retention.py:<module>`, `score_ood_retention.py:load`, `score_ood_retention.py:main`, `score_ood_retention.py:reproducibility` |
+| `results/v59_ood_retention` | CANONICAL | 317 | yes | `fig_ood_retention.py:<module>`, `score_ood_retention.py:<module>`, `score_ood_retention.py:load`, `score_ood_retention.py:main`, `score_ood_retention.py:reproducibility` |
 | `results/v5_etth1` | CANONICAL | 40 | yes | -- |
 | `results/v5_etth2_base` | CANONICAL | 22 | yes | `score_ood_retention.py:matrix_record` |
 | `results/v5_ettm2` | CANONICAL | 54 | yes | `score_ood_retention.py:matrix_record` |

@@ -145230,6 +145230,22 @@
       }
     },
     {
+      "label": "fig_ood_retention (S7.2)",
+      "interp": "/opt/homebrew/bin/python3",
+      "script": "paper_8/fig_ood_retention.py",
+      "args": [],
+      "status": "ok",
+      "error": null,
+      "opened": [
+        "results/v59_ood_retention/scored.json"
+      ],
+      "sites": {
+        "results/v59_ood_retention/scored.json": [
+          "fig_ood_retention.py:<module>"
+        ]
+      }
+    },
+    {
       "label": "n5k_trajectories",
       "interp": "/opt/homebrew/bin/python3",
       "script": "scripts/analyse_n5k_trajectories.py",

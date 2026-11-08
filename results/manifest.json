@@ -3895,6 +3895,7 @@
         "paper_8/fig1_diagnostic_flow.py",
         "paper_8/figA_freeze_boundary.py",
         "paper_8/figA_gate_scatter.py",
+        "paper_8/fig_ood_retention.py",
         "scripts/cell_matrix.py",
         "scripts/check_paper_numbers.py",
         "scripts/cka_correlation_mde.py",
@@ -3916,6 +3917,7 @@
         "scripts/value_axis.py"
       ],
       "sites": [
+        "fig_ood_retention.py:<module>",
         "score_ood_retention.py:<module>",
         "score_ood_retention.py:load",
         "score_ood_retention.py:main",
