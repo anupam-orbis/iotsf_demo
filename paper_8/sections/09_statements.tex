@@ -265,7 +265,11 @@ statistic, and \textbf{what each outcome would mean for the body}: that a
 non-monotone forgetting profile across depth, or a thin rung landing outside the
 matched pair's range, would be reported as found with the body's claim narrowed to
 the matched pair rather than the ladder being dropped.  Both of those outcomes
-occurred, and that is the rule we followed.
+occurred, and that is the rule we followed.  The out-of-domain retention arm
+(\texttt{results/v59\_ood\_retention/preregistration.json}) and the Traffic arm
+(\texttt{results/v60\_second\_family/preregistration.json}) were registered the
+same way, each committed with its thresholds and three outcomes before its first
+run; outcomes O2 and O3 fired, and both are reported as registered.
 
 \textbf{The figures check themselves.}  Both generated figures read their values
 from \texttt{scripts/cell\_matrix.py} and \emph{assert} at draw time every count the

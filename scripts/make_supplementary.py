@@ -115,6 +115,10 @@ PROMISED = {
     "the Chronos/M4 registration script": "scripts/preregister_chronos_m4.py",
     "the seed top-up's registration script": "scripts/preregister_power.py",
     "the task-B generator": "scripts/make_conflicting_series.py",
+    "the out-of-domain retention pre-registration": "results/v59_ood_retention/preregistration.json",
+    "the out-of-domain retention registration script": "scripts/preregister_ood_retention.py",
+    "the Traffic-arm pre-registration": "results/v60_second_family/preregistration.json",
+    "the Traffic-arm registration script": "scripts/preregister_second_family.py",
 }
 
 # Patterns that must NOT appear in the bundle, with the reason. Checkpoints are the size problem the
