@@ -14,6 +14,10 @@ pattern that lands on a wrong number fails exactly as before.
 """
 
 REANCHORED = {
+    # Reworded again after a reviewer (VxaK) pointed out that CKA needs a fine-tuned model, so it can
+    # never be a cheaper substitute for the comparison; the claim is now about CKA as evidence of harm.
+    "the narrowed claim, long form (Figure 1's caption and the Ethics Statement)": dict(
+        pattern=r"a\s+drop in CKA is not reliable evidence that encoder adaptation was harmful", min_sites=1),
     "the headline count (S1's three clauses)": dict(pattern='capability screen that only (\\d+) of (\\d+) pass'),
     'Chronos on ETTh2, below the baseline on both splits': dict(pattern='Chronos is below the fitted baseline \\(\\$-([\\d.]+)\\$ on selection, \\$-([\\d.]+)\\$ on\\s*held-out\\)'),
     'gate-passing count': dict(pattern='only (\\d+) of (\\d+) (?:cells show a pre-trained advantage|pass against a fitted one)', min_sites=2),
@@ -59,7 +63,6 @@ LOWERED = {
     "the two unresolvable cells' adjusted seed requirement": 1,
     'LOCO b1 and its cluster interval': 2,
     'LOCO two-rung form (abstract and the claims table)': 1,
-    "the narrowed claim, long form (Figure 1's caption and the Ethics Statement)": 1,
     "the degradation criterion's gloss, verbatim": 1,
 }
 

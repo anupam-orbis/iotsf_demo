@@ -63,7 +63,7 @@ through its own decoder on a task we did not run.
 \textbf{What we do not claim.}  Five readings of this paper's negative results are
 ones we explicitly decline.  \emph{(i)}~That CKA fails to measure representation
 change: it does measure it, and we use it as a measurement throughout --- what we
-test is whether that measurement substitutes for an intervention.
+test is whether a change in it is evidence of harm.
 \emph{(ii)}~That CKA can never predict downstream utility.  We report that it does
 not reliably order the intervention outcome across the cells we ran, with the one
 backbone family large enough to condition on carrying the cleanest evidence; a
@@ -81,9 +81,10 @@ encoder-adaptation effects in time-series foundation models in general: seven of
 cells cleared a deliberately weak screen, and the domains where a pre-trained
 advantage is large and well established are exactly where the question stays open.
 What we do claim is narrower than any of those: \textbf{within the intervention
-cells we evaluated, and with the cleanest evidence inside the Moirai family, CKA
-is not an actionable substitute for the intervention, and no cell meets our
-prespecified criterion for harmful encoder adaptation.}
+cells we evaluated, and with the cleanest evidence inside the Moirai family, a
+drop in CKA is not reliable evidence that encoder adaptation was harmful, on the
+target task or out of domain, and no cell meets our prespecified criterion for
+harmful encoder adaptation on the target task.}
 Appendix~\ref{app:claims} tabulates every claim we do make with its evidence and its
 strength.
 % The pointer to app:claims lives here because the conclusion's copy of it went with the disclaimer this
