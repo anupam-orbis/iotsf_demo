@@ -412,8 +412,8 @@ and the selection-optimism reading holds: Chronos/ETTh1 is the largest reversal 
 matrix at $+6.8$ on the selection windows against $-39.2$ held out, a $46.0$-point
 swing ($\Delta$ frozen $+53.9$ against $\Delta$ adapted $+8.0$ on Chronos/ETTh1, the
 largest of the four).  On the \textbf{other two} both arms finish \emph{better} than
-their own zero-shot out of sample and nothing degrades at all --- the adapted arm
-merely gains more --- so half the reversals are a different phenomenon wearing the
+their own zero-shot out of sample and nothing degrades at all (the adapted arm
+merely gains more), so half the reversals are a different phenomenon wearing the
 same sign change.  What all four share is not a mechanism but a location:
 they concentrate where the two splits are least exchangeable: the
 \emph{untrained} checkpoint's held-out-to-selection error ratio spans $0.98$ to
@@ -1544,9 +1544,9 @@ information'' and is the only thing we assert.
 % the number) and that the interval's size stays near nominal (if it does not, the MDE is optimistic by
 % more than the sentence below admits).
 \textbf{What this design could have resolved.} ``The design cannot resolve the
-sign'' is a claim with a size, so we report the size. \emph{Post hoc} --- this
-analysis was specified after seeing the interval it explains, and is not part of
-the pre-registration --- we simulate this exact design and ask for the smallest
+sign'' is a claim with a size, so we report the size. This analysis is \emph{post hoc}:
+it was specified after seeing the interval it explains, and is not part of
+the pre-registration.  We simulate this exact design and ask for the smallest
 true Spearman correlation at which \emph{our own} clustered interval excludes zero
 in $80\%$ of realisations: $\mathrm{MDE}_{80}{\gtrsim}0.5$. The observed
 $\rho{=}{+}0.168$ is less than half of it.
@@ -1571,7 +1571,7 @@ Moirai, CKA varies almost entirely \emph{within} cluster (across model size and
 horizon) while the outcome varies almost entirely \emph{between} clusters, across
 series. \textbf{A predictor with no cluster-level signal cannot order an outcome
 that is almost all cluster-level}, so the width of the interval is a property of
-where the two quantities' variance sits and not only of $n$ --- and adding Moirai
+where the two quantities' variance sits and not only of $n$; adding Moirai
 sizes or horizons on the series we already have would add predictor variance in
 the direction that carries no outcome signal. This is also the second, independent
 reason this paper reads CKA within a backbone rather than pooled
@@ -1590,7 +1590,7 @@ score vector. Three things then work against our own claim and are reported rath
 than buried. First, the headline residual cluster fraction is the \emph{estimated}
 one, and it gives \textbf{the smallest MDE of the three settings we ran} at every
 one of the four master seeds, so the figure we quote is the least favourable point
-of the sensitivity range for our own claim --- which is the only answer we can give
+of the sensitivity range for our own claim.  That is the only answer we can give
 to ``you tuned the simulation'' that is checkable rather than asserted, and the
 emitter asserts it. Second, every analytic
 cross-check is \emph{higher}: a Fisher-$z$ minimum detectable correlation with the
@@ -1598,7 +1598,7 @@ Bonett--Wright factor gives $0.58$ at $n{=}22$, $0.60$ at the Moulton effective
 $n$ of $20.1$ and $0.93$ at the six clusters, and inverting the observed
 half-width gives $0.59$. The simulation is authoritative where they disagree,
 because it simulates the rule that produced our verdict and they describe a test
-we never ran --- but the direction of the disagreement is a measured defect in our
+we never ran, but the direction of the disagreement is a measured defect in our
 own estimator, and we report it: the six-cluster percentile interval is mildly
 anti-conservative, rejecting a true zero in $7\%$ of realisations against a
 nominal $5\%$, and $10$--$11\%$ in the two sensitivity settings; these are

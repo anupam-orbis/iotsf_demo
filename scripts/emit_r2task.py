@@ -93,7 +93,7 @@ def main():
                     key = f"{pref}_{ds}_h{h}"
                     e = G[split].get(key)
                     if e is None:
-                        cells.append("---")
+                        cells.append("n/a")
                         continue
                     if e["baseline"] != "fitted" or e["split"] != split:
                         sys.exit(f"{key} is {e['baseline']}/{e['split']}, not fitted/{split}")
@@ -180,7 +180,7 @@ def main():
         r"$n{=}500$ and $n{=}10$k (ES) operating points reported in",
         r"\S\ref{sec:forecasting} share the entry shown here.",
         rf"Bold ${{=}}$ gate-pass at the ${THRESHOLD:.2f}$ threshold on the primary split."
-        r" ``---'' ${=}$ not run.}",
+        r" n/a ${=}$ not run.}",
         r"\label{tab:r2task}",
         r"\small",
         r"\begin{tabular}{ll cc cc}",

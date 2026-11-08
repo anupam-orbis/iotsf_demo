@@ -443,7 +443,7 @@ def emit_latex(results, baselines, path):
         for b in baselines:
             v = results[key].get(b)
             if v is None:
-                cells.append("---")
+                cells.append("n/a")
                 continue
             # \mathbf inside the math, not \textbf around it: \textbf{$x$} leaves the math upright and
             # unbolded, so the emphasis that marks a gate-pass would have been silently invisible. And

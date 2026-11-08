@@ -156,7 +156,7 @@ def report(rows):
         for rung in LADDER:
             hits = admits(keep, rung, gt)
             table[(rung[0], gt)] = hits
-            names = ", ".join(_display(r["cell"]) for r in hits) or "---"
+            names = ", ".join(_display(r["cell"]) for r in hits) or "none"
             print(f"      {rung[2]:24s} -> {len(hits)}   {names}")
 
     # The near-miss detail a reader will want: which cells fail unanimity and by how much.
@@ -201,7 +201,7 @@ def emit_latex(table, keep, confounded,
         narrow_refs = {r["ref"] for r in narrow}
         names = ", ".join(
             _short(r["cell"]) + ("" if r["ref"] in narrow_refs else "$^\\dagger$")
-            for r in wide) or "---"
+            for r in wide) or "none"
         lines.append(f"{tex} & {len(wide)} & {len(narrow)} & {names} \\\\")
     lines += [
         "\\midrule",

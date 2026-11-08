@@ -223,7 +223,7 @@ def emit_backbone(res, path=TAB_BACKBONE):
     vd = lambda ci: _verdict(*ci, short=True)
     for i, d in enumerate(res):
         if d.get("skipped"):
-            body.append(f"{d['label']} & {d['n']} & --- & --- & --- & --- & "
+            body.append(f"{d['label']} & {d['n']} & n/a & n/a & n/a & n/a & "
                         f"{d['skipped']} \\\\")
             continue
         if i == 1:
@@ -251,7 +251,7 @@ def emit_pred(res, path=TAB_PRED):
 def emit_fe(res, path=TAB_FE):
     body = [r"Specification & $b_1$ (pp per unit CKA) & 95\% CI over clusters "
             r"& Draws kept \\", r"\midrule",
-            rf"No backbone term & ${res['unadjusted_b1']:+.2f}$ & --- & --- \\",
+            rf"No backbone term & ${res['unadjusted_b1']:+.2f}$ & n/a & n/a \\",
             r"\midrule"]
     for s in res["specs"]:
         name = {"additive": r"CKA $+$ backbone FE",

@@ -3444,7 +3444,7 @@ def build_checks(R):
     # and separate checks would let the sentence pair a rank of 7 with a threshold computed at 5.
     chk("the BH arithmetic behind the failed expectation",
         r"\$t\$-test \$p\$ at \$n\{=\}(\d+)\$ is \$([\d.]+)\$, the (\d+)th smallest of the (\d+), so "
-        r"the threshold it actually faces is \$(\d+)\\alpha/m\{=\}([\d.]+)\$ --- (\w+) times the "
+        r"the threshold it actually faces is \$(\d+)\\alpha/m\{=\}([\d.]+)\$, (\w+) times the "
         r"\$([\d.]+)\$ its budget was sized against",
         R["tu_first_n"], R["tu_tp"], R["tu_rank"], R["tu_m"], R["tu_rank"], R["tu_bh_thr"],
         R["tu_rank"], R["tu_alpha_adj"])

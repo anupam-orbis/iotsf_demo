@@ -636,7 +636,7 @@ def emit_latex(rows, path=ROOT / "paper_8/tables/heldout_all.tex"):
     ]
     for r in sorted(rows, key=lambda r: r["bd_test"]):
         rev = (r["bd_val"] > 0) != (r["bd_test"] > 0)
-        gate = "---" if r["gate"] is None else (
+        gate = "n/a" if r["gate"] is None else (
             f"${r['gate']:+.3f}$" + ("\\,\\textsuperscript{f}" if r["gate"] < 0.20 else ""))
         lines.append(
             f"{_display(r['cell'], r.get('n_train'))} & {r['seeds']} & {gate} & "

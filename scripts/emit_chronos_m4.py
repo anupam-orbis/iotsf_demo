@@ -79,7 +79,7 @@ def gate_table(gate):
         # `trend` is worse than the constant floor on the selection windows and better than it on the
         # held-out ones. One column cannot say that, so the column reports the SELECTION split -- the
         # split every admission decision is made on -- and the note says where they differ.
-        mark = {True: r"\checkmark", False: r"---"}[s["admissible"]]
+        mark = {True: r"\checkmark", False: r"$\times$"}[s["admissible"]]
         if name == "constant":
             mark = r"floor"
         L.append(f"{RUNG_LABEL[name]} & ${s['baseline_mse']:.3f}$ & ${s['r2_task']:+.3f}$ & "
