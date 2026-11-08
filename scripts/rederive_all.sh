@@ -214,6 +214,13 @@ run "layerunfreeze"                "$PY" scripts/emit_layerunfreeze.py
 # writes a visible in-PDF marker whenever a registered cell is still missing.
 run "positive_control"             "$PY" scripts/emit_positive_control.py
 
+# The three arms added for the ICLR 2027 discussion period. Like the positive control they read only
+# committed per-run JSONs, take no flags and so cannot be run in the wrong mode. Each applies its own
+# pre-registration's rules; strict_freeze_inference writes no table, only the JSON the checker reads.
+run "ood_retention (v59)"           "$PY" scripts/score_ood_retention.py
+run "second_family (v60, Traffic)"  "$PY" scripts/score_second_family.py
+run "strict_freeze_inference"       "$PY" scripts/strict_freeze_inference.py
+
 # Chronos-T5-Small on M4-Monthly: the gate ladder and the six B/D runs. TIER A -- it reads only
 # results/chronos_m4/*.json, all committed. This arm exists because the appendix section it feeds used
 # to be 140 lines of hand-typed numbers with no run record anywhere under results/, which is the exact

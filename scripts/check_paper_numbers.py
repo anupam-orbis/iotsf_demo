@@ -39,6 +39,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
+import claims_rewrite_nov2026 as rw  # noqa: E402
 
 BODY = [ROOT / "paper_8/main.tex"] + sorted((ROOT / "paper_8/sections").glob("*.tex"))
 
@@ -334,6 +335,10 @@ def rederive():
         if any(t in _low for t in ("chronos", "timesfm", "iot", "nbaiot")):
             continue
         if _root.startswith("v57") and not _CELLDIR.match(_rel[2]):
+            continue
+        # The out-of-domain arm reruns seven matrix cells on another device; its D runs are repeats
+        # of records already counted here, not new frozen-encoder runs.
+        if _root == "v59_ood_retention":
             continue
         try:
             _d = json.load(open(_f))
@@ -2268,6 +2273,21 @@ def rederive():
                 - next(iter({r["zeroshot_mse"] for r in _pro["es10"].values()}))) > 1e-6), (
         'the prose says the two records take their percentage against different zero-shot '
         'references; those references now agree, so that clause must be dropped')
+    # --- the arms added for the ICLR 2027 discussion period, read from their own scored records
+    _ood = json.loads((ROOT / "results/v59_ood_retention/scored.json").read_text())
+    R["ood_harmful"], R["ood_pairs"] = _ood["n_harmful"], _ood["n_pairs"]
+    R["ood_rho"] = -_ood["spearman"]["rho"]
+    R["ood_rho_lo"], R["ood_rho_hi"] = -_ood["spearman"]["lo"], _ood["spearman"]["hi"]
+    R["ood_worse_B"], R["ood_records"] = _ood["pooled"]["B"]["n_worse"], _ood["pooled"]["B"]["n"]
+    R["ood_small_rho"] = _ood["spearman_within_size_unregistered"]["small"]["rho"]
+    _sf = json.loads((ROOT / "results/strict_freeze_inference.json").read_text())
+    R["sfH_cells"], R["sfH_flips"] = _sf["n_cells"], len(_sf["sign_disagreements"])
+    R["sfH_freeze"], R["sfH_adapt"], R["sfH_inc"] = (_sf["calls_H"][k] for k in ("freeze", "adapt", "inconclusive"))
+    R["sfH_rho"] = _sf["rho_H"]["rho"]
+    R["sfH_rho_lo"], R["sfH_rho_hi"] = -_sf["rho_H"]["cluster_ci"][0], _sf["rho_H"]["cluster_ci"][1]
+    _tr = json.loads((ROOT / "results/v60_second_family/scored.json").read_text())
+    R["traffic_chronos"] = -_tr["chronos"]["d_enc"]["mean"]
+    R["traffic_timesfm"] = -_tr["timesfm"]["d_enc_H"]["mean"]
     return R
 
 
@@ -2278,6 +2298,14 @@ def build_checks(R):
     C = []
 
     def chk(name, pattern, *expect, min_sites=1):
+        # The November 2026 rewrite moved most sites; claims_rewrite_nov2026 says where each went.
+        if name in rw.RETIRED:
+            return
+        o = rw.REANCHORED.get(name, {})
+        pattern = o.get("pattern", pattern)
+        if o.get("order"):
+            expect = tuple(expect[i] for i in o["order"])
+        min_sites = o.get("min_sites", rw.LOWERED.get(name, min_sites))
         C.append(dict(name=name, pattern=pattern, expect=expect, min_sites=min_sites))
 
     # --- denominators
@@ -3270,10 +3298,12 @@ def build_checks(R):
     # The abstract stopped saying "correcting the estimator MOVES n of m" when its provenance clause was
     # compressed to one sentence; it now states the same count from the failure side, "puts n of m on
     # the wrong side of the screen". Same two numbers, so the pattern follows the wording rather than
-    # the wording being kept alive to suit the pattern.
+    # the wording being kept alive to suit the pattern. "Wrong side" counts both directions, so it is
+    # the all-flip count (17), as in the intro and S3; this was registered against the pass-to-fail
+    # count (16) until Nov 2026, which made the abstract undercount the sites that say "move 17".
     chk("Moirai gate flips (abstract)",
-        r"puts (\d+) of (\d+) Moirai cells on the wrong side",
-        R["n_flip_moirai_p2f"], R["n_moirai_screened"])
+        r"puts (\d+) of\s+(\d+) Moirai cells on the wrong side",
+        R["n_flip_moirai"], R["n_moirai_screened"])
     # Both body sites must name the Moirai denominator. 17 is the Moirai flip count; across all
     # arms it is 26 of 32, so an unqualified "17 cells" in a 32-cell context reads as 17 of 32 and
     # understates the correction. The pattern requires the qualifier, so dropping it fails the check.
@@ -4227,6 +4257,27 @@ def build_checks(R):
     chk("M4: the gate correction's scale, restated in the caption",
         r"moved \$(\d+)\$ of \$(\d+)\$ Moirai cells when it was corrected",
         R["n_flip_moirai"], R["n_moirai_screened"])
+
+    # --- the November 2026 arms: out-of-domain retention, the strict freeze on 22 cells, Traffic
+    chk("OOD: harmful pairs", r"(\d+) of (\d+) pre-registered pairs", R["ood_harmful"], R["ood_pairs"], min_sites=2)
+    chk("OOD: harmful pairs (S7.2)", r"\\textbf\{(\d+) of (\d+)\} \(cell, dataset\) pairs meet it",
+        R["ood_harmful"], R["ood_pairs"])
+    chk("OOD: CKA rho and its cell-bootstrap CI",
+        r"\\rho\{=\}\{-\}([\d.]+)\$, CI \$\[-([\d.]+),\{\+\}([\d.]+)\]\$",
+        R["ood_rho"], R["ood_rho_lo"], R["ood_rho_hi"], min_sites=2)
+    chk("OOD: records worse than zero-shot under B", r"zero-shot\s+on (\d+) of (\d+) \(cell, dataset, seed\) records",
+        R["ood_worse_B"], R["ood_records"])
+    chk("OOD: within-Small rho (unregistered)", r"we did not register, \$\\rho\{=\}\{\+\}([\d.]+)\$",
+        R["ood_small_rho"])
+    chk("strict freeze: calls under H",
+        r"\\textbf\{(\d+) freezing-better\}, (\d+) adaptation-better .{0,80}?and (\d+) inconclusive",
+        R["sfH_freeze"], R["sfH_adapt"], R["sfH_inc"])
+    chk("strict freeze: sign kept", r"keeps B\$-\$D's sign on (\d+) of (\d+) cells",
+        R["sfH_cells"] - R["sfH_flips"], R["sfH_cells"])
+    chk("strict freeze: rho under F=H", r"under F\$\{=\}\$H,\s*\$\\rho\{=\}\{\+\}([\d.]+)\$, CI \$\[-([\d.]+),\{\+\}([\d.]+)\]\$",
+        R["sfH_rho"], R["sfH_rho_lo"], R["sfH_rho_hi"])
+    chk("Traffic: Chronos and TimesFM B-H", r"Chronos \$-([\d.]+)\$~pp, TimesFM \$-([\d.]+)\$~pp",
+        R["traffic_chronos"], R["traffic_timesfm"])
     return C
 
 

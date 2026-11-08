@@ -99,3 +99,11 @@ kept, unedited, in `withdrawn_analyses.tex` (not compiled) for anyone auditing t
     not just `condition_A`. So for a period the registered denominators were means over the outcome
     runs. The shift was at most 0.0044 in the screen score and changed 0 of 26 admissions. The code
     now fails if an outcome file is read as a registered reference.
+
+## Counts restated
+
+15. **The abstract's gate-correction count.** The abstract said the unfitted baseline "puts 16 of 21
+    Moirai cells on the wrong side of the screen", while the introduction and Section 3 said it
+    "would move 17". Both numbers are in the records. 16 cells pass under the unfitted baseline and
+    fail under the fitted one, and 1 does the reverse. A cell on the wrong side in either direction
+    counts, so the abstract now says 17.

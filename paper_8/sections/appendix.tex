@@ -470,7 +470,7 @@ $31$--$42\%$ and the frozen encoder by $20$--$22$ points.
 \textbf{Condition coverage differs by cell, and we state it rather than let the
 widest row imply it.} The full six-condition comparison exists only for
 Moirai-Small/ETTh2, so ``best of six'' is not a claim available for any other
-cell. Every intervention cell has B and D. Condition~H (strict freeze) adds 16
+cell. Every intervention cell has B and D. Condition~H (strict freeze) adds 22
 cells (Appendix~\ref{app:strictfreeze}) and condition~E (LoRA) adds 8
 (Appendix~\ref{app:loravaluecells}), both on the seeds given in their own tables;
 L2-SP and EWC exist on Moirai-Small/ETTh2 alone. A claim about a cell is
@@ -526,7 +526,7 @@ runs: a cell where the two disagree in sign has its gap attributed in part to
 input re-fitting, and is reported as such.
 
 \textbf{Calls.}  With the paper's paired $t$-interval and Benjamini--Hochberg
-across the 22 cells (Appendix~\ref{app:pairedinference}), B$-$H gives
+across all 22 Moirai cells (Appendix~\ref{app:pairedinference}), B$-$H gives
 \textbf{0 freezing-better}, 3 adaptation-better (Moirai-Base/ETTh2 $h{=}192$,
 Moirai-Large/ETTh2 $h{=}96$, ILI) and 19 inconclusive; B$-$D on the same cells and
 seeds gives 1, 3 and 18.  Three seeds leave most cells unresolved even where the

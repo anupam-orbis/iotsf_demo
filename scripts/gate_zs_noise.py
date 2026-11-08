@@ -106,6 +106,9 @@ def cell_of(path):
     return None
 
 
+CROSS_DEVICE = ("results/v59_ood_retention/", "results/v58_strictfreeze_rest/large_Weather_h96/")
+
+
 def replicates():
     """cell -> {"registered": [...], "extra": [...]} of zeroshot_mse values, with their file paths.
 
@@ -127,6 +130,14 @@ def replicates():
     for f in sorted(glob.glob(str(ROOT / "results/**/*.json"), recursive=True)):
         key = cell_of(f)
         if key is None:
+            continue
+        # Sampling noise is one checkpoint on one window set ON ONE DEVICE. These records re-measured
+        # the same cells on a CUDA A10G instead of Apple MPS, so their spread would add a device
+        # effect to the sampling noise this section bounds. The records carry no device field, so
+        # they are named by path: the out-of-domain arm's reruns and the one strict-freeze cell moved
+        # to the GPU (its logs say cuda).
+        rel = Path(f).relative_to(ROOT).as_posix()
+        if rel.startswith(CROSS_DEVICE):
             continue
         try:
             d = json.load(open(f))

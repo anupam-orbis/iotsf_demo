@@ -91,10 +91,10 @@ intervention.  Within one backbone the least drifted cells are the only ones tha
 degrade; a pre-registered positive control drives CKA to $0.063$ while the
 targeted capability improves by $23.3\%$; on datasets it was not tuned on,
 full fine-tuning forgets in 11 of 28 pre-registered pairs while CKA orders that
-loss with the wrong sign ($\rho{=}{-}0.23$); and out of sample, adding CKA to backbone and protocol lowers
+loss with the wrong sign ($\rho{=}{-}0.229$, CI $[-0.390,{+}0.137]$); and out of sample, adding CKA to backbone and protocol lowers
 predictive $R^2$ from $+0.201$ to $+0.176$.  Two measurement choices decide such
 comparisons: scoring on the windows used for selection reverses the
-intervention's sign in 4 of 31 cells, and an unfitted linear baseline puts 16 of
+intervention's sign in 4 of 31 cells, and an unfitted linear baseline puts 17 of
 21 Moirai cells on the wrong side of a capability screen that only 7 of 31 pass
 against a fitted one.  No cell meets a prespecified definition of harmful encoder
 adaptation.  The intervention costs one extra training run, and we recommend
