@@ -390,5 +390,103 @@
    "_key": "luo_empirical_2025"
   },
   "err": null
+ },
+ "arxiv:2007.07400": {
+  "got": {
+   "title": "Anatomy of {Catastrophic} {Forgetting}: {Hidden} {Representations} and {Task} {Semantics}",
+   "author": "Ramasesh, Vinay V. and Dyer, Ethan and Raghu, Maithra",
+   "year": "2020",
+   "doi": "10.48550/arXiv.2007.07400",
+   "url": "http://arxiv.org/abs/2007.07400",
+   "note": "arXiv:2007.07400 [cs.LG]",
+   "publisher": "arXiv",
+   "_type": "misc",
+   "_key": "ramasesh_anatomy_2020"
+  },
+  "err": null
+ },
+ "arxiv:2203.13381": {
+  "got": {
+   "title": "Probing {Representation} {Forgetting} in {Supervised} and {Unsupervised} {Continual} {Learning}",
+   "author": "Davari, MohammadReza and Asadi, Nader and Mudur, Sudhir and Aljundi, Rahaf and Belilovsky, Eugene",
+   "year": "2022",
+   "doi": "10.48550/arXiv.2203.13381",
+   "url": "http://arxiv.org/abs/2203.13381",
+   "note": "arXiv:2203.13381 [cs.LG]",
+   "publisher": "arXiv",
+   "_type": "misc",
+   "_key": "davari_probing_2022"
+  },
+  "err": null
+ },
+ "arxiv:2510.00809": {
+  "got": {
+   "title": "Foundation vs. {Specialized} {Models}: {Evaluating} {Catastrophic} {Forgetting} in {Continual} {Time} {Series} {Forecasting}",
+   "author": "Karaouli, Nouha and Coquenet, Denis and Fromont, Elisa and Mermillod, Martial and Reyboz, Marina",
+   "year": "2026",
+   "doi": "10.48550/arXiv.2510.00809",
+   "url": "http://arxiv.org/abs/2510.00809",
+   "note": "arXiv:2510.00809 [cs.LG]",
+   "publisher": "arXiv",
+   "_type": "misc",
+   "_key": "karaouli_foundation_2026"
+  },
+  "err": null
+ },
+ "arxiv:2610.40857": {
+  "got": {
+   "title": "Frozen in {Time}: {How} a {Physics} {Foundation} {Model} {Forgets} {Under} {Sim}-to-{Real} {Adaptation}",
+   "author": "Mian, Haaris and Cranmer, Miles and Favero, Alessandro and Mukhopadhyay, Payel",
+   "year": "2026",
+   "doi": "10.48550/arXiv.2610.40857",
+   "url": "http://arxiv.org/abs/2610.40857",
+   "note": "arXiv:2610.40857 [cs.LG]",
+   "publisher": "arXiv",
+   "_type": "misc",
+   "_key": "mian_frozen_2026"
+  },
+  "err": null
+ },
+ "arxiv:2405.10216": {
+  "got": {
+   "title": "Low-{Rank} {Adaptation} of {Time} {Series} {Foundational} {Models} for {Out}-of-{Domain} {Modality} {Forecasting}",
+   "author": "Gupta, Divij and Bhatti, Anubhav and Parmar, Suraj and Dan, Chen and Liu, Yuwei and Shen, Bingjie and Lee, San",
+   "year": "2024",
+   "doi": "10.48550/arXiv.2405.10216",
+   "url": "http://arxiv.org/abs/2405.10216",
+   "note": "arXiv:2405.10216 [cs.LG]",
+   "publisher": "arXiv",
+   "_type": "misc",
+   "_key": "gupta_low_rank_2024"
+  },
+  "err": null
+ },
+ "arxiv:2607.23146": {
+  "got": {
+   "title": "Foundation {Models} and {Fine}-{Tuning}: {Toward} a {New} {Generation} of {Models} for {Time} {Series} {Forecasting}",
+   "author": "Laglil, Morad and Pracca, Bertrand and Devijver, Emilie and Gaussier, Eric",
+   "year": "2026",
+   "doi": "10.48550/arXiv.2607.23146",
+   "url": "http://arxiv.org/abs/2607.23146",
+   "note": "arXiv:2607.23146 [cs.LG]",
+   "publisher": "arXiv",
+   "_type": "misc",
+   "_key": "laglil_foundation_2026"
+  },
+  "err": null
+ },
+ "arxiv:1802.01483": {
+  "got": {
+   "title": "Explicit {Inductive} {Bias} for {Transfer} {Learning} with {Convolutional} {Networks}",
+   "author": "Li, Xuhong and Grandvalet, Yves and Davoine, Franck",
+   "year": "2018",
+   "doi": "10.48550/arXiv.1802.01483",
+   "url": "http://arxiv.org/abs/1802.01483",
+   "note": "arXiv:1802.01483 [cs.LG]",
+   "publisher": "arXiv",
+   "_type": "misc",
+   "_key": "li_explicit_2018"
+  },
+  "err": null
  }
 }
