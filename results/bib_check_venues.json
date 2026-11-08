@@ -571,5 +571,111 @@
  "Are Transformers Effective for Time Series Forecasting?": {
   "hits": [],
   "err": null
+ },
+ "Anatomy of Catastrophic Forgetting: Hidden Representations and Task Semantics": {
+  "hits": [],
+  "err": null
+ },
+ "arxiv-meta:2007.07400": {
+  "meta": {
+   "title": "Anatomy of Catastrophic Forgetting: Hidden Representations and Task Semantics",
+   "authors": "Vinay V. Ramasesh and Ethan Dyer and Maithra Raghu",
+   "v1": "2020",
+   "journal_ref": null,
+   "comment": null
+  },
+  "err": null
+ },
+ "Probing Representation Forgetting in Supervised and Unsupervised Continual Learning": {
+  "hits": [],
+  "err": null
+ },
+ "arxiv-meta:2203.13381": {
+  "meta": {
+   "title": "Probing Representation Forgetting in Supervised and Unsupervised Continual Learning",
+   "authors": "MohammadReza Davari and Nader Asadi and Sudhir Mudur and Rahaf Aljundi and Eugene Belilovsky",
+   "v1": "2022",
+   "journal_ref": null,
+   "comment": "Accepted at CVPR 2022"
+  },
+  "err": null
+ },
+ "Foundation vs. Specialized Models: Evaluating Catastrophic Forgetting in Continual Time Series Forecasting": {
+  "hits": [],
+  "err": null
+ },
+ "arxiv-meta:2510.00809": {
+  "meta": {
+   "title": "Foundation vs. Specialized Models: Evaluating Catastrophic Forgetting in Continual Time Series Forecasting",
+   "authors": "Nouha Karaouli and Denis Coquenet and Elisa Fromont and Martial Mermillod and Marina Reyboz",
+   "v1": "2025",
+   "journal_ref": null,
+   "comment": null
+  },
+  "err": null
+ },
+ "Frozen in Time: How a Physics Foundation Model Forgets Under Sim-to-Real Adaptation": {
+  "hits": [
+   [
+    "Sim2Sci 2026",
+    2026,
+    "Frozen in Time: How a Physics Foundation Model Forgets Under Sim-to-Real Adaptation"
+   ]
+  ],
+  "err": null
+ },
+ "arxiv-meta:2610.40857": {
+  "meta": {
+   "title": "Frozen in Time: How a Physics Foundation Model Forgets Under Sim-to-Real Adaptation",
+   "authors": "Haaris Mian and Miles Cranmer and Alessandro Favero and Payel Mukhopadhyay",
+   "v1": "2026",
+   "journal_ref": null,
+   "comment": "Accepted at the Sim2Science workshop, NeurIPS 2026. Code: https://github.com/haarisamian/walrus-forgetting-paper"
+  },
+  "err": null
+ },
+ "Low-Rank Adaptation of Time Series Foundational Models for Out-of-Domain Modality Forecasting": {
+  "hits": [
+   [
+    "CoRR 2024",
+    2024,
+    "Low-Rank Adaptation of Time Series Foundational Models for Out-of-Domain Modality Forecasting"
+   ]
+  ],
+  "err": null
+ },
+ "arxiv-meta:2405.10216": {
+  "meta": {
+   "title": "Low-Rank Adaptation of Time Series Foundational Models for Out-of-Domain Modality Forecasting",
+   "authors": "Divij Gupta and Anubhav Bhatti and Suraj Parmar and Chen Dan and Yuwei Liu and Bingjie Shen and San Lee",
+   "v1": "2024",
+   "journal_ref": null,
+   "comment": "5 pages, 3 figures. This work has been submitted to the ACM for possible publication"
+  },
+  "err": null
+ },
+ "Foundation Models and Fine-Tuning: Toward a New Generation of Models for Time Series Forecasting": {
+  "hits": [],
+  "err": null
+ },
+ "arxiv-meta:2607.23146": {
+  "meta": {
+   "title": "Foundation Models and Fine-Tuning: Toward a New Generation of Models for Time Series Forecasting",
+   "authors": "Morad Laglil and Bertrand Pracca and Emilie Devijver and Eric Gaussier",
+   "v1": "2026",
+   "journal_ref": null,
+   "comment": null
+  },
+  "err": null
+ },
+ "arxiv-meta:1802.01483": {
+  "meta": {
+   "title": "Explicit Inductive Bias for Transfer Learning with Convolutional Networks",
+   "authors": "Xuhong Li and Yves Grandvalet and Franck Davoine",
+   "v1": "2018",
+   "journal_ref": null,
+   "comment": "Accepted at ICML 2018"
+  },
+  "err": null
  }
 }

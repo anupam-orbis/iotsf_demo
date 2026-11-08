@@ -122,6 +122,7 @@ Xuhong Li, Yves Grandvalet, and Franck Davoine.
 \newblock Explicit inductive bias for transfer learning with convolutional
   networks.
 \newblock In \emph{International Conference on Machine Learning (ICML)}, 2018.
+\newblock URL \url{https://arxiv.org/abs/1802.01483}.
 
 \bibitem[Li \& Hoiem(2018)Li and Hoiem]{li2017lwf}
 Zhizhong Li and Derek Hoiem.
