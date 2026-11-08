@@ -70,7 +70,7 @@ DROP = {
 # Checked for by name in the staged tree, in addition to the structural guarantee git archive gives.
 CORRESPONDENCE = [
     r"official_comment", r"response_reviewer", r"rebuttal_round", r"review_map",
-    r"response_letter", r"meta_?review", r"reviewer\d",
+    r"response_letter", r"meta_?review", r"reviewer\d", r"rebuttal/",
 ]
 
 # What the paper's "What we release" paragraph promises, as paths that must exist in the bundle. Not a
