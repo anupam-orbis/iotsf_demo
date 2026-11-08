@@ -62,7 +62,7 @@ fail=0
 # carries no repository. Until 25 Sep 2026 there was only the git path, and inside the extracted
 # archive `git status` failed, $changed came back EMPTY, and the step printed "nothing changed" --
 # failing open on precisely the reader the tier-A claim is addressed to.
-ARTIFACTS=(paper_8/fig1_diagnostic_flow.pdf paper_8/fig_value_axis.pdf
+ARTIFACTS=(paper_8/fig1_diagnostic_flow.pdf paper_8/fig_value_axis.pdf paper_8/fig_ood_retention.pdf
            paper_8/figA_gate_scatter.pdf paper_8/figA_freeze_boundary.pdf
            paper_8/figA_window_layout.pdf paper_8/figures/dissociation_trajectory.pdf
            paper_8/figures/n5k_trajectories.pdf paper_8/fig2_dissociation_sweep.pdf)
@@ -266,6 +266,7 @@ if [ -x "$PYFIG" ] && "$PYFIG" -c 'import matplotlib' 2>/dev/null; then
   # analyse_n5k_trajectories.py had been dead since July -- it carried an absolute path to a
   # repository location that no longer exists, so nobody would have noticed the figure going stale.
   run "dissociation_trajectory"    "$PYFIG" scripts/plot_dissociation_trajectory.py
+  run "fig_ood_retention (S7.2)"    "$PYFIG" paper_8/fig_ood_retention.py
   run "n5k_trajectories"           "$PYFIG" scripts/analyse_n5k_trajectories.py
   # The WORKSHOP version's only figure (workshop/main.tex:293 \includegraphics's it). Not a main-paper
   # artifact, but it was \includegraphics'd by a tracked document with no emitter line, which is the
