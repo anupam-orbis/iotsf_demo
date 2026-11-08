@@ -89,8 +89,9 @@ Across \textbf{32 screened cells} (Moirai-S/B/L, Chronos-T5, TimesFM-2.5; six
 datasets; two horizons), centered kernel alignment (CKA) does not track the
 intervention.  Within one backbone the least drifted cells are the only ones that
 degrade; a pre-registered positive control drives CKA to $0.063$ while the
-targeted capability improves by $23.3\%$; \pending{out-of-domain retention
-sentence}; and out of sample, adding CKA to backbone and protocol lowers
+targeted capability improves by $23.3\%$; on datasets it was not tuned on,
+full fine-tuning forgets in 11 of 28 pre-registered pairs while CKA orders that
+loss with the wrong sign ($\rho{=}{-}0.23$); and out of sample, adding CKA to backbone and protocol lowers
 predictive $R^2$ from $+0.201$ to $+0.176$.  Two measurement choices decide such
 comparisons: scoring on the windows used for selection reverses the
 intervention's sign in 4 of 31 cells, and an unfitted linear baseline puts 16 of

@@ -1,0 +1,18 @@
+{
+  "state": "results/v59_ood_retention/base_ETTm2_h192/condition_D/s42/final_state.pt",
+  "task_a_data": "data/forecasting/Weather.csv",
+  "model_size": "base",
+  "horizon": 192,
+  "lookback": 96,
+  "features": "M",
+  "n_eval_windows": 300,
+  "n_features": 14,
+  "mse_zeroshot": 1.2543327384136949,
+  "mae_zeroshot": 0.7884632436895531,
+  "mse_finetuned": 1.0235130867894016,
+  "mae_finetuned": 0.744695343291551,
+  "retention_A_pct": -18.401788022865592,
+  "cka_on_task_a_inputs": 0.9952168464660645,
+  "weight_drift": 1.234063461048184,
+  "cka_measured_on": "task A's held-out inputs -- NOT task B's; see the pre-registration"
+}

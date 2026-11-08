@@ -6,7 +6,7 @@ LATEX = pdflatex -interaction=nonstopmode
 # needs the other's .aux: build the supplement, then main, then both again.
 pdf:
 	$(LATEX) supplement.tex
-	bibtex supplement
+	-bibtex supplement  # the supplement cites nothing; bibtex exits 2 on an empty .aux
 	$(LATEX) main.tex
 	bibtex main
 	$(LATEX) supplement.tex

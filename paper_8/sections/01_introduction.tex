@@ -68,7 +68,9 @@ listed under \emph{Scope of the claims} in the Ethics Statement.
   \item \textbf{Drift does not track the intervention.}  Within Moirai-Base the
     least drifted cells are the only ones that degrade; a pre-registered positive
     control drives CKA on the original task's inputs to $0.063$ while that task
-    \emph{improves} by $23.3\%$; and \pending{out-of-domain retention result}.
+    \emph{improves} by $23.3\%$; and on datasets it was not tuned on, full
+    fine-tuning does forget (11 of 28 pre-registered pairs) while CKA orders the
+    loss with the wrong sign ($\rho{=}{-}0.229$, CI $[-0.390,{+}0.137]$).
     Across cells, within Moirai, the only backbone with enough cells to ask,
     $\rho{=}{+}0.168$ (clustered CI $[-0.469,{+}0.717]$): an interval that rules out
     a strong positive association but not a moderate one, so we claim no ordering

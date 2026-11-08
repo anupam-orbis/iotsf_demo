@@ -7,9 +7,10 @@ Representation drift is widely read as forgetting.  Against the intervention it
 stands in for, on three time-series foundation models and six benchmarks, that
 reading does not hold: the least drifted cells can be the ones that degrade, a
 representation driven nearly orthogonal can retain its capability, and CKA adds
-nothing to what backbone and protocol already predict.  We could not find one
-cell where fine-tuning demonstrably damaged a pre-trained capability, and most of
-our cells had no measurable capability to damage.  None of this makes CKA a poor
+nothing to what backbone and protocol already predict.  On the target task we
+could not find one cell where fine-tuning demonstrably damaged a pre-trained
+capability; on datasets it was not tuned on we found eleven, and CKA did not order
+them.  None of this makes CKA a poor
 measure of similarity; it makes similarity a poor measure of harm.
 
 The practical advice follows from the two measurement choices that decided our

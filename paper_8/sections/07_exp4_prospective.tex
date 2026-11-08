@@ -39,6 +39,16 @@ every final checkpoint zero-shot on the held-out windows of the four datasets it
 was not trained on, measuring CKA on those datasets' own inputs
 (Appendix~\ref{app:ood}).  The registered threshold for harmful forgetting is a
 loss at least 10~pp larger under full fine-tuning than under the strict freeze, in
-every seed.  \pending{Result: how many (cell, dataset) pairs meet it; retention
-range for B, D, H; Spearman between 1$-$CKA and retention with its cell-clustered
-interval; which registered outcome (O1/O2/O3) fired.}
+every seed.  \textbf{11 of 28} (cell, dataset) pairs meet it, in 6 of the 7
+cells, so here fine-tuning does forget: full fine-tuning is worse than zero-shot
+on 62 of 84 (cell, dataset, seed) records (mean $+14.2\%$, at most $+163\%$),
+while neither freeze loses more than $6.5\%$ anywhere.  The registered outcome is
+\textbf{O2}: CKA on the out-of-domain inputs does not order the loss,
+$\rho(1{-}\text{CKA}, \text{ret}_\text{B}){=}{-}0.229$, cell-bootstrap CI
+$[-0.390,{+}0.137]$, against a registered ${\geq}0.5$.  The pooled sign is set by
+model size: Moirai-Small barely drifts (CKA $0.81$--$0.96$) yet carries 7 of the
+11 harmful pairs, while Base and Large drift to $0.38$--$0.73$ and forget on
+Electricity alone.  Within Moirai-Small, an analysis we did not register, $\rho{=}{+}0.488$:
+drift may rank damage within one checkpoint, but its level does not carry across
+checkpoints, which a CKA threshold would need.  The strict freeze, one extra run,
+prevents the damage in every pair.

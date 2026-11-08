@@ -285,8 +285,41 @@ point is early-stopped on a 10-epoch budget.
 The design, thresholds and outcomes of this arm are fixed in
 \texttt{results/v59\_ood\_retention/preregistration.json}, committed before its
 first run.  Checkpoints are scored with the positive control's evaluator
-(\texttt{scripts/eval\_retention.py}), unchanged.  \pending{per-cell table and
-retention-versus-CKA figure}
+(\texttt{scripts/eval\_retention.py}), unchanged; \texttt{scripts/score\_ood\_retention.py}
+applies the registered rules and writes Table~\ref{tab:ood_retention}.  Retention
+is $(\text{MSE}_\text{fine-tuned}-\text{MSE}_\text{zero-shot})/\text{MSE}_\text{zero-shot}$
+on 300 held-out windows of each out-of-domain dataset, positive meaning worse.
+Every strict-freeze checkpoint reads CKA $1.000$ on every out-of-domain input, as
+it must.
+
+\begin{table}[h]
+\centering\scriptsize
+\caption{Out-of-domain retention (\%, mean over seeds 42/123/456) under full
+fine-tuning (B), the frozen encoder (D) and the strict freeze (H); B$-$H with its
+two-sided 95\% $t$-interval; CKA of B on the out-of-domain inputs.  Rows marked
+in \S\ref{sec:exp4:ood} as harmful are those with B$-$H${\geq}10$~pp in every seed.}
+\label{tab:ood_retention}
+\input{tables/ood_retention}
+\end{table}
+
+\paragraph{Registered association, and a size contrast.}  Over the 84 B records,
+$\rho(1{-}\text{CKA}, \text{ret}_\text{B}){=}{-}0.229$; resampling whole cells
+(10{,}000 draws, seed 0) gives $[-0.390,{+}0.137]$.  The rule required
+$\rho{\geq}0.5$ with an interval excluding zero, so outcome O2 fired.  CKA levels
+separate by model size rather than by forgetting (Small $0.81$--$0.96$, Base and
+Large $0.38$--$0.73$).  Within a size, which we did not register, $\rho$ is
+${+}0.488$ for Small (36 records, 3 cells), ${-}0.279$ for Base (36, 3) and
+${+}0.084$ for Large (12, 1).
+
+\paragraph{Reproducibility against the matrix.}  The registration asks for each
+rerun's target-task test MSE beside the matrix record it repeats.  The reruns ran
+on an NVIDIA A10G, the matrix on Apple MPS.  The frozen encoder reproduces closely
+(median absolute difference $1.7\%$ over 21 runs), full fine-tuning less so
+(median $10.0\%$, largest $53.0\%$).  The largest gap is a matrix outlier rather than a
+rerun one: the published Moirai-Small/ETTh2 $h{=}96$ seed-42 records sit at
+$0.94$--$0.98$ under both B and D, against $0.40$--$0.64$ for the other nine seeds of that
+cell and $0.46$/$0.48$ in the rerun.  The retention analysis uses the reruns only,
+paired on seed, and never pools them with matrix records.
 
 % ============================================================
 \section{ETTh2 Forecasting Details}

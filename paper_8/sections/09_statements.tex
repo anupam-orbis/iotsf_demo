@@ -69,9 +69,10 @@ not reliably order the intervention outcome across the cells we ran, with the on
 backbone family large enough to condition on carrying the cleanest evidence; a
 larger matrix, another family or another protocol could show otherwise.
 \emph{(iii)}~That fine-tuning never causes catastrophic forgetting, or that
-fine-tuning is safe.  We could not construct a cell on these benchmarks in which it
-demonstrably destroys a demonstrated capability, which is a failure to demonstrate
-and not a demonstration of absence.  \emph{(iv)}~That freezing, L2-SP, EWC or
+fine-tuning is safe.  Out of domain it does forget (\S\ref{sec:exp4:ood}); on the
+target task we could not construct a cell in which it demonstrably destroys a
+demonstrated capability, which is a failure to demonstrate and not a
+demonstration of absence.  \emph{(iv)}~That freezing, L2-SP, EWC or
 low-rank adaptation are useless.  Our prescription is to \emph{run} the
 frozen-encoder control rather than to skip it, because it is the observational
 shortcuts we found unreliable, not the mitigations.  \emph{(v)}~That foundation
