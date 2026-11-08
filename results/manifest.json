@@ -23,6 +23,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -53,6 +54,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -83,6 +85,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -113,6 +116,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -143,6 +147,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -173,6 +178,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -203,6 +209,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -233,6 +240,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -263,6 +271,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -293,6 +302,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -323,6 +333,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -353,6 +364,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -383,6 +395,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -413,6 +426,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -443,6 +457,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -473,6 +488,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -503,6 +519,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -533,6 +550,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -563,6 +581,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -593,6 +612,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -623,6 +643,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -653,6 +674,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -683,6 +705,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -713,6 +736,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -743,6 +767,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -774,6 +799,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [
@@ -806,6 +832,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -836,6 +863,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -875,6 +903,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -905,6 +934,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -935,6 +965,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -965,6 +996,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -995,6 +1027,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -1024,11 +1057,14 @@
         "scripts/gate_threshold_sensitivity.py",
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
+        "scripts/score_ood_retention.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [
-        "emit_mitigation_spectrum.py:read"
+        "emit_mitigation_spectrum.py:read",
+        "score_ood_retention.py:matrix_record"
       ],
       "in_matrix": true,
       "n_json": 69,
@@ -1057,6 +1093,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -1087,6 +1124,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -1117,6 +1155,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -1147,6 +1186,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -1177,6 +1217,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -1207,6 +1248,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -1237,6 +1279,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -1267,6 +1310,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -1297,6 +1341,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -1327,6 +1372,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -1358,6 +1404,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [
@@ -1392,6 +1439,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [
@@ -1425,6 +1473,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -1455,6 +1504,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -1485,6 +1535,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -1515,6 +1566,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -1545,6 +1597,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -1575,6 +1628,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -1605,6 +1659,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -1635,6 +1690,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -1665,6 +1721,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -1695,6 +1752,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -1725,6 +1783,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -1755,6 +1814,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -1785,6 +1845,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -1815,6 +1876,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -1845,6 +1907,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -1875,6 +1938,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -1905,6 +1969,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -1935,6 +2000,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -1965,6 +2031,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -1995,6 +2062,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -2025,6 +2093,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -2055,6 +2124,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -2085,6 +2155,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -2115,6 +2186,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -2138,6 +2210,7 @@
         "scripts/degradation_sensitivity.py",
         "scripts/emit_crossbackbone.py",
         "scripts/emit_dissociation.py",
+        "scripts/emit_layerunfreeze.py",
         "scripts/emit_mitigation_spectrum.py",
         "scripts/emit_power_topup.py",
         "scripts/gate_baseline_sensitivity.py",
@@ -2145,9 +2218,12 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
-      "sites": [],
+      "sites": [
+        "emit_layerunfreeze.py:load"
+      ],
       "in_matrix": true,
       "n_json": 5,
       "note": null
@@ -2175,6 +2251,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -2205,6 +2282,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -2235,7 +2313,9 @@
         "scripts/gate_threshold_sensitivity.py",
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
+        "scripts/plot_dissociation_trajectory.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [
@@ -2268,6 +2348,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -2298,6 +2379,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -2328,6 +2410,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -2358,6 +2441,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -2388,6 +2472,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -2418,6 +2503,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -2448,6 +2534,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -2478,6 +2565,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -2508,6 +2596,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -2538,6 +2627,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -2568,6 +2658,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -2598,6 +2689,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -2628,6 +2720,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -2658,6 +2751,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -2688,6 +2782,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -2718,6 +2813,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -2748,6 +2844,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -2778,6 +2875,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -2808,6 +2906,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -2838,6 +2937,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -2868,6 +2968,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -2898,6 +2999,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -2928,6 +3030,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -2958,6 +3061,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [
@@ -2990,6 +3094,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -3020,6 +3125,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -3043,14 +3149,18 @@
         "scripts/degradation_sensitivity.py",
         "scripts/emit_crossbackbone.py",
         "scripts/emit_dissociation.py",
+        "scripts/emit_layerunfreeze.py",
         "scripts/emit_mitigation_spectrum.py",
         "scripts/emit_power_topup.py",
+        "scripts/emit_sample_sweep.py",
         "scripts/gate_baseline_sensitivity.py",
         "scripts/gate_threshold_sensitivity.py",
         "scripts/gate_zs_noise.py",
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
+        "scripts/plot_dissociation_trajectory.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [
@@ -3085,11 +3195,13 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [
         "cell_matrix.py:ili_cell",
-        "cell_matrix.py:strict_freeze_cells"
+        "cell_matrix.py:strict_freeze_cells",
+        "strict_freeze_inference.py:per_seed_bh"
       ],
       "in_matrix": false,
       "n_json": 20,
@@ -3111,14 +3223,18 @@
         "scripts/degradation_sensitivity.py",
         "scripts/emit_crossbackbone.py",
         "scripts/emit_dissociation.py",
+        "scripts/emit_layerunfreeze.py",
         "scripts/emit_mitigation_spectrum.py",
         "scripts/emit_power_topup.py",
+        "scripts/emit_sample_sweep.py",
         "scripts/gate_baseline_sensitivity.py",
         "scripts/gate_threshold_sensitivity.py",
         "scripts/gate_zs_noise.py",
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
+        "scripts/plot_dissociation_trajectory.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [
@@ -3153,6 +3269,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -3176,14 +3293,18 @@
         "scripts/degradation_sensitivity.py",
         "scripts/emit_crossbackbone.py",
         "scripts/emit_dissociation.py",
+        "scripts/emit_layerunfreeze.py",
         "scripts/emit_mitigation_spectrum.py",
         "scripts/emit_power_topup.py",
+        "scripts/emit_sample_sweep.py",
         "scripts/gate_baseline_sensitivity.py",
         "scripts/gate_threshold_sensitivity.py",
         "scripts/gate_zs_noise.py",
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
+        "scripts/plot_dissociation_trajectory.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [
@@ -3222,6 +3343,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [
@@ -3256,11 +3378,13 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [
         "cell_matrix.py:strict_freeze_cells",
-        "gate_zs_noise.py:replicates"
+        "gate_zs_noise.py:replicates",
+        "strict_freeze_inference.py:per_seed_bh"
       ],
       "in_matrix": false,
       "n_json": 28,
@@ -3289,6 +3413,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [
@@ -3315,14 +3440,19 @@
         "scripts/degradation_sensitivity.py",
         "scripts/emit_crossbackbone.py",
         "scripts/emit_dissociation.py",
+        "scripts/emit_layerunfreeze.py",
         "scripts/emit_mitigation_spectrum.py",
         "scripts/emit_power_topup.py",
+        "scripts/emit_sample_sweep.py",
         "scripts/gate_baseline_sensitivity.py",
         "scripts/gate_threshold_sensitivity.py",
         "scripts/gate_zs_noise.py",
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
+        "scripts/plot_dissociation_trajectory.py",
+        "scripts/score_ood_retention.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [
@@ -3333,6 +3463,7 @@
         "gate_all_cells.py:_zs_val_refs",
         "gate_zs_noise.py:replicates",
         "heldout_decomposition.py:new_moirai",
+        "score_ood_retention.py:matrix_record",
         "score_prospective.py:load"
       ],
       "in_matrix": true,
@@ -3363,6 +3494,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [
@@ -3390,6 +3522,7 @@
         "scripts/degradation_sensitivity.py",
         "scripts/emit_crossbackbone.py",
         "scripts/emit_dissociation.py",
+        "scripts/emit_layerunfreeze.py",
         "scripts/emit_mitigation_spectrum.py",
         "scripts/emit_power_topup.py",
         "scripts/gate_baseline_sensitivity.py",
@@ -3397,9 +3530,12 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
-      "sites": [],
+      "sites": [
+        "emit_layerunfreeze.py:load"
+      ],
       "in_matrix": true,
       "n_json": 29,
       "note": null
@@ -3428,6 +3564,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [
@@ -3460,6 +3597,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -3491,11 +3629,13 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [
         "cell_matrix.py:strict_freeze_cells",
-        "gate_zs_noise.py:replicates"
+        "gate_zs_noise.py:replicates",
+        "strict_freeze_inference.py:per_seed_bh"
       ],
       "in_matrix": false,
       "n_json": 15,
@@ -3525,6 +3665,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [
@@ -3558,11 +3699,13 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [
         "cell_matrix.py:strict_freeze_cells",
-        "gate_zs_noise.py:replicates"
+        "gate_zs_noise.py:replicates",
+        "strict_freeze_inference.py:per_seed_bh"
       ],
       "in_matrix": false,
       "n_json": 12,
@@ -3592,6 +3735,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [
@@ -3626,6 +3770,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -3657,6 +3802,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [
@@ -3693,6 +3839,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [
@@ -3703,6 +3850,79 @@
       ],
       "in_matrix": true,
       "n_json": 66,
+      "note": null
+    },
+    {
+      "path": "results/v58_strictfreeze_rest",
+      "label": "CANONICAL",
+      "readers": [
+        "paper_8/fig1_diagnostic_flow.py",
+        "paper_8/figA_freeze_boundary.py",
+        "paper_8/figA_gate_scatter.py",
+        "scripts/cell_matrix.py",
+        "scripts/check_paper_numbers.py",
+        "scripts/cka_correlation_mde.py",
+        "scripts/cka_decision_value.py",
+        "scripts/cka_fixed_effects.py",
+        "scripts/clustered_inference.py",
+        "scripts/degradation_sensitivity.py",
+        "scripts/emit_crossbackbone.py",
+        "scripts/emit_dissociation.py",
+        "scripts/emit_mitigation_spectrum.py",
+        "scripts/emit_power_topup.py",
+        "scripts/gate_baseline_sensitivity.py",
+        "scripts/gate_threshold_sensitivity.py",
+        "scripts/gate_zs_noise.py",
+        "scripts/heldout_decomposition.py",
+        "scripts/paired_inference.py",
+        "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
+        "scripts/value_axis.py"
+      ],
+      "sites": [
+        "cell_matrix.py:strict_freeze_cells",
+        "gate_zs_noise.py:replicates",
+        "strict_freeze_inference.py:per_seed_bh"
+      ],
+      "in_matrix": false,
+      "n_json": 18,
+      "note": null
+    },
+    {
+      "path": "results/v59_ood_retention",
+      "label": "CANONICAL",
+      "readers": [
+        "paper_8/fig1_diagnostic_flow.py",
+        "paper_8/figA_freeze_boundary.py",
+        "paper_8/figA_gate_scatter.py",
+        "scripts/cell_matrix.py",
+        "scripts/check_paper_numbers.py",
+        "scripts/cka_correlation_mde.py",
+        "scripts/cka_decision_value.py",
+        "scripts/cka_fixed_effects.py",
+        "scripts/clustered_inference.py",
+        "scripts/degradation_sensitivity.py",
+        "scripts/emit_crossbackbone.py",
+        "scripts/emit_dissociation.py",
+        "scripts/emit_mitigation_spectrum.py",
+        "scripts/emit_power_topup.py",
+        "scripts/gate_baseline_sensitivity.py",
+        "scripts/gate_threshold_sensitivity.py",
+        "scripts/heldout_decomposition.py",
+        "scripts/paired_inference.py",
+        "scripts/score_ood_retention.py",
+        "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
+        "scripts/value_axis.py"
+      ],
+      "sites": [
+        "score_ood_retention.py:<module>",
+        "score_ood_retention.py:load",
+        "score_ood_retention.py:main",
+        "score_ood_retention.py:reproducibility"
+      ],
+      "in_matrix": true,
+      "n_json": 317,
       "note": null
     },
     {
@@ -3728,6 +3948,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -3757,10 +3978,14 @@
         "scripts/gate_threshold_sensitivity.py",
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
+        "scripts/score_ood_retention.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
-      "sites": [],
+      "sites": [
+        "score_ood_retention.py:matrix_record"
+      ],
       "in_matrix": true,
       "n_json": 22,
       "note": null
@@ -3788,6 +4013,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -3817,10 +4043,14 @@
         "scripts/gate_threshold_sensitivity.py",
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
+        "scripts/score_ood_retention.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
-      "sites": [],
+      "sites": [
+        "score_ood_retention.py:matrix_record"
+      ],
       "in_matrix": true,
       "n_json": 54,
       "note": null
@@ -3848,6 +4078,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [
@@ -3855,6 +4086,43 @@
       ],
       "in_matrix": false,
       "n_json": 34,
+      "note": null
+    },
+    {
+      "path": "results/v60_second_family",
+      "label": "CANONICAL",
+      "readers": [
+        "paper_8/fig1_diagnostic_flow.py",
+        "paper_8/figA_freeze_boundary.py",
+        "paper_8/figA_gate_scatter.py",
+        "scripts/cell_matrix.py",
+        "scripts/check_paper_numbers.py",
+        "scripts/cka_correlation_mde.py",
+        "scripts/cka_decision_value.py",
+        "scripts/cka_fixed_effects.py",
+        "scripts/clustered_inference.py",
+        "scripts/degradation_sensitivity.py",
+        "scripts/emit_crossbackbone.py",
+        "scripts/emit_dissociation.py",
+        "scripts/emit_mitigation_spectrum.py",
+        "scripts/emit_power_topup.py",
+        "scripts/gate_baseline_sensitivity.py",
+        "scripts/gate_threshold_sensitivity.py",
+        "scripts/heldout_decomposition.py",
+        "scripts/paired_inference.py",
+        "scripts/score_prospective.py",
+        "scripts/score_second_family.py",
+        "scripts/strict_freeze_inference.py",
+        "scripts/value_axis.py"
+      ],
+      "sites": [
+        "score_second_family.py:<module>",
+        "score_second_family.py:emit_tex",
+        "score_second_family.py:load",
+        "score_second_family.py:main"
+      ],
+      "in_matrix": true,
+      "n_json": 28,
       "note": null
     },
     {
@@ -3880,6 +4148,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -3910,6 +4179,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -3939,11 +4209,14 @@
         "scripts/gate_threshold_sensitivity.py",
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
+        "scripts/score_ood_retention.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [
-        "check_paper_numbers.py:<genexpr>"
+        "check_paper_numbers.py:<genexpr>",
+        "score_ood_retention.py:matrix_record"
       ],
       "in_matrix": true,
       "n_json": 9,
@@ -3972,6 +4245,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -4003,7 +4277,9 @@
         "scripts/gate_threshold_sensitivity.py",
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
+        "scripts/plot_dissociation_trajectory.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [
@@ -4037,6 +4313,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -4067,6 +4344,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -4097,6 +4375,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -4127,6 +4406,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -4157,6 +4437,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -4188,7 +4469,9 @@
         "scripts/gate_threshold_sensitivity.py",
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
+        "scripts/plot_dissociation_trajectory.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [
@@ -4222,6 +4505,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -4252,6 +4536,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ],
       "sites": [],
@@ -4283,6 +4568,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -4308,6 +4594,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -4333,6 +4620,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -4358,6 +4646,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -4383,6 +4672,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -4408,6 +4698,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -4433,6 +4724,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -4458,6 +4750,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -4483,6 +4776,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -4508,6 +4802,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -4533,6 +4828,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -4558,6 +4854,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -4585,6 +4882,7 @@
         "scripts/matched_lookback_gate.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -4611,6 +4909,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -4638,6 +4937,7 @@
         "scripts/matched_lookback_gate.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -4664,6 +4964,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -4689,6 +4990,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -4714,6 +5016,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -4741,6 +5044,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -4767,6 +5071,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -4792,6 +5097,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -4818,6 +5124,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -4843,6 +5150,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -4868,6 +5176,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -4893,6 +5202,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -4918,6 +5228,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -4944,6 +5255,7 @@
         "scripts/matched_lookback_gate.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -4970,6 +5282,7 @@
         "scripts/matched_lookback_gate.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -4995,6 +5308,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -5020,6 +5334,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -5045,6 +5360,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -5070,6 +5386,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -5096,6 +5413,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -5121,6 +5439,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -5146,6 +5465,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -5171,6 +5491,33 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
+        "scripts/value_axis.py"
+      ]
+    },
+    {
+      "name": "strict_freeze_inference.json",
+      "readers": [
+        "paper_8/fig1_diagnostic_flow.py",
+        "paper_8/figA_freeze_boundary.py",
+        "paper_8/figA_gate_scatter.py",
+        "scripts/cell_matrix.py",
+        "scripts/check_paper_numbers.py",
+        "scripts/cka_correlation_mde.py",
+        "scripts/cka_decision_value.py",
+        "scripts/cka_fixed_effects.py",
+        "scripts/clustered_inference.py",
+        "scripts/degradation_sensitivity.py",
+        "scripts/emit_crossbackbone.py",
+        "scripts/emit_dissociation.py",
+        "scripts/emit_mitigation_spectrum.py",
+        "scripts/emit_power_topup.py",
+        "scripts/gate_baseline_sensitivity.py",
+        "scripts/gate_threshold_sensitivity.py",
+        "scripts/heldout_decomposition.py",
+        "scripts/paired_inference.py",
+        "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -5196,6 +5543,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -5221,6 +5569,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -5246,6 +5595,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -5271,6 +5621,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -5296,6 +5647,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -5321,6 +5673,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -5346,6 +5699,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -5371,6 +5725,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -5396,6 +5751,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -5421,6 +5777,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -5446,6 +5803,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -5471,6 +5829,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -5496,6 +5855,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -5521,6 +5881,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -5546,6 +5907,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -5571,6 +5933,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -5596,6 +5959,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -5621,6 +5985,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -5646,6 +6011,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -5671,6 +6037,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -5696,6 +6063,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -5721,6 +6089,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -5747,6 +6116,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -5772,6 +6142,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -5797,6 +6168,7 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     },
@@ -5822,13 +6194,14 @@
         "scripts/heldout_decomposition.py",
         "scripts/paired_inference.py",
         "scripts/score_prospective.py",
+        "scripts/strict_freeze_inference.py",
         "scripts/value_axis.py"
       ]
     }
   ],
   "counts": {
     "SCANNED": 75,
-    "CANONICAL": 62,
+    "CANONICAL": 65,
     "ORPHAN": 1,
     "SUPERSEDED": 1
   },
