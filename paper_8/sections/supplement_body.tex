@@ -1,3 +1,87 @@
+% ============================================================
+\section{ETTh2 Forecasting Details}
+\label{app:etth2_details}
+% ============================================================
+
+\textbf{Dataset.}
+ETTh2 (Electricity Transformer Temperature, Hourly, dataset 2)
+contains 17{,}420 timesteps of 7 features (HUFL, HULL, MUFL, MULL,
+LUFL, LULL, OT) recorded hourly from electrical transformers.
+We use the standard chronological split: 12 months training,
+4 months validation, 4 months test.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figA_window_layout.pdf}
+\caption{\textbf{Which timesteps Moirai is given, and which it is asked to
+predict}, at $h{=}96$; $h{=}192$ is the same layout with $h$ substituted.  Both
+rows are the index arrays that \texttt{make\_train\_sequences} and
+\texttt{make\_eval\_sequences} return for window~$i$, drawn to one shared scale.
+At evaluation the model input is the $96{+}h$ steps \emph{preceding} the forecast
+window and the target is the $h$ steps strictly after it: the two are disjoint and
+consecutive, so no target value reaches the model.  The figure is generated from
+those functions' output and asserts that disjointness at draw time.}
+\label{fig:windowlayout}
+\end{figure}
+
+\textbf{Window construction, and exactly which values Moirai is given.}
+The evaluation windows use an ``extended lookback'' of $96{+}h$ steps, which
+could be read as though the forecast target were part of the model input.  It
+is not, and because the training and evaluation window sets differ the
+arithmetic is worth writing out.  Let $x_1,\dots,x_T$ be
+the series and $h$ the horizon.  Both window sets are built by two
+functions in \texttt{scripts/finetune\_forecasting.py}, named here so that
+this paragraph and the code can be checked against each other.
+
+\emph{Training} (\texttt{make\_train\_sequences}): window $i$ has context
+$x_i,\dots,x_{i+95}$ and target $x_{i+96},\dots,x_{i+95+h}$.  The two are
+concatenated into one $96{+}h$ tensor and passed to Moirai's
+\texttt{\_val\_loss} with fixed patch size 32, which is the interface's
+required calling convention: \texttt{\_val\_loss} splits the tensor at
+\texttt{context\_length} and marks the latter part with
+\texttt{prediction\_mask}, and the module then substitutes its learned
+\texttt{mask\_encoding} at every masked position and zeroes the
+corresponding observed flags.  The target values are therefore scored by
+the likelihood and never conditioned on.
+
+\emph{Evaluation} (\texttt{make\_eval\_sequences}): window $i$ has input
+$x_i,\dots,x_{i+95+h}$ (that is, $96{+}h$ steps of \emph{history}),
+and target $x_{i+96+h},\dots,x_{i+95+2h}$.  The input's last index is
+$i+95+h$ and the target's first is $i+96+h$, so the two windows are
+disjoint and consecutive and no target value appears anywhere in the model
+input.  Only the input is passed, as \texttt{past\_target} with
+\texttt{past\_observed\_target} all ones; the point prediction is the
+median of 20 forecast samples with \texttt{patch\_size='auto'}.
+``Extended lookback'' thus means a longer \emph{history}, not
+history-plus-target.  Figure~\ref{fig:windowlayout} draws both layouts
+from the index arrays those two functions actually return rather than from
+this description, and asserts the disjointness at draw time, so the figure
+cannot drift from the implementation.
+
+The one asymmetry this does introduce is between models: Moirai is given
+$96{+}h$ steps of history where the fitted baseline of
+Appendix~\ref{app:gatecorrection} is given 96.  That direction favours the
+pre-trained model (more context lowers $\text{MSE}_{\text{ZS}}$, raises
+$\Vb{b}$ and so admits \emph{more} cells), and
+Appendix~\ref{app:baselines:matchedlb} measures it rather than arguing it, by
+giving the baseline the same $96{+}h$ history.
+
+All data is fed to Moirai in raw scale (Moirai's internal
+PackedStdScaler handles instance normalization); predictions and targets
+are then normalized using training-set mean and standard deviation
+for MSE/MAE computation, matching the standard time-series forecasting
+evaluation protocol.
+
+\textbf{Horizon selection.}
+We evaluate $h{=}96$ and $h{=}192$, the two horizons at which Moirai-Small on
+ETTh2 clears the value gate: measured against the fitted lookback-96 baseline
+the gate is defined with (Appendix~\ref{app:gatecorrection}),
+$\Vb{\text{ridge}}{=}{+}0.400$ at $h{=}96$ and ${+}0.464$ at
+$h{=}192$ on held-out windows.
+Horizons $h{=}336$ and $h{=}720$ exceed Moirai-Small's
+\texttt{max\_seq\_len}$=$512 constraint when combined with the
+required extended lookback and are omitted.
+
 \section{uni2ts PackedStdScaler Patch Details}
 \label{app:scaler_patch}
 % ============================================================

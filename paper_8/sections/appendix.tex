@@ -44,7 +44,7 @@ claim about what the screen does, at an operating point we chose rather than
 derived.  \textbf{C3} is methodological, and it is the only one of the three we
 would defend outside these benchmarks.
 
-\begin{table}[ht]
+\begin{table}[!htbp]
 \centering\small
 \caption{The paper's three claims with their evidence and their strength, and then
 the three readings we do \emph{not} claim.  The rows are ordered by how far each
@@ -131,7 +131,7 @@ family} only (Small 13.8M, Base 91M, Large 311M across ETTh1, ETTh2,
 ETTm2).  We attempted three further backbones as second-model
 controls across three ETT datasets (Table~\ref{tab:backbone_screen}).
 
-\begin{table}[ht]
+\begin{table}[!htbp]
 \centering\small
 \caption{The initial non-Moirai screen, at $h{=}96$ with a lookback of $192$, one
 seed (42) and $300$ test windows. \textbf{This is a different protocol from the
@@ -197,7 +197,7 @@ and Table~\ref{tab:n10k_protocols} scores all four against the same held-out
 zero-shot reference.  \emph{Dispersions here are standard deviations over seeds
 ($\text{ddof}{=}1$), because the protocols differ in seed count.}
 
-\begin{table}[ht]
+\begin{table}[!htbp]
 \centering\small
 \caption{Moirai-Small/ETTh2 $h{=}96$, $n{=}10$k, condition~B, under four
 protocols.  Held-out forgetting is against the held-out zero-shot MSE
@@ -252,7 +252,7 @@ $^{d}$, which is the trainer's default, not overridden by its launcher.  Epoch
 selection, where it happens, uses the selection windows only; the held-out
 windows every outcome is scored on take no part in it.
 
-\begin{table}[ht]
+\begin{table}[!htbp]
 \centering
 \caption{\textbf{Training protocol per trainer.}  ``Final'' means the cell is read
 at its last epoch; ``best'' means the epoch with the lowest selection-window loss
@@ -279,6 +279,24 @@ checkpoint (Moirai 1.0-R-small) and lookback (104).  The sample-size sweep
 $n{\leq}5\text{k}$ points use the first row's protocol, and its $n{=}10\text{k}$
 point is early-stopped on a 10-epoch budget.
 
+\textbf{Condition C's objective and its contrastive labels.}
+Condition~B fine-tunes on NLL only; condition~C adds a supervised contrastive
+term~\citep{khosla2020supcon},
+$\mathcal{L}(\theta) = \mathcal{L}_{\text{NLL}}(\theta) +
+\lambda\,\mathcal{L}_{\text{SupCon}}(\mathbf{z}, \mathbf{y};\, \tau)$, with
+$\lambda = 0.5$ and $\tau = 0.07$.  Condition~C appears in this paper only as a
+protocol variant of~B and carries no claim; the comparison every claim turns on
+is B against~D.
+For the contrastive labels we divide training sequences into
+8 temporal clusters based on their position in the time series.
+Sequences within the same cluster are positive pairs; sequences from
+different clusters are negatives.
+This encourages the encoder to maintain temporal-regime awareness.
+
+Dataset splits, the exact window construction (with a figure, generated from the
+window builders, showing that no target value enters the model input) and the
+choice of horizons are in Supplement~\ref{app:etth2_details}.
+
 % ============================================================
 \section{Out-of-Domain Retention Arm}
 \label{app:ood}
@@ -292,7 +310,7 @@ on 300 held-out windows of each out-of-domain dataset, positive meaning worse.
 Every strict-freeze checkpoint reads CKA $1.000$ on every out-of-domain input, as
 it must.
 
-\begin{table}[h]
+\begin{table}[!htbp]
 \centering\scriptsize
 \caption{Out-of-domain retention (\%, mean over seeds 42/123/456) under full
 fine-tuning (B), the frozen encoder (D) and the strict freeze (H); B$-$H with its
@@ -320,110 +338,6 @@ rerun one: the published Moirai-Small/ETTh2 $h{=}96$ seed-42 records sit at
 $0.94$--$0.98$ under both B and D, against $0.40$--$0.64$ for the other nine seeds of that
 cell and $0.46$/$0.48$ in the rerun.  The retention analysis uses the reruns only,
 paired on seed, and never pools them with matrix records.
-
-% ============================================================
-\section{ETTh2 Forecasting Details}
-\label{app:etth2_details}
-% ============================================================
-
-\textbf{Dataset.}
-ETTh2 (Electricity Transformer Temperature, Hourly, dataset 2)
-contains 17{,}420 timesteps of 7 features (HUFL, HULL, MUFL, MULL,
-LUFL, LULL, OT) recorded hourly from electrical transformers.
-We use the standard chronological split: 12 months training,
-4 months validation, 4 months test.
-
-% Added 21 Sep 2026: a reviewer read this appendix's old phrase "extended lookback sequences
-% (context_length + prediction_length timesteps)" as describing target leakage, and said the point had
-% to be made unambiguous before acceptance. figA_window_layout.py extracts the two window builders from
-% scripts/finetune_forecasting.py by AST, feeds them arange(T) so the values they return ARE timestep
-% indices, and asserts target-start = input-end + 1 on both window sets before drawing. So the diagram
-% is derived from the code that produced the numbers rather than from the paragraph beside it.
-\begin{figure}[t]
-\centering
-\includegraphics[width=\linewidth]{figA_window_layout.pdf}
-\caption{\textbf{Which timesteps Moirai is given, and which it is asked to
-predict}, at $h{=}96$; $h{=}192$ is the same layout with $h$ substituted.  Both
-rows are the index arrays that \texttt{make\_train\_sequences} and
-\texttt{make\_eval\_sequences} return for window~$i$, drawn to one shared scale.
-At evaluation the model input is the $96{+}h$ steps \emph{preceding} the forecast
-window and the target is the $h$ steps strictly after it: the two are disjoint and
-consecutive, so no target value reaches the model.  The figure is generated from
-those functions' output and asserts that disjointness at draw time.}
-\label{fig:windowlayout}
-\end{figure}
-
-\textbf{Window construction, and exactly which values Moirai is given.}
-The evaluation windows use an ``extended lookback'' of $96{+}h$ steps, which
-could be read as though the forecast target were part of the model input.  It
-is not, and because the training and evaluation window sets differ the
-arithmetic is worth writing out.  Let $x_1,\dots,x_T$ be
-the series and $h$ the horizon.  Both window sets are built by two
-functions in \texttt{scripts/finetune\_forecasting.py}, named here so that
-this paragraph and the code can be checked against each other.
-
-\emph{Training} (\texttt{make\_train\_sequences}): window $i$ has context
-$x_i,\dots,x_{i+95}$ and target $x_{i+96},\dots,x_{i+95+h}$.  The two are
-concatenated into one $96{+}h$ tensor and passed to Moirai's
-\texttt{\_val\_loss} with fixed patch size 32, which is the interface's
-required calling convention: \texttt{\_val\_loss} splits the tensor at
-\texttt{context\_length} and marks the latter part with
-\texttt{prediction\_mask}, and the module then substitutes its learned
-\texttt{mask\_encoding} at every masked position and zeroes the
-corresponding observed flags.  The target values are therefore scored by
-the likelihood and never conditioned on.
-
-\emph{Evaluation} (\texttt{make\_eval\_sequences}): window $i$ has input
-$x_i,\dots,x_{i+95+h}$ (that is, $96{+}h$ steps of \emph{history}),
-and target $x_{i+96+h},\dots,x_{i+95+2h}$.  The input's last index is
-$i+95+h$ and the target's first is $i+96+h$, so the two windows are
-disjoint and consecutive and no target value appears anywhere in the model
-input.  Only the input is passed, as \texttt{past\_target} with
-\texttt{past\_observed\_target} all ones; the point prediction is the
-median of 20 forecast samples with \texttt{patch\_size='auto'}.
-``Extended lookback'' thus means a longer \emph{history}, not
-history-plus-target.  Figure~\ref{fig:windowlayout} draws both layouts
-from the index arrays those two functions actually return rather than from
-this description, and asserts the disjointness at draw time, so the figure
-cannot drift from the implementation.
-
-The one asymmetry this does introduce is between models: Moirai is given
-$96{+}h$ steps of history where the fitted baseline of
-Appendix~\ref{app:gatecorrection} is given 96.  That direction favours the
-pre-trained model (more context lowers $\text{MSE}_{\text{ZS}}$, raises
-$\Vb{b}$ and so admits \emph{more} cells), and
-Appendix~\ref{app:baselines:matchedlb} measures it rather than arguing it, by
-giving the baseline the same $96{+}h$ history.
-
-All data is fed to Moirai in raw scale (Moirai's internal
-PackedStdScaler handles instance normalization); predictions and targets
-are then normalized using training-set mean and standard deviation
-for MSE/MAE computation, matching the standard time-series forecasting
-evaluation protocol.
-
-\textbf{Condition C's objective and its contrastive labels.}
-Condition~B fine-tunes on NLL only; condition~C adds a supervised contrastive
-term~\citep{khosla2020supcon},
-$\mathcal{L}(\theta) = \mathcal{L}_{\text{NLL}}(\theta) +
-\lambda\,\mathcal{L}_{\text{SupCon}}(\mathbf{z}, \mathbf{y};\, \tau)$, with
-$\lambda = 0.5$ and $\tau = 0.07$.  Condition~C appears in this paper only as a
-protocol variant of~B and carries no claim; the comparison every claim turns on
-is B against~D.
-For the contrastive labels we divide training sequences into
-8 temporal clusters based on their position in the time series.
-Sequences within the same cluster are positive pairs; sequences from
-different clusters are negatives.
-This encourages the encoder to maintain temporal-regime awareness.
-
-\textbf{Horizon selection.}
-We evaluate $h{=}96$ and $h{=}192$, the two horizons at which Moirai-Small on
-ETTh2 clears the value gate: measured against the fitted lookback-96 baseline
-the gate is defined with (Appendix~\ref{app:gatecorrection}),
-$\Vb{\text{ridge}}{=}{+}0.400$ at $h{=}96$ and ${+}0.464$ at
-$h{=}192$ on held-out windows.
-Horizons $h{=}336$ and $h{=}720$ exceed Moirai-Small's
-\texttt{max\_seq\_len}$=$512 constraint when combined with the
-required extended lookback and are omitted.
 
 % ============================================================
 \section{ETTh2 Drift Diagnosis and Mitigation (Full Tables)}
@@ -454,7 +368,7 @@ JSON; no value in it is transcribed by hand. The two protocol arms
 at $h{=}24$) are listed together for completeness but are never pooled into a
 single statistic.
 
-\begin{table}[ht]
+\begin{table}[!htbp]
 \centering
 \caption{All 31 intervention cells (the 31 of 32 screened cells with a paired
 B/D run): \textbf{selection-split} gate $\Vb{\text{ridge}}$ (the primary gate of
@@ -474,7 +388,7 @@ $n$ is a size rather than a subsample. Generated by
 \end{table}
 
 
-\begin{table}[ht]
+\begin{table}[!htbp]
 \centering
 \caption{\textbf{The four sign reversals between selection and held-out
 windows} (\S\ref{sec:analysis:heldout}). $\Delta$ adapted and $\Delta$ frozen
@@ -511,7 +425,7 @@ to be expected, and it is why scoring $\denc$ on selection windows is not a
 defensible option rather than merely a less careful one.
 
 
-\begin{table}[ht]
+\begin{table}[!htbp]
 \centering
 \caption{\textbf{Cross-backbone results ($h{=}24$)}
 (\S\ref{sec:forecasting:nonmoirai}). Every non-Moirai cell with a paired
@@ -601,145 +515,57 @@ columns a paper means by ``we froze the encoder'' is not a detail.}
 Condition~D freezes the encoder's own weights but leaves the input projection
 (\texttt{in\_proj}, $247{,}680$ parameters) and \texttt{mask\_encoding} ($384$)
 trainable alongside the distribution head (\texttt{param\_proj},
-$2{,}956{,}800$). What the encoder \emph{receives} therefore keeps changing, so
-its output is not a fixed function of the input, which is why D's measured CKA
-is $0.76$--$0.90$ on ILI and $0.97$--$0.99$ on Moirai-Base rather than
-$1.000$. A reader can reasonably object that wherever ``freezing wins'', it
-wins partly by re-fitting the input projection rather than by holding the
-encoder still.
+$2{,}956{,}800$).  What the encoder receives therefore keeps changing, and D's
+measured CKA is $0.76$--$0.99$ rather than $1$.  Condition~H freezes those two
+modules as well, so only \texttt{param\_proj} trains and the encoder's output is
+fixed by construction (measured CKA $1.0000$ on every run).  B$-$H is the clean
+read of what allowing any encoder-side change was worth, and it is the primary
+contrast on every Moirai cell (Table~\ref{tab:strictfreeze}); B$-$D is restricted
+to the seeds H ran and reported beside it.  The reading rule was fixed before the
+runs: a cell where the two disagree in sign has its gap attributed in part to
+input re-fitting, and is reported as such.
 
-Condition~\textbf{H} removes the objection: \texttt{in\_proj} and
-\texttt{mask\_encoding} are frozen too, so only \texttt{param\_proj} trains and
-the encoder's output is pinned by construction (measured CKA $1.0000$ exactly,
-as it must be). B$-$H is then a clean read of what allowing \emph{any}
-encoder-side change was worth, and B$-$D versus B$-$H separates encoder
-adaptation from input re-fitting. We fixed the reading rule before running: the
-claim is that the sign and reading of B$-$D survive strict freezing, so B$-$H
-is reported beside B$-$D on every cell, and divergence on any cell is reported
-as that cell's gap being partly input re-fitting rather than being buried.
+\textbf{Calls.}  With the paper's paired $t$-interval and Benjamini--Hochberg
+across the 22 cells (Appendix~\ref{app:pairedinference}), B$-$H gives
+\textbf{0 freezing-better}, 3 adaptation-better (Moirai-Base/ETTh2 $h{=}192$,
+Moirai-Large/ETTh2 $h{=}96$, ILI) and 19 inconclusive; B$-$D on the same cells and
+seeds gives 1, 3 and 18.  Three seeds leave most cells unresolved even where the
+mean is large: Moirai-Small/Weather $h{=}192$ reads $+56.7{\pm}13.5$, whose
+two-degree-of-freedom interval still includes zero.
 
-\textbf{Result} (Table~\ref{tab:strictfreeze}). The sixteen cells fall into
-three groups. Seven were chosen before the gate was corrected: they are the six
-that met the degradation
-definition under the unfitted trend baseline
-(Appendix~\ref{app:gatecorrection}), plus ILI. Nothing was dropped; two cells
-the prospective arm later added (Moirai-Large on ETTh1 and on Weather) postdate
-this control and carry no H run. That selection no longer picks out a privileged
-class (against the fitted baseline no cell meets the definition), but it
-remains the set chosen to be \emph{most} favourable to the degradation story,
-which is the useful property here. Five are the gate-passing
-survivors of \S\ref{sec:forecasting:results}, run afterwards precisely because
-the first seven did not reach them: until they existed, the survivors' readings
-rested on condition~D alone. The last four are the Moirai/ETTm2 cells that clear
-the screen against a rung other than the fitted line
-(Appendix~\ref{app:valueaxis}), added so that the control covers value-cells
-outside ETTh2: all four of them, at three seeds each, so ETTm2 is covered
-completely rather than partially. Measured CKA is
-$1.0000$ everywhere, confirming the construction.
+\textbf{Sign.}  B$-$H keeps B$-$D's sign on 18 of 22 cells.  On those the
+magnitude moves by $-13.1$ to $+0.5$~pp, nearly always towards adaptation, so
+condition~D slightly flatters freezing.  The exception is Moirai-Small/ETTh2
+$h{=}96$ ($+13.7 \to +42.6{\pm}29.5$), carried by seed~42: that seed diverges
+under both B ($+98.9\%$) and D ($+91.1\%$), and cannot diverge under H, where only
+the head trains.  Over its other two seeds B$-$H is $+14.4$ against B$-$D's
+$+16.7$.  The four cells that reverse are all four Moirai/ETTm2 cells: Small
+$h{=}96$ from $+7.3{\pm}2.9$ to $-6.8{\pm}2.0$, Base $h{=}96$ from $+7.0{\pm}2.4$
+to $-9.2{\pm}3.1$, Small $h{=}192$ from $+4.2{\pm}5.8$ to $-2.7{\pm}6.1$, Base
+$h{=}192$ from $+1.3{\pm}3.4$ to $-2.4{\pm}2.9$.  Only the two $h{=}96$ shifts are
+several SEMs; the $h{=}192$ pair are shifts in the mean, not resolved reversals.
+All four move towards adaptation, so none recovers a degradation case, and they
+show that condition~D does not measure encoder adaptation alone: on ETTm2 its sign
+is set by the input projection.
 
-\textbf{On twelve of the sixteen the reading survives; on four it reverses, and
-the four are the ones we added.} B$-$H keeps B$-$D's sign on the original seven
-and on the five survivors. There the magnitude
-changes by $-13.1$ to $+28.9$~pp, and on the original seven by $-5.8$ to
-$+0.5$~pp, so at most $5.8$~pp of a gap as large as
-$62$~pp is input-projection re-fitting. On ILI, where adaptation helps, strict
-freezing makes adaptation look \emph{more} valuable ($-38.6 \to -43.6$), which
-is the same direction: holding more of the model still costs more where the
-encoder was earning its keep. B$-$D is averaged over the seeds condition H
-ran, so Moirai-Small/ETTh1's entries here are 3-seed values against the 5-seed
-values quoted in Table~\ref{tab:heldout_all}.
-
-\textbf{All four ETTm2 cells diverge, and we said in advance how that would be
-read.} On every one of them $\denc$ changes sign between the two controls:
-Moirai-Small $h{=}96$ goes from B$-$D $+7.3{\pm}2.9$ to B$-$H $-6.8{\pm}2.0$,
-Moirai-Base $h{=}96$ from $+7.0{\pm}2.4$ to $-9.2{\pm}3.1$, Moirai-Small
-$h{=}192$ from $+4.2{\pm}5.8$ to $-2.7{\pm}6.1$ and Moirai-Base $h{=}192$ from
-$+1.3{\pm}3.4$ to $-2.4{\pm}2.9$: shifts of $-14.2$, $-16.2$, $-6.9$ and
-$-3.7$~pp. The last of those is the weakest of the four and we do not lean on it:
-both of its intervals straddle zero, so what that cell shows is a shift in the
-mean and not a resolved reversal. The pattern is carried by the two $h{=}96$
-cells, where the shift is four to five times the SEM. The consistency of the
-\emph{direction} across all four is what the reading rests on: four cells, one
-dataset, four shifts, all negative. The rule fixed before the runs was that divergence means part of
-that cell's gap is input re-fitting, and that is what these say: on ETTm2,
-condition~D's apparent ``freezing wins'' was carried \emph{entirely} by the
-input projection adapting to the target, and once it is held fixed too,
-allowing the encoder to adapt is the better choice. Two readings follow, and
-they point the same way as the rest of the paper rather than against it. First,
-the direction of the correction is towards adaptation on every diverging cell,
-so nothing here recovers a degradation case; ETTm2 joins ETTh2 in the column
-where full fine-tuning wins under the strict control. Second, and more
-important for \S\ref{sec:exp2}, it is direct evidence that
-\textbf{condition~D does not measure encoder adaptation alone}: on four of the
-sixteen cells where we can separate the two, the loose control's sign is set by
-the projections rather than by the encoder. That is a limit on B$-$D as an
-estimand, and it is why \S\ref{sec:method} defines $\denc$ against the control
-actually used and reports H beside it rather than substituting one for the
-other.
-
-\textbf{On the five survivors the control cuts against freezing, not for it.}
-These are the cells the objection mattered most for, and on the three where full
-fine-tuning already won, strict freezing \emph{widens} its margin rather than
-narrowing it: B$-$D of $-22.3$, $-20.2$ and $-20.8$ becomes B$-$H of $-28.0$,
-$-31.8$ and $-33.9$ on Moirai-Base $h{=}96$, Base $h{=}192$ and Large $h{=}96$,
-a move of $-5.6$ to $-13.1$~pp. Part of what condition~D was scoring on these
-cells was therefore the input projection re-fitting to the target data, and
-removing it makes encoder adaptation look \emph{more} valuable, not less. On
-Moirai-Small $h{=}192$ (the cell that comes closest to degradation), B$-$H is
-$+1.2{\pm}8.5$ against B$-$D's $+4.1{\pm}8.6$: freezing still reads as better,
-by less, with a standard error several times the mean either way. Condition~H
-also improves on the un-tuned model in every seed of all five
-(forg$_\text{H}$ from $-0.2\%$ to $-8.5\%$), so on the survivors both parts of
-the degradation definition behave the same way under the strict control as
-under the loose one.
-
-\textbf{The one large change is the diverged seed.} Moirai-Small/ETTh2 $h{=}96$ moves from B$-$D $+13.7$ to
-B$-$H $+42.6{\pm}29.5$, the only cell whose magnitude shifts by more than
-$13$~pp. It is seed 42, which \S\ref{sec:forecasting:results} reports as a
-training failure rather than an encoder-drift effect: that seed diverges under
-full fine-tuning ($+98.9\%$) \emph{and} under the frozen encoder ($+91.1\%$),
-but it cannot diverge under condition~H, where only \texttt{param\_proj} trains
-and the run therefore sits at zero-shot ($-0.1\%$). Over the other two seeds
-B$-$H is $+14.4$ against B$-$D's $+16.7$. The strict control thus supplies
-independent support for the seed-42 diagnosis: what fails on that seed is
-optimisation, and holding the encoder's \emph{inputs} fixed as well as its
-weights is what prevents it.
-
-\begin{table}[ht]
+\begin{table}[!htbp]
 \centering
-\caption{The strict-freeze control (condition~H) beside condition~D on sixteen
-cells: the six that met the degradation definition under the unfitted trend
-baseline, plus ILI, plus the five gate-passing survivors of
-\S\ref{sec:forecasting:results}, plus all four Moirai/ETTm2 value-cells.
-\textbf{B$-$H keeps B$-$D's sign on twelve and reverses it on all four ETTm2
-cells}, where condition~D's margin was the input projection re-fitting rather
-than the encoder being held still. B$-$D is restricted to the seeds condition~H
-ran, and a cell with fewer than three H seeds is excluded and named by the
-emitter rather than printed thin. $n$ is shown on every row and is not constant
-down the column; ILI's $452$ is its whole training split rather than a cap
-(Table~\ref{tab:heldout_all}). Generated by
+\caption{The strict freeze (H) beside the frozen encoder (D) on all 22 Moirai
+cells, $\denc$ on held-out windows (pp, mean${\pm}$SEM over the seeds H ran).
+\textbf{B$-$H reverses B$-$D's sign on the four ETTm2 cells only.}  $n$ varies
+by cell; ILI's $452$ is its whole training split.  Generated by
 \texttt{scripts/cell\_matrix.py --latex}.}
 \label{tab:strictfreeze}
 \input{tables/strictfreeze}
 \end{table}
 
-\textbf{One clause does not survive, and it is not the headline one.}
-``Degradation'' has two parts: fine-tuning ends up worse than the un-tuned
-model, \emph{and} freezing improves on it. The first part is a property of
-condition B and is untouched by this control. The second is condition~D's, and
-on two cells the strictly-frozen model does \emph{not} beat the un-tuned model:
-Moirai-Small/ETTh1 $h{=}192$ at forg$_\text{H}={+}1.2{\pm}0.4\%$, positive in
-all 3 seeds where forg$_\text{D}$ is $-4.8\%$, and Moirai-Small/ETTm2 $h{=}192$
-at ${+}1.3{\pm}0.3\%$, positive in all 3 seeds where forg$_\text{D}$ is
-$-5.8\%$. On those cells the head alone cannot
-recover the zero-shot forecast; D's improvement came partly from re-fitting the
-input projection. The other fourteen cells keep both parts (forg$_\text{H}$ from
-$-0.2\%$ to $-12.8\%$), so ``freezing also beats not fine-tuning'' holds
-strictly on 14 of 16. The first part is unaffected in either direction: where
-freezing wins it keeps winning under the strict control (B$-$H positive on all
-six candidate cells), and where full fine-tuning wins it wins by more (the five
-survivors above). We report the cells rather than re-defining the term around
-them.
+\textbf{The degradation definition under H.}  ``Degradation'' needs fine-tuning
+to end worse than the un-tuned model \emph{and} the frozen arm to improve on it.
+The strict freeze improves on zero-shot on 20 of 22 cells (forg$_\text{H}$ from
+$-0.2\%$ to $-22.2\%$).  On Moirai-Small/ETTh1 $h{=}192$ (${+}1.2{\pm}0.4\%$) and
+Moirai-Small/ETTm2 $h{=}192$ (${+}1.3{\pm}0.3\%$), positive in every seed, the
+head alone cannot recover the zero-shot forecast, and D's improvement there came
+from re-fitting the input projection.
 
 % ============================================================
 \section{A Second and Third Backbone Where There Is Something to Protect}
@@ -768,7 +594,7 @@ reference runs through the generative decoder and both trained arms through an M
 head.  All 25 runs are fresh on one A10G and are not pooled with the matrix's
 records: Chronos's sampled zero-shot differs across devices by about $1\%$.
 
-\begin{table}[ht]
+\begin{table}[!htbp]
 \centering\small
 \caption{\textbf{The two Traffic cells} ($h{=}24$).  $\denc$ is held-out, paired on
 seed, mean${\pm}$SEM over 5 seeds with a two-sided $t$-interval; positive would mean
@@ -856,7 +682,7 @@ records (only $r$ is), so $\alpha{=}16$ is traceable to
 \texttt{scripts/run\_lora\_valuecells.sh} and its committed command line rather
 than to the per-run JSONs, the same limitation the learning rate carries.
 
-\begin{table}[t]
+\begin{table}[!htbp]
 \centering
 \caption{\textbf{Condition E (LoRA, $r{=}8$, $\alpha{=}16$) on the eight Moirai
 value-cells that lacked it.} All contrasts are held-out test MSE, normalised by
@@ -890,7 +716,7 @@ else.
 
 \textbf{The floor is not zero.}  The measured floor is \textbf{0.215}:
 
-\begin{table}[ht]
+\begin{table}[!htbp]
 \centering
 \caption{CKA calibration, measured.  The floor is the CKA of a randomly
 re-initialised encoder against the pre-trained one (5 seeds each, mean$\pm$std,
@@ -1098,7 +924,7 @@ a transcription error.
 \subsection{The ladder on the selection windows (the paper's primary)}
 \label{app:baselines:val}
 
-\begin{table}[ht]
+\begin{table}[!htbp]
 \centering
 \caption{\textbf{Gate $\Vb{b}$ under eight denominators and a floor, on the
 \emph{selection} windows.}  Same conventions as
@@ -1187,7 +1013,7 @@ $\text{lookback}+h$ steps of context while the linear map sees $96$, so the
 screen is a lower bound on the linear model's strength
 (Appendix~\ref{app:baselines:matchedlb}).
 
-\begin{table}[ht]
+\begin{table}[!htbp]
 \centering\small
 \caption{Baseline strength: train-normalised MSE on 300 matched test windows.
 Row~1 is the unfitted per-window estimator; row~4 is the
@@ -1247,7 +1073,7 @@ forg.$_\text{D}{=}{-}2.45{\pm}0.16$.  We nonetheless report every cell mean
 including seed 42, because a rule that discards runs after seeing their outcome
 is not one we are willing to apply.
 
-\begin{table}[ht]
+\begin{table}[!htbp]
 \centering\footnotesize
 \caption{The five cells that still clear $\Vb{\text{ridge}}{\geq}0.20$ on
 held-out windows under the fitted baseline. Forg.\% is percent change against
@@ -1342,7 +1168,7 @@ negative on both).  D reaches CKA $0.76$--$0.90$, not $1.000$, because the
 projections feeding the encoder remain trainable (Appendix~\ref{app:strictfreeze}).
 Table~\ref{tab:ili_perseed} gives the per-seed values.
 
-\begin{table}[ht]
+\begin{table}[!htbp]
 \centering\small
 \caption{ILI per-seed results (Moirai-Small, $h{=}24$, lookback$=$104), both
 conditions.}
@@ -1526,7 +1352,7 @@ within-backbone figure. We decline to make the positive claim the pooled number
 would support, because the restriction that forbids it was fixed before these
 cells were run rather than chosen after seeing them.
 
-\begin{table}[ht]
+\begin{table}[!htbp]
 \centering\footnotesize
 \caption{Is the pooled CKA correlation a backbone artefact? The same statistic
 (Spearman $\rho$ of CKA against held-out B$-$D, $10{,}000$-resample bootstrap CI)
@@ -1568,7 +1394,7 @@ the same interval as above, restricted), which is the point: the sign of the
 association is not stable enough within a single backbone and capacity to carry a
 decision.
 
-\begin{table}[ht]
+\begin{table}[!htbp]
 \centering\footnotesize
 \caption{\textbf{The within-backbone dissociation, one capacity, eight cells.}
 Every Moirai-Base cell, ordered by CKA (most drifted first). ``Full FT'' and
@@ -1691,7 +1517,7 @@ Appendices~\ref{app:crosscell} and~\ref{app:predictor}; the summary is:
 adjustment the previous version of this appendix declined to fit
 (Table~\ref{tab:clustered_fe}).
 
-\begin{table}[ht]
+\begin{table}[!htbp]
 \centering\footnotesize
 \caption{Within-backbone slope of held-out B$-$D on CKA, in percentage points per
 unit of CKA, with backbone identity absorbed as a fixed effect rather than by
@@ -2003,19 +1829,17 @@ cannot show that a retention loss is impossible on these benchmarks, only that
 we could not construct one, having tried four learning-rate rungs spanning three
 orders of magnitude with a task built to conflict.
 
-\begin{table}[ht]
+\begin{table}[!htbp]
 \centering
+\small
 \caption{\textbf{The pre-registered positive control: 21 runs, no destruction.}
 Task A is Moirai-Small/ETTh2 $h{=}192$; task B is the anti-persistent synthetic
-series, fixed by SHA-256 before any run. ``task B learned'' is the MSE reduction
-on B's own held-out windows (registered validity threshold $20\%$).
-``retention on task A'' is $100(\text{MSE}_A(\theta_\text{FT}) -
-\text{MSE}_A(\theta_\text{ZS}))/\text{MSE}_A(\theta_\text{ZS})$, so
-\emph{positive is worse} and the registered destruction threshold is $+50\%$ in a
-majority of seeds under full fine-tuning. CKA is measured on \textbf{task A's}
-inputs. $\pm$ is the SEM over 3 seeds. $^{\dagger}$ marks the single declared
-ladder extension. Read every retention number against the $0.48$~pp evaluator
-noise floor derived in the text.}
+series, fixed by SHA-256 before any run.  Retention on task A is
+$100(\text{MSE}_A(\theta_\text{FT}) - \text{MSE}_A(\theta_\text{ZS}))/\text{MSE}_A(\theta_\text{ZS})$,
+\emph{positive is worse}; the registered destruction threshold is $+50\%$ in a
+majority of seeds.  CKA is on task A's inputs; $\pm$ is the SEM over 3 seeds;
+$^{\dagger}$ marks the declared ladder extension; the evaluator noise floor is
+$0.48$~pp.}
 \label{tab:poscontrol}
 \input{tables/positive_control}
 \end{table}
