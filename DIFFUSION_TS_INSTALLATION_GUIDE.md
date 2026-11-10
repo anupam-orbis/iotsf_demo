@@ -2,9 +2,9 @@
 
 ## Problem Solved ✅
 
-The original Diffusion-TS `requirements.txt` had severe dependency conflicts with `iotsf_demo`:
+The original Diffusion-TS `requirements.txt` had severe dependency conflicts with this project:
 
-| Package | Diffusion-TS | iotsf_demo | Conflict |
+| Package | Diffusion-TS | this project | Conflict |
 |---------|--------------|------------|----------|
 | torch | 2.0.1 | 2.4.1 | ❌ Major version mismatch |
 | pandas | 1.5.0 | 2.1.4 | ❌ Breaking API changes |
@@ -24,7 +24,7 @@ Created a **minimal, conflict-free installation** that:
 1. ✅ Installs only core dependencies (einops, ema-pytorch, tqdm, pyyaml)
 2. ✅ Clones Diffusion-TS to `lib/` directory (not pip install)
 3. ✅ Uses adapter module for import management
-4. ✅ No conflicts with existing iotsf_demo packages
+4. ✅ No conflicts with this project's existing packages
 5. ✅ Easy to remove if needed
 
 ---
@@ -113,7 +113,7 @@ EOF
 ## Directory Structure
 
 ```
-iotsf_demo/
+repo/
 ├── lib/
 │   └── Diffusion-TS/          # ← Cloned repo (NOT in git)
 │       ├── Models/
@@ -138,7 +138,7 @@ iotsf_demo/
 ### ✅ Advantages
 
 1. **No Dependency Conflicts**
-   - Doesn't touch existing iotsf_demo packages
+   - Doesn't touch this project's existing packages
    - Uses current PyTorch 2.4.1, pandas 2.1.4, etc.
 
 2. **Easy to Remove**
@@ -361,11 +361,11 @@ If you encounter issues:
 ## Summary
 
 **Before:** ❌ Dependency conflicts, couldn't install Diffusion-TS
-**After:** ✅ Clean installation, no conflicts, works with iotsf_demo
+**After:** ✅ Clean installation, no conflicts, works with this project
 
 **What you get:**
 - Real Diffusion-TS model for high-quality generation
-- No dependency conflicts with iotsf_demo
+- No dependency conflicts with this project
 - Automatic fallback to mock mode if needed
 - Easy to install, easy to remove
 

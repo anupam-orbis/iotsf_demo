@@ -1,0 +1,387 @@
+{
+  "posthoc": true,
+  "what": "minimum detectable Spearman rho for CKA vs held-out d_enc, within Moirai",
+  "definition": "smallest true Spearman rho at which the paper's own clustered 95% percentile interval excludes zero in >=80% of simulated realisations of this design",
+  "design": {
+    "backbone": "Moirai",
+    "n_cells": 22,
+    "n_clusters": 6,
+    "cluster_sizes": [
+      2,
+      5,
+      5,
+      4,
+      1,
+      5
+    ],
+    "kish_n0": 3.5272727272727273,
+    "cells": [
+      "Moirai-small_Electricity7_h192",
+      "Moirai-small_Electricity7_h96",
+      "Moirai-small/ETTh1 h192 n1000",
+      "Moirai-small/ETTh1 h96 n1000",
+      "Moirai-base_ETTh1_h192",
+      "Moirai-base_ETTh1_h96",
+      "Moirai-large_ETTh1_h96",
+      "Moirai-small/ETTh2 h192 n500",
+      "Moirai-small/ETTh2 h96 n500",
+      "Moirai-base/ETTh2 h192 n1000",
+      "Moirai-base/ETTh2 h96 n1000",
+      "Moirai-large/ETTh2 h96 n500",
+      "Moirai-small/ETTm2 h192 n1000",
+      "Moirai-small/ETTm2 h96 n1000",
+      "Moirai-base_ETTm2_h192",
+      "Moirai-base_ETTm2_h96",
+      "Moirai-small/ILI h24",
+      "Moirai-small_Weather_h192",
+      "Moirai-small_Weather_h96",
+      "Moirai-base_Weather_h192",
+      "Moirai-base_Weather_h96",
+      "Moirai-large_Weather_h96"
+    ],
+    "cka_min": 0.3618045647939046,
+    "cka_max": 0.9695092797279358,
+    "cka_distinct": 22
+  },
+  "observed": {
+    "rho": 0.16770186335403728,
+    "lo": -0.469119579500657,
+    "hi": 0.7168539325842697,
+    "kept": 10000,
+    "n_boot": 10000,
+    "half_width": 0.5929867560424633
+  },
+  "structure": {
+    "icc_x_cka": 0.04974331144016821,
+    "icc_y_denc": 0.738668395113963,
+    "design_effect": 1.0928616340373394,
+    "n_eff_deff": 20.130636225855774,
+    "cluster_means_denc": {
+      "Moirai|electricity7": -2.938254075453157,
+      "Moirai|etth1": 29.64745458763041,
+      "Moirai|etth2": -10.88258324409885,
+      "Moirai|ettm2": 3.893596862031723,
+      "Moirai|ili": -38.585458352880444,
+      "Moirai|weather": 29.824638974925996
+    }
+  },
+  "model": {
+    "form": "y = r*z + sqrt(1-r^2)*(sqrt(t)*C_cluster + sqrt(1-t)*W_cell)",
+    "conditions_on_observed_cka": true,
+    "y_marginal_assumed": null,
+    "t_settings": {
+      "t0": 0.0,
+      "that": 0.738668395113963,
+      "t09": 0.9
+    },
+    "calibration": {
+      "t0": {
+        "0.00": {
+          "r": 0.01782725744201154,
+          "r_analytic": 0.0,
+          "r_minus_analytic": 0.01782725744201154
+        },
+        "0.30": {
+          "r": 0.3278382579605301,
+          "r_analytic": 0.31286893008046174,
+          "r_minus_analytic": 0.014969327880068384
+        },
+        "0.40": {
+          "r": 0.4293376653219051,
+          "r_analytic": 0.41582338163551863,
+          "r_minus_analytic": 0.013514283686386463
+        },
+        "0.50": {
+          "r": 0.5295651689976689,
+          "r_analytic": 0.5176380902050415,
+          "r_minus_analytic": 0.011927078792627444
+        },
+        "0.60": {
+          "r": 0.6280686662734856,
+          "r_analytic": 0.6180339887498948,
+          "r_minus_analytic": 0.010034677523590774
+        },
+        "0.70": {
+          "r": 0.7233576884737573,
+          "r_analytic": 0.7167358990906005,
+          "r_minus_analytic": 0.006621789383156718
+        },
+        "0.17": {
+          "r": 0.19156188612558497,
+          "r_analytic": 0.17539139011440105,
+          "r_minus_analytic": 0.01617049601118392
+        }
+      },
+      "that": {
+        "0.00": {
+          "r": 0.004867960018981449,
+          "r_analytic": 0.0,
+          "r_minus_analytic": 0.004867960018981449
+        },
+        "0.30": {
+          "r": 0.28633787818314244,
+          "r_analytic": 0.31286893008046174,
+          "r_minus_analytic": -0.026531051897319302
+        },
+        "0.40": {
+          "r": 0.3843368264159207,
+          "r_analytic": 0.41582338163551863,
+          "r_minus_analytic": -0.03148655521959792
+        },
+        "0.50": {
+          "r": 0.4856707361455749,
+          "r_analytic": 0.5176380902050415,
+          "r_minus_analytic": -0.0319673540594666
+        },
+        "0.60": {
+          "r": 0.5880224985615895,
+          "r_analytic": 0.6180339887498948,
+          "r_minus_analytic": -0.03001149018830529
+        },
+        "0.70": {
+          "r": 0.6904818574666355,
+          "r_analytic": 0.7167358990906005,
+          "r_minus_analytic": -0.026254041623965052
+        },
+        "0.17": {
+          "r": 0.15936515052517283,
+          "r_analytic": 0.17539139011440105,
+          "r_minus_analytic": -0.01602623958922822
+        }
+      },
+      "t09": {
+        "0.00": {
+          "r": 0.0022775269306091646,
+          "r_analytic": 0.0,
+          "r_minus_analytic": 0.0022775269306091646
+        },
+        "0.30": {
+          "r": 0.2565383753136774,
+          "r_analytic": 0.31286893008046174,
+          "r_minus_analytic": -0.056330554766784335
+        },
+        "0.40": {
+          "r": 0.3557065199669653,
+          "r_analytic": 0.41582338163551863,
+          "r_minus_analytic": -0.060116861668553345
+        },
+        "0.50": {
+          "r": 0.4599265912389766,
+          "r_analytic": 0.5176380902050415,
+          "r_minus_analytic": -0.05771149896606487
+        },
+        "0.60": {
+          "r": 0.5679178396472127,
+          "r_analytic": 0.6180339887498948,
+          "r_minus_analytic": -0.05011614910268214
+        },
+        "0.70": {
+          "r": 0.678020510199401,
+          "r_analytic": 0.7167358990906005,
+          "r_minus_analytic": -0.03871538889119952
+        },
+        "0.17": {
+          "r": 0.136966028745474,
+          "r_analytic": 0.17539139011440105,
+          "r_minus_analytic": -0.03842536136892705
+        }
+      }
+    }
+  },
+  "power": {
+    "t0": {
+      "0.00": {
+        "power": 0.11,
+        "reps": 100,
+        "rho_realised": 0.04254093732354601,
+        "icc_y_induced": 0.07444140055474388,
+        "kept_min": 1199,
+        "n_boot": 1200
+      },
+      "0.30": {
+        "power": 0.44,
+        "reps": 100,
+        "rho_realised": 0.3296442687747036,
+        "icc_y_induced": 0.07651453788839067,
+        "kept_min": 1199,
+        "n_boot": 1200
+      },
+      "0.40": {
+        "power": 0.57,
+        "reps": 100,
+        "rho_realised": 0.4251157538114061,
+        "icc_y_induced": 0.07885378616431815,
+        "kept_min": 1199,
+        "n_boot": 1200
+      },
+      "0.50": {
+        "power": 0.72,
+        "reps": 100,
+        "rho_realised": 0.5178881987577639,
+        "icc_y_induced": 0.08126511437794547,
+        "kept_min": 1199,
+        "n_boot": 1200
+      },
+      "0.60": {
+        "power": 0.89,
+        "reps": 100,
+        "rho_realised": 0.6156408808582722,
+        "icc_y_induced": 0.08680915537995404,
+        "kept_min": 1199,
+        "n_boot": 1200
+      },
+      "0.70": {
+        "power": 0.98,
+        "reps": 100,
+        "rho_realised": 0.7155844155844154,
+        "icc_y_induced": 0.09278603877372837,
+        "kept_min": 1199,
+        "n_boot": 1200
+      }
+    },
+    "that": {
+      "0.00": {
+        "power": 0.06666666666666667,
+        "reps": 300,
+        "rho_realised": 0.028341803124411823,
+        "icc_y_induced": 0.5952387101731625,
+        "kept_min": 1199,
+        "n_boot": 1200
+      },
+      "0.30": {
+        "power": 0.3875,
+        "reps": 240,
+        "rho_realised": 0.32312252964426874,
+        "icc_y_induced": 0.5436133306528192,
+        "kept_min": 1199,
+        "n_boot": 1200
+      },
+      "0.40": {
+        "power": 0.6166666666666667,
+        "reps": 240,
+        "rho_realised": 0.4236871823828346,
+        "icc_y_induced": 0.5092684062177005,
+        "kept_min": 1199,
+        "n_boot": 1200
+      },
+      "0.50": {
+        "power": 0.8,
+        "reps": 240,
+        "rho_realised": 0.5188123470732167,
+        "icc_y_induced": 0.4603723976742154,
+        "kept_min": 1199,
+        "n_boot": 1200
+      },
+      "0.60": {
+        "power": 0.9208333333333333,
+        "reps": 240,
+        "rho_realised": 0.6155514775079993,
+        "icc_y_induced": 0.40305363921154547,
+        "kept_min": 1199,
+        "n_boot": 1200
+      },
+      "0.70": {
+        "power": 0.9875,
+        "reps": 240,
+        "rho_realised": 0.7107754564276303,
+        "icc_y_induced": 0.33967362149459834,
+        "kept_min": 1199,
+        "n_boot": 1200
+      }
+    },
+    "t09": {
+      "0.00": {
+        "power": 0.1,
+        "reps": 100,
+        "rho_realised": 0.014138904573687185,
+        "icc_y_induced": 0.7376927129210569,
+        "kept_min": 1199,
+        "n_boot": 1200
+      },
+      "0.30": {
+        "power": 0.36,
+        "reps": 100,
+        "rho_realised": 0.3244381705251271,
+        "icc_y_induced": 0.6676975175287727,
+        "kept_min": 1199,
+        "n_boot": 1200
+      },
+      "0.40": {
+        "power": 0.6,
+        "reps": 100,
+        "rho_realised": 0.4330095990965556,
+        "icc_y_induced": 0.6097576061263462,
+        "kept_min": 1199,
+        "n_boot": 1200
+      },
+      "0.50": {
+        "power": 0.8,
+        "reps": 100,
+        "rho_realised": 0.5301750423489554,
+        "icc_y_induced": 0.5536361849696305,
+        "kept_min": 1199,
+        "n_boot": 1200
+      },
+      "0.60": {
+        "power": 0.94,
+        "reps": 100,
+        "rho_realised": 0.6266741953698475,
+        "icc_y_induced": 0.48151245708335755,
+        "kept_min": 1199,
+        "n_boot": 1200
+      },
+      "0.70": {
+        "power": 0.98,
+        "reps": 100,
+        "rho_realised": 0.7175719932241671,
+        "icc_y_induced": 0.3957874991173604,
+        "kept_min": 1199,
+        "n_boot": 1200
+      }
+    }
+  },
+  "mde80": 0.5,
+  "mde80_sensitivity": {
+    "t0": 0.5470588235294118,
+    "that": 0.5,
+    "t09": 0.5
+  },
+  "null_rejection_rate": 0.06666666666666667,
+  "null_rejection_by_t": {
+    "t0": 0.11,
+    "that": 0.06666666666666667,
+    "t09": 0.1
+  },
+  "crosschecks": {
+    "fisher_bonett_wright": {
+      "n22": 0.5795127038300296,
+      "n_deff": 0.6023959463833496,
+      "n_clusters": 0.9309294348158773
+    },
+    "naive_halfwidth_inversion": 0.5929867560424633,
+    "bracket_lo": 0.5795127038300296,
+    "bracket_hi": 0.9309294348158773
+  },
+  "not_a_claim": {
+    "observed_power_at_observed_rho": 0.12,
+    "why": "Hoenig-Heisey circularity: power conditioned on the estimate it judges"
+  },
+  "settings": {
+    "seed": 0,
+    "sim_boot": 1200,
+    "sim_reps": 240,
+    "null_reps": 300,
+    "sens_reps": 100,
+    "cal_reps": 2000,
+    "rho_grid": [
+      0.0,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7
+    ],
+    "power_target": 0.8,
+    "nboot_note": "a cluster bootstrap over 6 units has only C(11,5)=462 distinct multisets, so 1200 draws oversample a finite resampling space 2.6x; --nbootcheck verifies at 10000"
+  }
+}

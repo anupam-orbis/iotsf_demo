@@ -1,0 +1,18 @@
+{
+  "state": "results/v59_ood_retention/large_ETTh2_h96/condition_H/s456/final_state.pt",
+  "task_a_data": "data/forecasting/Weather.csv",
+  "model_size": "large",
+  "horizon": 96,
+  "lookback": 96,
+  "features": "M",
+  "n_eval_windows": 300,
+  "n_features": 14,
+  "mse_zeroshot": 1.0406297753880407,
+  "mae_zeroshot": 0.7522205642782791,
+  "mse_finetuned": 1.0378707080045724,
+  "mae_finetuned": 0.7547074638366528,
+  "retention_A_pct": -0.2651343877258833,
+  "cka_on_task_a_inputs": 1.0,
+  "weight_drift": 1.090813448955557,
+  "cka_measured_on": "task A's held-out inputs -- NOT task B's; see the pre-registration"
+}

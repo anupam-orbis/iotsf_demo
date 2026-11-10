@@ -1,0 +1,369 @@
+{
+  "correlations": {
+    "value_vs_denc_all": {
+      "n": 31,
+      "clusters": 15,
+      "rho": -0.2697580645161291,
+      "lo": -0.5915988760425567,
+      "hi": 0.39229561327862134,
+      "kept": 10000
+    },
+    "value_vs_denc_valuecells": {
+      "n": 20,
+      "clusters": 11,
+      "rho": -0.22857142857142856,
+      "lo": -0.7545142883590537,
+      "hi": 0.28361717184760404,
+      "kept": 10000
+    },
+    "cka_vs_denc_all": {
+      "n": 31,
+      "clusters": 15,
+      "rho": 0.5673387096774194,
+      "lo": 0.23889125033862985,
+      "hi": 0.827850556118563,
+      "kept": 10000
+    },
+    "cka_vs_denc_moirai": {
+      "n": 22,
+      "clusters": 6,
+      "rho": 0.16770186335403728,
+      "lo": -0.469119579500657,
+      "hi": 0.7168539325842697,
+      "kept": 10000
+    },
+    "cka_vs_denc_valuecells": {
+      "n": 20,
+      "clusters": 11,
+      "rho": 0.5669172932330826,
+      "lo": 0.19053533154608537,
+      "hi": 0.8885793871866294,
+      "kept": 10000
+    },
+    "cka_vs_denc_lowvalue": {
+      "n": 11,
+      "clusters": 7,
+      "rho": 0.7090909090909092,
+      "lo": -0.07692307692307693,
+      "hi": 0.901060070671378,
+      "kept": 9988
+    }
+  },
+  "interaction": {
+    "cka_slope_at_mean_value": {
+      "b": 39.76743193535847,
+      "lo": -55.12163169847464,
+      "hi": 179.41996735389682,
+      "kept": 9895,
+      "n_boot": 10000,
+      "n": 31,
+      "clusters": 15
+    },
+    "cka_x_value": {
+      "b": -31.50747330848025,
+      "lo": -209.55129809531317,
+      "hi": 166.21814667046957,
+      "kept": 9877,
+      "n_boot": 10000,
+      "n": 31,
+      "clusters": 15
+    }
+  },
+  "n_scored": 31,
+  "n_value_cells": 20,
+  "n_clearing_all": 0,
+  "dropped": [],
+  "gate_threshold": 0.2,
+  "baselines": [
+    "fitted",
+    "constant",
+    "persistence",
+    "seasonal_naive",
+    "ar",
+    "dlinear",
+    "ridge_tuned",
+    "mlp",
+    "gbm"
+  ],
+  "cells": {
+    "small_ETTh2_h192": {
+      "cell": "Moirai-small/ETTh2 h192 n500",
+      "value": 0.08131834168283258,
+      "best_baseline": "seasonal_naive",
+      "cka": 0.9695092797279358,
+      "d_enc": 6.1482207209776245,
+      "clears_any": true,
+      "clears_all": false
+    },
+    "small_ETTh2_h96": {
+      "cell": "Moirai-small/ETTh2 h96 n500",
+      "value": 0.1236996213199879,
+      "best_baseline": "seasonal_naive",
+      "cka": 0.9369100630283356,
+      "d_enc": 2.7979526919682294,
+      "clears_any": true,
+      "clears_all": false
+    },
+    "small_ETTh1_h192": {
+      "cell": "Moirai-small/ETTh1 h192 n1000",
+      "value": -0.4427162185182316,
+      "best_baseline": "ar",
+      "cka": 0.8368388175964355,
+      "d_enc": 13.489607634411774,
+      "clears_any": false,
+      "clears_all": false
+    },
+    "small_ETTh1_h96": {
+      "cell": "Moirai-small/ETTh1 h96 n1000",
+      "value": -0.2250410304251691,
+      "best_baseline": "ar",
+      "cka": 0.8074549436569214,
+      "d_enc": 22.07644350687768,
+      "clears_any": true,
+      "clears_all": false
+    },
+    "base_ETTh2_h192": {
+      "cell": "Moirai-base/ETTh2 h192 n1000",
+      "value": -0.012816268152887167,
+      "best_baseline": "seasonal_naive",
+      "cka": 0.39613603117565316,
+      "d_enc": -20.22050453967959,
+      "clears_any": true,
+      "clears_all": false
+    },
+    "base_ETTh2_h96": {
+      "cell": "Moirai-base/ETTh2 h96 n1000",
+      "value": -0.5448239818493346,
+      "best_baseline": "seasonal_naive",
+      "cka": 0.46009905139605206,
+      "d_enc": -22.3372959905269,
+      "clears_any": true,
+      "clears_all": false
+    },
+    "small_ETTm2_h192": {
+      "cell": "Moirai-small/ETTm2 h192 n1000",
+      "value": 0.09158699571991291,
+      "best_baseline": "dlinear",
+      "cka": 0.8846229076385498,
+      "d_enc": 4.6869731133181505,
+      "clears_any": true,
+      "clears_all": false
+    },
+    "small_ETTm2_h96": {
+      "cell": "Moirai-small/ETTm2 h96 n1000",
+      "value": -0.39372252192429036,
+      "best_baseline": "dlinear",
+      "cka": 0.8511378645896912,
+      "d_enc": 2.573200867488101,
+      "clears_any": true,
+      "clears_all": false
+    },
+    "large_ETTh2_h96": {
+      "cell": "Moirai-large/ETTh2 h96 n500",
+      "value": 0.1340651856396654,
+      "best_baseline": "seasonal_naive",
+      "cka": 0.625774989525477,
+      "d_enc": -20.801289103233618,
+      "clears_any": true,
+      "clears_all": false
+    },
+    "base_ETTh1_h192": {
+      "cell": "Moirai-base_ETTh1_h192",
+      "value": -0.7143388493517173,
+      "best_baseline": "ar",
+      "cka": 0.6685995658238729,
+      "d_enc": 46.95466827849642,
+      "clears_any": false,
+      "clears_all": false
+    },
+    "base_ETTh1_h96": {
+      "cell": "Moirai-base_ETTh1_h96",
+      "value": -0.36506848692409566,
+      "best_baseline": "ar",
+      "cka": 0.7553606629371643,
+      "d_enc": 37.52516060976203,
+      "clears_any": true,
+      "clears_all": false
+    },
+    "small_Weather_h192": {
+      "cell": "Moirai-small_Weather_h192",
+      "value": -0.5055839730451466,
+      "best_baseline": "fitted",
+      "cka": 0.8799434900283813,
+      "d_enc": 62.097756033320046,
+      "clears_any": false,
+      "clears_all": false
+    },
+    "small_Weather_h96": {
+      "cell": "Moirai-small_Weather_h96",
+      "value": -0.5461281708378751,
+      "best_baseline": "fitted",
+      "cka": 0.8863542874654134,
+      "d_enc": 53.07621556179696,
+      "clears_any": true,
+      "clears_all": false
+    },
+    "base_ETTm2_h192": {
+      "cell": "Moirai-base_ETTm2_h192",
+      "value": -0.10590643067486094,
+      "best_baseline": "dlinear",
+      "cka": 0.48817284901936847,
+      "d_enc": 1.2947327385814826,
+      "clears_any": true,
+      "clears_all": false
+    },
+    "base_ETTm2_h96": {
+      "cell": "Moirai-base_ETTm2_h96",
+      "value": -0.5052457643245434,
+      "best_baseline": "dlinear",
+      "cka": 0.5101938645044962,
+      "d_enc": 7.019480728739157,
+      "clears_any": true,
+      "clears_all": false
+    },
+    "base_Weather_h192": {
+      "cell": "Moirai-base_Weather_h192",
+      "value": -0.6319053092384217,
+      "best_baseline": "fitted",
+      "cka": 0.5089116295178732,
+      "d_enc": 12.518105404565166,
+      "clears_any": false,
+      "clears_all": false
+    },
+    "base_Weather_h96": {
+      "cell": "Moirai-base_Weather_h96",
+      "value": -0.8189431144278956,
+      "best_baseline": "fitted",
+      "cka": 0.5666172405083975,
+      "d_enc": 9.430562976515187,
+      "clears_any": false,
+      "clears_all": false
+    },
+    "large_ETTh1_h96": {
+      "cell": "Moirai-large_ETTh1_h96",
+      "value": -0.301567548885441,
+      "best_baseline": "ar",
+      "cka": 0.3618045647939046,
+      "d_enc": 28.191392908604143,
+      "clears_any": true,
+      "clears_all": false
+    },
+    "large_Weather_h96": {
+      "cell": "Moirai-large_Weather_h96",
+      "value": -0.6389644556551128,
+      "best_baseline": "fitted",
+      "cka": 0.6220877766609192,
+      "d_enc": 12.000554898432613,
+      "clears_any": false,
+      "clears_all": false
+    },
+    "small_Electricity7_h192": {
+      "cell": "Moirai-small_Electricity7_h192",
+      "value": -0.8317057603920648,
+      "best_baseline": "mlp",
+      "cka": 0.9510760108629862,
+      "d_enc": -2.633899889696454,
+      "clears_any": false,
+      "clears_all": false
+    },
+    "small_Electricity7_h96": {
+      "cell": "Moirai-small_Electricity7_h96",
+      "value": -1.0044537548931847,
+      "best_baseline": "mlp",
+      "cka": 0.9423306584358215,
+      "d_enc": -3.2426082612098606,
+      "clears_any": true,
+      "clears_all": false
+    },
+    "chronos_etth1": {
+      "cell": "Chronos/etth1 h24",
+      "value": -0.12409706287937539,
+      "best_baseline": "ridge_tuned",
+      "cka": 0.1689053936318784,
+      "d_enc": -39.196139904005236,
+      "clears_any": true,
+      "clears_all": false
+    },
+    "chronos_etth2": {
+      "cell": "Chronos/etth2 h24",
+      "value": -0.1835325461454358,
+      "best_baseline": "dlinear",
+      "cka": 0.09449968370160322,
+      "d_enc": -12.94772154953225,
+      "clears_any": true,
+      "clears_all": false
+    },
+    "chronos_weather": {
+      "cell": "Chronos/weather h24",
+      "value": -0.20435729972576766,
+      "best_baseline": "ridge_tuned",
+      "cka": 0.09233432705878446,
+      "d_enc": -21.554572366927374,
+      "clears_any": true,
+      "clears_all": false
+    },
+    "chronos_ettm2": {
+      "cell": "Chronos/ettm2 h24",
+      "value": -0.2952769545223062,
+      "best_baseline": "gbm",
+      "cka": 0.11187505642658478,
+      "d_enc": -29.506378799579856,
+      "clears_any": false,
+      "clears_all": false
+    },
+    "chronos_electricity": {
+      "cell": "Chronos/electricity h24",
+      "value": -0.08883444312024946,
+      "best_baseline": "fitted",
+      "cka": 0.23242515864776278,
+      "d_enc": -2.6910737110379594,
+      "clears_any": false,
+      "clears_all": false
+    },
+    "timesfm_etth1": {
+      "cell": "TimesFM/ETTh1 h24",
+      "value": -0.10935635507879926,
+      "best_baseline": "ridge_tuned",
+      "cka": 0.5609099072040359,
+      "d_enc": -1.4465496368446664,
+      "clears_any": true,
+      "clears_all": false
+    },
+    "timesfm_weather": {
+      "cell": "TimesFM/Weather h24",
+      "value": -0.16082109653675336,
+      "best_baseline": "ridge_tuned",
+      "cka": 0.3348295961103599,
+      "d_enc": -1.641128557435954,
+      "clears_any": true,
+      "clears_all": false
+    },
+    "timesfm_ettm2": {
+      "cell": "TimesFM/ETTm2 h24",
+      "value": -0.029282314803175113,
+      "best_baseline": "ridge_tuned",
+      "cka": 0.35984648595588653,
+      "d_enc": -7.704069950484271,
+      "clears_any": false,
+      "clears_all": false
+    },
+    "timesfm_etth2": {
+      "cell": "TimesFM/ETTh2 h24",
+      "value": -0.20767391575477445,
+      "best_baseline": "fitted",
+      "cka": 0.2459372147483399,
+      "d_enc": -7.147428612847542,
+      "clears_any": true,
+      "clears_all": false
+    },
+    "ili": {
+      "cell": "Moirai-small/ILI h24",
+      "value": -12.093208075220986,
+      "best_baseline": "seasonal_naive",
+      "cka": 0.4554903175149645,
+      "d_enc": -38.585458352880444,
+      "clears_any": false,
+      "clears_all": false
+    }
+  }
+}

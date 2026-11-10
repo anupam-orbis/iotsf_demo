@@ -350,7 +350,7 @@ Running `pytest tests/ -v` should show **145 tests passing**:
 
 **Solution:** Make sure you're in the project root and the virtual environment is activated:
 ```bash
-cd /path/to/iotsf_demo
+cd /path/to/repo
 source .venv12/bin/activate
 ```
 

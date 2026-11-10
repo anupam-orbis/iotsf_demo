@@ -1,0 +1,169 @@
+{
+ "protocol": {
+  "lookback": 96,
+  "horizon": 24,
+  "threshold": 0.2,
+  "splits": {
+   "selection": {
+    "split": "val",
+    "seed": 42,
+    "max_windows": 200
+   },
+   "held-out": {
+    "split": "test",
+    "seed": 0,
+    "max_windows": 200
+   }
+  },
+  "denominator": "fitted lookback-96 ridge (gate_linear_baseline)",
+  "device": "cuda",
+  "torch": "2.13.0+cu130",
+  "started": "2026-11-07T02:47:03"
+ },
+ "cells": {
+  "chronos_traffic_selection": {
+   "backbone": "chronos",
+   "dataset": "Traffic",
+   "split": "selection",
+   "n_windows": 200,
+   "zs_mse": 0.08314435363294784,
+   "fitted_mse": 0.1165493531820889,
+   "constant_mse": 1.0843530739835832,
+   "V_ridge": 0.28661677338484515,
+   "fitted_admissible": true,
+   "passes": true
+  },
+  "timesfm_traffic_selection": {
+   "backbone": "timesfm",
+   "dataset": "Traffic",
+   "split": "selection",
+   "n_windows": 200,
+   "zs_mse": 0.06481150814824614,
+   "fitted_mse": 0.1165493531820889,
+   "constant_mse": 1.0843530739835832,
+   "V_ridge": 0.4439136178903629,
+   "fitted_admissible": true,
+   "passes": true
+  },
+  "chronos_traffic_held-out": {
+   "backbone": "chronos",
+   "dataset": "Traffic",
+   "split": "held-out",
+   "n_windows": 200,
+   "zs_mse": 0.09671135418623505,
+   "fitted_mse": 0.12580473484249688,
+   "constant_mse": 1.0854827203349833,
+   "V_ridge": 0.2312582327897731,
+   "fitted_admissible": true,
+   "passes": true
+  },
+  "timesfm_traffic_held-out": {
+   "backbone": "timesfm",
+   "dataset": "Traffic",
+   "split": "held-out",
+   "n_windows": 200,
+   "zs_mse": 0.0997774834286253,
+   "fitted_mse": 0.12580473484249688,
+   "constant_mse": 1.0854827203349833,
+   "V_ridge": 0.20688610366260685,
+   "fitted_admissible": true,
+   "passes": true
+  },
+  "chronos_exchange_selection": {
+   "backbone": "chronos",
+   "dataset": "Exchange",
+   "split": "selection",
+   "n_windows": 200,
+   "zs_mse": 1.6618482758002602,
+   "fitted_mse": 1.41018535237394,
+   "constant_mse": 3.0478705700174307,
+   "V_ridge": -0.17846088317586384,
+   "fitted_admissible": true,
+   "passes": false
+  },
+  "timesfm_exchange_selection": {
+   "backbone": "timesfm",
+   "dataset": "Exchange",
+   "split": "selection",
+   "n_windows": 200,
+   "zs_mse": 1.6146247003577507,
+   "fitted_mse": 1.41018535237394,
+   "constant_mse": 3.0478705700174307,
+   "V_ridge": -0.14497338781717772,
+   "fitted_admissible": true,
+   "passes": false
+  },
+  "chronos_exchange_held-out": {
+   "backbone": "chronos",
+   "dataset": "Exchange",
+   "split": "held-out",
+   "n_windows": 200,
+   "zs_mse": 1.4661199120942718,
+   "fitted_mse": 1.2893458202488186,
+   "constant_mse": 4.374742265630087,
+   "V_ridge": -0.13710370722056497,
+   "fitted_admissible": true,
+   "passes": false
+  },
+  "timesfm_exchange_held-out": {
+   "backbone": "timesfm",
+   "dataset": "Exchange",
+   "split": "held-out",
+   "n_windows": 200,
+   "zs_mse": 1.4171721129732178,
+   "fitted_mse": 1.2893458202488186,
+   "constant_mse": 4.374742265630087,
+   "V_ridge": -0.09914042510312027,
+   "fitted_admissible": true,
+   "passes": false
+  },
+  "chronos_ili_selection": {
+   "backbone": "chronos",
+   "dataset": "ILI",
+   "split": "selection",
+   "n_windows": 74,
+   "zs_mse": 0.4415720677315592,
+   "fitted_mse": 0.13962892397682403,
+   "constant_mse": 1.2055040304492763,
+   "V_ridge": -2.162468456785161,
+   "fitted_admissible": true,
+   "passes": false
+  },
+  "timesfm_ili_selection": {
+   "backbone": "timesfm",
+   "dataset": "ILI",
+   "split": "selection",
+   "n_windows": 74,
+   "zs_mse": 0.20917287498403128,
+   "fitted_mse": 0.13962892397682403,
+   "constant_mse": 1.2055040304492763,
+   "V_ridge": -0.49806264365934916,
+   "fitted_admissible": true,
+   "passes": false
+  },
+  "chronos_ili_held-out": {
+   "backbone": "chronos",
+   "dataset": "ILI",
+   "split": "held-out",
+   "n_windows": 75,
+   "zs_mse": 2.285713858113787,
+   "fitted_mse": 1.6827018213146572,
+   "constant_mse": 1.8011478343610658,
+   "V_ridge": -0.35835941291607454,
+   "fitted_admissible": true,
+   "passes": false
+  },
+  "timesfm_ili_held-out": {
+   "backbone": "timesfm",
+   "dataset": "ILI",
+   "split": "held-out",
+   "n_windows": 75,
+   "zs_mse": 1.734535246048233,
+   "fitted_mse": 1.6827018213146572,
+   "constant_mse": 1.8011478343610658,
+   "V_ridge": -0.03080368968346381,
+   "fitted_admissible": true,
+   "passes": false
+  }
+ }
+}

@@ -1,0 +1,18 @@
+{
+  "state": "results/v59_ood_retention/small_ETTh2_h96/condition_B/s123/final_state.pt",
+  "task_a_data": "data/forecasting/ETTh1.csv",
+  "model_size": "small",
+  "horizon": 96,
+  "lookback": 96,
+  "features": "M",
+  "n_eval_windows": 300,
+  "n_features": 7,
+  "mse_zeroshot": 0.5145970835605361,
+  "mae_zeroshot": 0.40963364172143574,
+  "mse_finetuned": 0.5333935822365656,
+  "mae_finetuned": 0.4253127970535745,
+  "retention_A_pct": 3.6526632731719175,
+  "cka_on_task_a_inputs": 0.9360756874084473,
+  "weight_drift": 3.7975854943956304,
+  "cka_measured_on": "task A's held-out inputs -- NOT task B's; see the pre-registration"
+}

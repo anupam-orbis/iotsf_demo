@@ -1,0 +1,134 @@
+\documentclass{article} % For LaTeX2e
+\usepackage{iclr2027_conference,times}
+
+% NOTE: iclr2027_conference.sty already \RequirePackage{natbib} and {fancyhdr}.
+% Do not load natbib again here.
+
+\input{preamble}
+% The supplement's labels resolve here, and main's resolve there; the two label sets are disjoint.
+\externaldocument{supplement}
+
+% Fourth title, and it REVERSES the decision the previous comment here recorded, so the reason is
+% written down rather than the comment being quietly replaced. Round 6 moved off "Does Not Reliably
+% Predict the Value of Encoder Adaptation" on the argument that a title asserting a general negative
+% invites "six datasets cannot support that", and that "is not a substitute" is what the design tests.
+% Round 7 asks to come back, and its version supplies the two words the round-6 objection was actually
+% about: the subject is CKA (not "representation drift" in general) and the verb is qualified
+% ("reliably"), so the claim is scoped to a named statistic and to reliability rather than to
+% existence. That is narrower than either predecessor, not broader, which is why it is adopted. The
+% methodological lesson the old title carried is not lost: it is the conclusion's closing sentence,
+% and \S\ref{sec:exp3}'s opening now names the empirical claim the title makes instead.
+%
+% Round 8 shortens it by two words, keeping everything above: "Fine-Tuning" is dropped, so the trailing
+% phrase is the model family rather than the model family plus a procedure. It is redundant twice over --
+% "Encoder Adaptation" already names the procedure, and the sentence read as though the claim were about
+% fine-tuning in general when it is about the encoder-adaptation contrast specifically. A reviewer read
+% the long form as four concepts competing in one line. Nothing is conceded: subject, verb and scope are
+% the round-7 ones, unchanged.
+% THE BREAKS ARE SET BY HAND BECAUSE THIS TITLE CANNOT FIT IN TWO LINES, and both alternatives look
+% wrong. At \LARGE small-caps the first line fills at "... the Value of", so leaving it to wrap gives
+% three lines with "M ODELS" alone on the last; keeping the old single break after "Adaptation" gives
+% three with a nearly empty middle. Broken in three deliberately instead, at roughly 29/31/33
+% characters. check_paper_numbers.py's title pattern was widened to tolerate a \\ at either break, so
+% this stays checked -- verify the RENDERED page, not the source, if it is ever reworded again.
+%
+% ROUND 9, FIFTH TITLE, AND IT REVERSES THE ROUND-7 DECISION A SECOND TIME -- so read the whole block
+% above first, because the argument here is not that round 7 was wrong about the words but that it was
+% wrong about the job. Round 6 dropped "Does Not Reliably Predict ..." because a title asserting a
+% general negative invites "six datasets cannot support that"; round 7 brought it back on the argument
+% that naming the statistic (CKA) and qualifying the verb (reliably) made it NARROWER than "Representation
+% Drift Is Not a Substitute for Intervention". Two independent reviewers of the round-8 build have now
+% made the round-6 objection again, in the same words, against the round-7 wording: one calls the title
+% "slightly too strong" and says it "creates a larger burden of proof than necessary"; the other says the
+% title "currently sits somewhere between" a claim about our evaluated cells and a claim about TSFMs in
+% general. Round 7's fix was to narrow the assertion. Round 9 rejects the premise instead: the title does
+% not have to assert anything. It names the phenomenon and the object of study, and every claim is made
+% in the body where it is scoped to the cells we ran.
+% NOTHING IS WITHDRAWN AND NOTHING MOVES. The empirical claim is the spine sentence at four registered
+% sites (abstract, \S1's lead, \S\ref{sec:exp3}'s opening, the conclusion), narrowed this round to
+% "is not an actionable substitute for", which is the wording both reviewers asked for. The methodological
+% claim is the conclusion's closing sentence, still checked. C1 in Appendix~\ref{app:claims} tabulates
+% both with their strength and their scope.
+% The breaks are again BY HAND, 36/32/29 characters. That is wider than round 8's 29/31/33 and it fits:
+% before round 8 broke it, free wrap put "CKA Does Not Reliably Predict the Value of" -- 42 characters --
+% on one \LARGE small-caps line, so ~42 is the capacity and 36 is inside it. Verify the RENDERED page.
+\title{When Representation Change Misleads:\\
+       Evaluating Encoder Adaptation in\\
+       Time-Series Foundation Models}
+
+% ICLR submissions are DOUBLE-BLIND. Authors must not appear in the submitted
+% version; non-anonymous submissions are rejected without review. Uncomment
+% \iclrfinalcopy below (and restore the real author block) only for camera-ready.
+\author{Anonymous authors\\
+Paper under double-blind review}
+
+%\iclrfinalcopy % Uncomment for camera-ready version, but NOT for submission.
+
+\begin{document}
+
+\maketitle
+
+% ============================================================
+% Rewritten 20 Sep 2026, and the deletions are the point. The previous abstract carried TP/FP/precision
+% 0.00, the [0.10,0.60] threshold sweep, the eight-rung ladder counts, the per-dataset gate values, the
+% Moirai-Base two-least-drifted anecdote and the probe retraction. Every one of those is true and every
+% one of them is still in the paper; none of them is the sentence a reader should leave with, and a
+% reviewer reported having to work out which one that was. What survives here is the spine sentence, the
+% screen, the null, the two measurement choices, and one clause each for the two blockers of earlier
+% rounds: that the screen is scored on windows disjoint from every outcome, and that the matrix spans
+% three backbones. Nothing was dropped for space alone -- see sections/01_introduction.tex for the
+% counts and S4-S7 for all of it.
+\begin{abstract}
+Fine-tuning a time-series foundation model changes its internal representations,
+and that change is often read as forgetting: drops in representation similarity
+are used to locate and predict it, and freezing, weight anchoring and low-rank
+adapters are motivated partly by preserving the pre-trained representation.  We
+test that reading against the intervention it stands in for, fine-tuning with and
+without the encoder frozen on the same data and scored on held-out windows.
+Across \textbf{32 screened cells} (Moirai-S/B/L, Chronos-T5, TimesFM-2.5; six
+datasets; two horizons), centered kernel alignment (CKA) does not track the
+intervention.  Within one backbone the least drifted cells are the only ones that
+degrade; a pre-registered positive control drives CKA to $0.063$ while the
+targeted capability improves by $23.3\%$; on datasets it was not tuned on,
+full fine-tuning forgets in 11 of 28 pre-registered pairs while CKA orders that
+loss with the wrong sign ($\rho{=}{-}0.229$, CI $[-0.390,{+}0.137]$); and out of sample, adding CKA to backbone and protocol lowers
+predictive $R^2$ from $+0.201$ to $+0.176$.  Two measurement choices decide such
+comparisons: scoring on the windows used for selection reverses the
+intervention's sign in 4 of 31 cells, and an unfitted linear baseline puts 17 of
+21 Moirai cells on the wrong side of a capability screen that only 7 of 31 pass
+against a fitted one.  On the target task, no cell meets a prespecified definition of harmful
+encoder adaptation.  The intervention costs one extra training run, and we recommend
+running it rather than reading drift.
+\end{abstract}
+
+% ============================================================
+% The body is four experiments in the order the design runs them: is there value
+% to preserve, does encoder adaptation help or harm, does measured drift predict
+% that, and does the reading survive prospectively. Correction and retraction
+% material lives in the appendix, not here.
+\input{sections/01_introduction}
+\input{sections/02_background}
+\input{sections/03_protocol}
+\input{sections/04_exp1_value}
+\input{sections/05_exp2_adaptation}
+\input{sections/06_exp3_drift}
+\input{sections/07_exp4_prospective}
+\input{sections/085_limitations}
+\input{sections/09_conclusion}
+
+% Ethics and Reproducibility statements. ICLR excludes both from the 9-page
+% main-text limit, so these must stay AFTER the conclusion -- the body ends
+% flush with the bottom of page 9 and has no slack.
+\input{sections/09_statements}
+
+% ============================================================
+\bibliographystyle{iclr2027_conference}
+\bibliography{bibliography}
+% The retraction used to be its own \input here. It is now the last subsection of
+% "Audit trail and withdrawn analyses" at the end of sections/appendix.tex, together with
+% the corrections summary, the gate-baseline correction and the ILI withdrawal: one place
+% for every withdrawn reading, so a reader auditing the record reads one section.
+% The labels sec:retraction, app:corrections, app:gatecorrection and app:ili_gate all survive.
+\input{sections/appendix}
+
+\end{document}

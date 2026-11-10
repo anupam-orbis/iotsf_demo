@@ -1,0 +1,48 @@
+{
+  "dataset": "Traffic",
+  "condition": "B",
+  "seed": 46,
+  "loss_type": "mse_head",
+  "epochs": 30,
+  "best_epoch": 9,
+  "lr": 0.0001,
+  "max_train_samples": 8000,
+  "d_model": 512,
+  "gate_improvement_pct": 93.38020186518825,
+  "zs_mse": 0.07704139227100679,
+  "linear_mse": 1.1638027429547535,
+  "best_val_loss": 1.7841721343994141,
+  "final_cka": 0.14329343344522258,
+  "weight_drift": 43.52047850215049,
+  "has_drift": true,
+  "linear_probe": {
+    "r2_pt": 0.10166420701492716,
+    "r2_ft": 0.9326095691998372,
+    "delta_r2": 0.83094536218491
+  },
+  "orthogonal_probes": {
+    "pretrained": {
+      "lag1": 0.09489671710604808,
+      "mean": 0.34497997081192555,
+      "var": 0.08759032640798659
+    },
+    "finetuned": {
+      "lag1": 0.3175036959650053,
+      "mean": 0.4774702160332809,
+      "var": 0.13063970936926073
+    },
+    "delta": {
+      "lag1": 0.2226069788589572,
+      "mean": 0.13249024522135533,
+      "var": 0.04304938296127414
+    }
+  },
+  "probe_asymmetry": false,
+  "dissociation": false,
+  "test_seed": 0,
+  "n_test_windows": 200,
+  "zs_mse_test": 0.09563166000762079,
+  "test_val_loss": 2.8551865577697755,
+  "test_mse_per_element": 0.11896610657374064,
+  "test_forgetting_pct": 24.40033621110452
+}

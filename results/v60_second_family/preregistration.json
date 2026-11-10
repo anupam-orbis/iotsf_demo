@@ -1,0 +1,101 @@
+{
+  "registered_by": "scripts/preregister_second_family.py",
+  "written_utc": "2026-11-07T02:50:42+00:00",
+  "git_head": "4285e2df65a7cc47d6c58d4580a44b212b198273",
+  "purpose": "Run the B / frozen intervention on the only non-Moirai cells with a demonstrated capability, and ask whether the paper's findings hold off Moirai.",
+  "screen": {
+    "file": "results/v60_second_family/screen.json",
+    "computed_before_registration": true,
+    "traffic_gates": {
+      "chronos_traffic_selection": 0.2866,
+      "timesfm_traffic_selection": 0.4439,
+      "chronos_traffic_held-out": 0.2313,
+      "timesfm_traffic_held-out": 0.2069
+    },
+    "failed_datasets": [
+      "Exchange",
+      "ILI"
+    ],
+    "note": "Both Traffic held-out gates (+0.231, +0.207) are within 0.04 of the 0.20 threshold and are reported as marginal passes."
+  },
+  "cells": [
+    {
+      "backbone": "chronos-t5-small",
+      "dataset": "Traffic",
+      "horizon": 24,
+      "lookback": 96,
+      "target": "OT (univariate)"
+    },
+    {
+      "backbone": "timesfm-2.5-200m",
+      "dataset": "Traffic",
+      "horizon": 24,
+      "lookback": 96,
+      "target": "OT (univariate)"
+    }
+  ],
+  "data": {
+    "source": "laiguokun/multivariate-time-series-data traffic.txt.gz, last series as OT",
+    "split": "train 12,280 / val 1,756 / test 3,508 (70/10/20)",
+    "csv_sha256_prefix": "30aa2d41ed1a9421be55"
+  },
+  "arms": {
+    "chronos": {
+      "B": "full fine-tune of the T5 encoder + MSE head",
+      "D": "encoder AND shared token embedding frozen, only the MSE head trains; this is a strict freeze by construction (CKA 1, drift 0), so on Chronos D is also the strict-freeze arm and no separate H is run"
+    },
+    "timesfm": {
+      "B": "full fine-tune",
+      "D": "transformer stack frozen, input tokenizer and output heads trainable",
+      "H": "strict freeze: stack AND tokenizer frozen, only the output heads train"
+    }
+  },
+  "seeds": {
+    "chronos": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "timesfm": [
+      42,
+      123,
+      456,
+      789,
+      999
+    ],
+    "note": "each backbone's existing seed list, extended to 5"
+  },
+  "commands": {
+    "chronos_B": "chronos_mse_finetune.py --dataset Traffic --condition B --seed {s} --epochs 30 --max-train-samples 8000 --lr 1e-4 --batch-size 32 --patience 7 --device cuda",
+    "chronos_D": "chronos_frozen_converged.py --dataset Traffic --seed {s} --lr 1e-3 --max-epochs 3000 --patience 200 --max-train-samples 8000 --device cuda",
+    "timesfm": "finetune_timesfm.py --dataset Traffic --condition {B,D,H} --seed {s} --epochs 20 --batch-size 16 --max-train-samples 1000 --lr 1e-4 --patience 7 --device cuda"
+  },
+  "environment": {
+    "device": "AWS g5.xlarge, NVIDIA A10G",
+    "torch": "2.13.0+cu130",
+    "python": "3.12",
+    "note": "Every run in this arm is fresh on this device. Chronos's sampled zero-shot differs across devices (ETTh1 seed 42: 1.3245 on A10G against 1.3349 on record), so these cells are never pooled with the matrix's existing records; they are reported as their own arm."
+  },
+  "statistics": {
+    "outcome_window": "held-out test windows (200, seed 0), scored once after training",
+    "chronos_contrast": "d_enc = (test_mse_B - test_mse_D) / zs_test * 100 per seed, paired on seed, with D's head chosen by the matrix rule (closed-form ridge if its validation loss is within 5% of the AdamW head's, else AdamW). Chronos forgetting against zero-shot is NOT read: zero-shot runs through the generative decoder and B/D through the MSE head, the confound the matrix already declares.",
+    "timesfm_contrast": "d_enc = forgetting_pct_test(B) - forgetting_pct_test(H) per seed (primary), and the same with D (secondary)",
+    "interval": "two-sided 95% t-interval on the 5 paired differences; mean +- SEM reported",
+    "call": "'freezing better' if the interval lies above 0, 'adapting better' if below, 'inconclusive' otherwise",
+    "degradation_definition": "TimesFM only (native head on both sides): gate >= 0.20 on the selection split AND forgetting_B > 0 in every seed AND forgetting_frozen < 0 in every seed, frozen = H (primary) or D",
+    "cka": "final_cka of each B run, encoder output against the pre-trained encoder on the selection windows, as each trainer already records it"
+  },
+  "outcomes_fixed_in_advance": [
+    "O1: TimesFM/Traffic meets the degradation definition -> the paper has its first harm case. Its B CKA is reported against Chronos/Traffic's and against the Moirai cells, and the abstract's 'no cell meets the definition' is narrowed to the cells it covers.",
+    "O2: some cell's call is 'freezing better' without meeting the definition -> reported as a non-Moirai cell where the frozen arm wins, beside its CKA; the drift claim is tested on whether the lower-CKA cell is the one where freezing wins, as an observation on two cells, not an inference.",
+    "O3: both calls are 'adapting better' or 'inconclusive' -> the Moirai finding that adaptation is not harmful where a capability exists extends to two further backbones on one dataset; reported with the marginal-gate caveat."
+  ],
+  "also_reported": [
+    "per-seed CKA, l2 drift, best epoch and selection-window forgetting for every run",
+    "the strict-freeze check: Chronos D and TimesFM H must show CKA 1.000; a run that does not is reported and excluded from the H contrast with the reason",
+    "whether Traffic appears in each backbone's published pre-training corpus"
+  ],
+  "what_this_cannot_show": "Two cells on one dataset cannot estimate a correlation between CKA and the intervention; this arm tests whether the paper's per-cell findings hold on two more backbones where a capability exists."
+}

@@ -1,0 +1,147 @@
+{
+  "registered_by": "scripts/preregister_ood_retention.py",
+  "written_utc": "2026-11-06T15:46:18+00:00",
+  "git_head": "3f01124c9eb2f72874c2b5212f9d4d5dec9db055",
+  "purpose": "Measure loss of out-of-domain forecasting capability after target fine-tuning, and ask whether CKA orders it.",
+  "cells": [
+    {
+      "size": "small",
+      "dataset": "ETTh2",
+      "horizon": 96,
+      "n_train": 500,
+      "matrix_dir": "forecasting_finetune_20ep",
+      "ood_datasets": [
+        "ETTh1",
+        "ETTm2",
+        "Weather",
+        "Electricity7"
+      ]
+    },
+    {
+      "size": "small",
+      "dataset": "ETTh2",
+      "horizon": 192,
+      "n_train": 500,
+      "matrix_dir": "forecasting_finetune_20ep",
+      "ood_datasets": [
+        "ETTh1",
+        "ETTm2",
+        "Weather",
+        "Electricity7"
+      ]
+    },
+    {
+      "size": "small",
+      "dataset": "ETTm2",
+      "horizon": 192,
+      "n_train": 1000,
+      "matrix_dir": "v5_ettm2",
+      "ood_datasets": [
+        "ETTh1",
+        "ETTh2",
+        "Weather",
+        "Electricity7"
+      ]
+    },
+    {
+      "size": "large",
+      "dataset": "ETTh2",
+      "horizon": 96,
+      "n_train": 500,
+      "matrix_dir": "v8_etth2_large",
+      "ood_datasets": [
+        "ETTh1",
+        "ETTm2",
+        "Weather",
+        "Electricity7"
+      ]
+    },
+    {
+      "size": "base",
+      "dataset": "ETTh2",
+      "horizon": 96,
+      "n_train": 1000,
+      "matrix_dir": "v5_etth2_base",
+      "ood_datasets": [
+        "ETTh1",
+        "ETTm2",
+        "Weather",
+        "Electricity7"
+      ]
+    },
+    {
+      "size": "base",
+      "dataset": "ETTm2",
+      "horizon": 192,
+      "n_train": 1000,
+      "matrix_dir": "v47_prospective",
+      "ood_datasets": [
+        "ETTh1",
+        "ETTh2",
+        "Weather",
+        "Electricity7"
+      ]
+    },
+    {
+      "size": "base",
+      "dataset": "ETTh2",
+      "horizon": 192,
+      "n_train": 1000,
+      "matrix_dir": "v5_etth2_base",
+      "ood_datasets": [
+        "ETTh1",
+        "ETTm2",
+        "Weather",
+        "Electricity7"
+      ]
+    }
+  ],
+  "arms": {
+    "B": "full fine-tune",
+    "D": "backbone-frozen encoder (in_proj, mask_encoding trainable)",
+    "H": "strict freeze (only param_proj trains)"
+  },
+  "seeds": [
+    42,
+    123,
+    456
+  ],
+  "training": {
+    "epochs": 20,
+    "early_stopping": false,
+    "lr": 0.0001,
+    "batch_size": 16,
+    "features": "M",
+    "checkpoint": "end-of-training state, --save-final-state"
+  },
+  "evaluation": {
+    "instrument": "scripts/eval_retention.py",
+    "windows": "held-out test split",
+    "max_eval_sequences": 300,
+    "horizon": "the cell's own",
+    "lookback": 96,
+    "num_samples": 20,
+    "point_forecast": "median"
+  },
+  "primary_readout": "retention_pct = (MSE_finetuned - MSE_zeroshot) / MSE_zeroshot * 100 on each out-of-domain dataset; positive = the capability got worse",
+  "contrasts": {
+    "forgetting_due_to_encoder": "ret_B - ret_H per (cell, ood dataset), paired on seed",
+    "secondary": "ret_B - ret_D, same pairing"
+  },
+  "thresholds": {
+    "harmful_forgetting_pp": 10.0,
+    "harmful_forgetting_rule": "ret_B - ret_H >= 10 pp in every seed of a (cell, ood dataset) pair",
+    "cka_predicts_rule": "Spearman rho between (1 - CKA on the ood inputs) and ret_B over all B (cell, ood dataset, seed) records >= 0.5, with a 95% bootstrap interval resampling whole cells that excludes 0"
+  },
+  "outcomes_fixed_in_advance": [
+    "O1: some (cell, ood dataset) pair meets the harmful-forgetting rule AND CKA meets the cka_predicts_rule -> out-of-domain forgetting exists here and CKA orders it; the paper's negative claim is restricted to target-task outcomes.",
+    "O2: some pair meets the harmful-forgetting rule AND CKA does not meet the cka_predicts_rule -> forgetting exists and CKA does not order it; this supplies the positive cases the matrix lacks and extends the negative claim to forgetting proper.",
+    "O3: no pair meets the harmful-forgetting rule -> no out-of-domain forgetting at this scale; reported as such, and the CKA association is reported descriptively only."
+  ],
+  "also_reported": [
+    "target-task test MSE of every rerun beside the matrix record it repeats, as a reproducibility check",
+    "CKA on the target inputs (from the training record) against mean ret_B, per cell"
+  ],
+  "checkpoint_policy": "Moirai-Small checkpoints are kept. Base and Large checkpoints are deleted after every retention JSON for that checkpoint exists, with their SHA-256 recorded first, because the disk cannot hold them.",
+  "what_this_cannot_show": "The out-of-domain datasets are the paper's own benchmarks, not Moirai's pre-training corpus, so this measures transfer capability on held-out series, not retention of the pre-training distribution itself."
+}

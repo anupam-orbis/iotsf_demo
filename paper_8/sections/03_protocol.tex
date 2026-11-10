@@ -1,0 +1,98 @@
+% ============================================================
+\section{Protocol and Definitions}
+\label{sec:method}
+% ============================================================
+
+\textbf{Models and training.}
+Moirai~\citep{woo2024moirai} predicts a probabilistic distribution over the
+horizon; we report MSE on the median of 20 forecast samples at $h{=}96$ and
+$h{=}192$ (Appendix~\ref{app:moirai_median}).  Moirai is trained with AdamW
+($\eta{=}10^{-4}$, weight decay $10^{-4}$), batch size 16 and gradient clipping
+at 1.0, for 20 epochs with no early stopping: the 21 Moirai cells on ETT, Weather and
+Electricity are read at their final epoch.  The other trainers select an epoch on
+the selection windows (never the held-out ones): Moirai/ILI and TimesFM restore
+their best epoch under patience 3 and 7, and Chronos keeps its best of 30 epochs
+under full fine-tuning and trains its frozen-feature head to convergence
+(Table~\ref{tab:trainers}).  \textbf{22 of the 31} cells train on $1{\text{k}}$
+windows, and every table prints each cell's own $n$.  Reproducing a Moirai
+fine-tune requires the \texttt{uni2ts} scaler patch of
+Appendix~\ref{app:scaler_patch}.
+
+\textbf{Three splits.}  The \emph{training} split fits the fine-tuning updates
+and every baseline; the \emph{selection} split is where any checkpoint is chosen
+and where the capability screen is scored; the \emph{held-out} split is disjoint
+from both and is where every outcome is scored.  A cell's admission therefore
+never uses the windows that later judge it.
+
+\textbf{Capability screen.}  A checkpoint can only have a capability worth
+preserving relative to something a practitioner could deploy instead, so the
+baseline is part of the quantity: for a baseline $b$,
+$\Vb{b} = 1-\text{MSE}_\text{ZS}/\text{MSE}_b$, positive when the zero-shot (ZS)
+model beats $b$.  We threshold it at $0.20$, a prespecified operating point and
+not an established boundary, and call the result the \emph{gate}.  Our primary
+$b$ is one ridge map $\R^{96 \times F} \to \R^{h \times F}$ ($\lambda{=}10^{-4}$)
+fit by least squares on the training windows and applied unchanged to the
+selection windows.  It sees $96$ steps of context against the pre-trained
+model's $96{+}h$, which if anything favours the pre-trained model;
+\S\ref{sec:forecasting} also scores a ladder of eight baselines.
+
+\textbf{Conditions.}  Full fine-tuning (B) updates every parameter.  The frozen
+encoder (D) freezes the encoder stack but leaves the input projection and mask
+encoding trainable, so its CKA is near but not exactly $1$ on Moirai
+($0.889$--$0.9999$).  The strict freeze (H) also freezes those two modules,
+so only the output head trains and the encoder's output is fixed by construction
+(CKA exactly $1.000$).  LoRA ($r{=}8$), L2-SP and EWC are reported as a
+mitigation spectrum in Appendix~\ref{app:full_tables}.
+Figure~\ref{fig:freezeboundary} shows which modules move under each.
+
+\textbf{The estimand.}  For a cell with $S$ paired seeds and a frozen arm F,
+\begin{equation}
+\label{eq:denc}
+\denc \;=\; \frac{1}{S}\sum_{s=1}^{S} 100 \cdot
+\frac{\mathcal{L}_\text{test}(\text{B}_s) - \mathcal{L}_\text{test}(\text{F}_s)}
+     {\mathcal{L}_\text{test}(\text{ZS})},
+\end{equation}
+positive when freezing does better.  The shared zero-shot denominator only
+rescales each cell so that different loss scales are comparable.  On Moirai, where
+every cell has both controls, we lead with F${=}$H, the cleaner contrast, and
+report F${=}$D beside it; across backbones we use F${=}$D, the one control all
+three share.  The two disagree in sign on 4 of 22 Moirai cells
+(\S\ref{sec:exp2}).  $\denc$ is the contrast the design \emph{manipulates}.
+CKA is a \emph{post-treatment} measurement, taken on the object the treatment
+changed, so it can only be a candidate predictor of $\denc$, and that is the
+role we test.
+
+\textbf{Representation diagnostics.}  Linear CKA~\citep{kornblith2019cka}
+between pre-trained and fine-tuned representations, and weight drift ($\ell_2$
+distance from the pre-trained parameters).  Every CKA in the body is of the final
+encoder output, mean-pooled over tokens, on a fixed prefix of the selection split:
+the comparison a practitioner holding two checkpoints can make without choosing a
+layer or token position.  Token-flattened and per-layer variants and a
+random-initialisation floor are in
+Appendices~\ref{app:layerunfreeze} and~\ref{app:cka_calibration}.
+
+\textbf{Definition (degradation of a demonstrated capability).}  A cell is a
+degradation when (i)~$\Vb{b} \ge 0.20$ on selection windows, (ii)~full fine-tuning
+ends worse than zero-shot, and (iii)~the frozen arm ends better than zero-shot,
+which localises the loss to encoder updates rather than to the data or the epoch
+budget.  Clauses (ii) and (iii) are tested as paired 95\% intervals on
+$\text{B}{-}\text{ZS}$ and $\text{F}{-}\text{ZS}$, propagating the zero-shot
+reference's error and adjusted across cells by Benjamini--Hochberg
+(Appendix~\ref{app:pairedinference}), and also in the pre-registered form in
+which every seed must agree.  \textbf{Both return the same count}.  Every ${\pm}$
+in the body is a standard error over seeds.
+
+\begin{center}
+\fbox{\begin{minipage}{0.95\linewidth}
+\small
+\textbf{Two measurement choices that decide this result.}
+\emph{(1)~Score the frozen-encoder comparison on windows you did not select on.}
+Scoring $\denc$ on the selection windows instead reverses its sign on 4 of our 31
+cells, and all four reverse toward flattering the frozen encoder
+(\S\ref{sec:analysis:heldout}).
+\emph{(2)~Fit the linear baseline.}  An unfitted per-window trend extrapolation,
+a denominator a constant predictor beats, would move 17 of Moirai's 21 cells
+across the threshold, 16 of them to gate-pass, and so reverse the conclusion
+(Appendix~\ref{app:gatecorrection}).
+\end{minipage}}
+\end{center}

@@ -1,0 +1,227 @@
+{
+ "n_cells": 31,
+ "n_folds": 15,
+ "post_hoc": true,
+ "registered": false,
+ "units": "percentage points of MSE against the zero-shot reference, per cell offered",
+ "policy_family": "single global threshold on CKA, both orientations, interior cuts only",
+ "saving": {
+  "always_adapt": 0.0,
+  "always_freeze": 2.910480949933315,
+  "cka_oos_prescribed": -6.970378444445004,
+  "cka_oos": 7.471485986927517,
+  "cka_insample": 8.566622221750515,
+  "oracle": 10.383258989479186
+ },
+ "ci": {
+  "always_freeze": [
+   -12.720370892303917,
+   15.075963675469037
+  ],
+  "cka_oos_prescribed": [
+   -10.435231526103694,
+   13.886212657433862
+  ],
+  "cka_oos": [
+   -3.972139716690963,
+   15.580247289401635
+  ],
+  "cka_insample": [
+   0.2927724152846488,
+   17.975918970887317
+  ],
+  "oracle": [
+   0.741637497529852,
+   19.155968183518908
+  ]
+ },
+ "gaps": {
+  "cka_oos_minus_always_adapt": {
+   "point": 7.471485986927517,
+   "ci": [
+    -3.972139716690963,
+    15.580247289401635
+   ],
+   "frac_le_zero": 0.2545,
+   "pct_le_zero_nearest5": 25
+  },
+  "cka_oos_minus_always_freeze": {
+   "point": 4.561005036994202,
+   "ci": [
+    -6.887081770282478,
+    12.045889229078597
+   ],
+   "frac_le_zero": 0.2085,
+   "pct_le_zero_nearest5": 20
+  },
+  "insample_optimism": {
+   "point": 1.0951362348229985,
+   "ci": [
+    0.0,
+    12.94869446622708
+   ]
+  },
+  "oracle_minus_cka_oos": {
+   "point": 2.9117730025516693,
+   "ci": [
+    0.4337230421437272,
+    14.289535523792534
+   ]
+  },
+  "prescribed_orientation": {
+   "point": -6.970378444445004,
+   "ci": [
+    -10.435231526103694,
+    13.886212657433862
+   ],
+   "frac_le_zero": 0.7969,
+   "pct_le_zero_nearest5": 80,
+   "gloss": "out-of-sample value of the rule the forgetting literature prescribes: freeze where the representation moved MOST"
+  }
+ },
+ "decisions": {
+  "oos_n_frozen": 16,
+  "oos_misplaced": 8,
+  "insample_misplaced": 5,
+  "n_wanted_freezing": 16,
+  "note": "misplaced = frozen where adaptation helped, or adapted where freezing would have. This objective is NOT the one the rule maximises (saving is), so these counts need not match the best-misplacement cut in fig1_diagnostic_flow.py."
+ },
+ "insample_rule": {
+  "threshold": 0.47413595020771027,
+  "orientation": "high"
+ },
+ "fold_rules": {
+  "Chronos|electricity": {
+   "threshold": 0.47413595020771027,
+   "orientation": "high",
+   "train_saving": 8.852176295808867,
+   "n_held_out": 1,
+   "n_frozen": 0,
+   "held_out_saving": 0.0
+  },
+  "Chronos|etth1": {
+   "threshold": 0.47413595020771027,
+   "orientation": "high",
+   "train_saving": 8.852176295808867,
+   "n_held_out": 1,
+   "n_frozen": 0,
+   "held_out_saving": 0.0
+  },
+  "Chronos|etth2": {
+   "threshold": 0.47413595020771027,
+   "orientation": "high",
+   "train_saving": 8.852176295808867,
+   "n_held_out": 1,
+   "n_frozen": 0,
+   "held_out_saving": 0.0
+  },
+  "Chronos|ettm2": {
+   "threshold": 0.47413595020771027,
+   "orientation": "high",
+   "train_saving": 8.852176295808867,
+   "n_held_out": 1,
+   "n_frozen": 0,
+   "held_out_saving": 0.0
+  },
+  "Chronos|weather": {
+   "threshold": 0.47413595020771027,
+   "orientation": "high",
+   "train_saving": 8.852176295808867,
+   "n_held_out": 1,
+   "n_frozen": 0,
+   "held_out_saving": 0.0
+  },
+  "Moirai|electricity7": {
+   "threshold": 0.47413595020771027,
+   "orientation": "high",
+   "train_saving": 9.360061966385251,
+   "n_held_out": 2,
+   "n_frozen": 2,
+   "held_out_saving": -2.938254075453157
+  },
+  "Moirai|etth1": {
+   "threshold": 0.47413595020771027,
+   "orientation": "high",
+   "train_saving": 5.596900340181467,
+   "n_held_out": 5,
+   "n_frozen": 4,
+   "held_out_saving": 24.00917600590958
+  },
+  "Moirai|etth2": {
+   "threshold": 0.47183158326716645,
+   "orientation": "high",
+   "train_saving": 10.670015560175147,
+   "n_held_out": 5,
+   "n_frozen": 3,
+   "held_out_saving": -2.371023138057553
+  },
+  "Moirai|ettm2": {
+   "threshold": 0.4845053404569626,
+   "orientation": "high",
+   "train_saving": 9.25892227504219,
+   "n_held_out": 4,
+   "n_frozen": 4,
+   "held_out_saving": 3.893596862031723
+  },
+  "Moirai|ili": {
+   "threshold": 0.47413595020771027,
+   "orientation": "high",
+   "train_saving": 8.852176295808867,
+   "n_held_out": 1,
+   "n_frozen": 0,
+   "held_out_saving": 0.0
+  },
+  "Moirai|weather": {
+   "threshold": 0.647187277674675,
+   "orientation": "high",
+   "train_saving": 5.014450741245911,
+   "n_held_out": 5,
+   "n_frozen": 2,
+   "held_out_saving": 23.034794319023398
+  },
+  "TimesFM|etth1": {
+   "threshold": 0.47413595020771027,
+   "orientation": "high",
+   "train_saving": 8.900394617037023,
+   "n_held_out": 1,
+   "n_frozen": 1,
+   "held_out_saving": -1.4465496368446664
+  },
+  "TimesFM|etth2": {
+   "threshold": 0.47413595020771027,
+   "orientation": "high",
+   "train_saving": 8.852176295808867,
+   "n_held_out": 1,
+   "n_frozen": 0,
+   "held_out_saving": 0.0
+  },
+  "TimesFM|ettm2": {
+   "threshold": 0.47413595020771027,
+   "orientation": "high",
+   "train_saving": 8.852176295808867,
+   "n_held_out": 1,
+   "n_frozen": 0,
+   "held_out_saving": 0.0
+  },
+  "TimesFM|weather": {
+   "threshold": 0.47413595020771027,
+   "orientation": "high",
+   "train_saving": 8.852176295808867,
+   "n_held_out": 1,
+   "n_frozen": 0,
+   "held_out_saving": 0.0
+  }
+ },
+ "fold_orientation_low": 0,
+ "fold_orientation_high": 15,
+ "fold_threshold_range": [
+  0.47183158326716645,
+  0.647187277674675
+ ],
+ "boot_kept": 10000,
+ "boot_requested": 10000,
+ "seed": 0,
+ "dispersion_note": "95% percentile intervals from a cluster bootstrap. Every statistic here is a mean of bounded per-cell quantities, unlike the out-of-sample R2 in cka_fixed_effects.py, so the extreme percentiles are reproducible: over seeds 0/1/7/13 the reported bounds move in the second decimal place.",
+ "caveats": "Post-hoc, not pre-registered. One policy family (single global CKA threshold). denc is the held-out fine-tune-minus-frozen-encoder contrast on the cells this paper evaluated; the saving is not a forecast for other checkpoints or datasets.",
+ "source": "scripts/cka_decision_value.py"
+}

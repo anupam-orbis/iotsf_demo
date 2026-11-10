@@ -1,0 +1,50 @@
+% ============================================================
+\section{Experiment 1: Is There a Capability Worth Preserving?}
+\label{sec:forecasting}
+\label{sec:forecasting:gate}
+% ============================================================
+
+A claim that fine-tuning damages valuable pre-trained features needs a cell where
+such features are demonstrably present.  Across \textbf{32 screened
+cells} (21 Moirai: three capacities, five datasets, two horizons; 5
+Chronos-T5, 5 TimesFM-2.5 and 1 Moirai/ILI), seven clear the gate, and all seven
+are Moirai: five on ETTh2 and two on ETTm2.  The gate is scored on selection
+windows, which exist for 31 of the 32 (TimesFM/Electricity has no paired
+frozen-encoder run, so it is screened but carries neither a gate nor an
+intervention row), and every denominator below is 31.
+
+\textbf{Moirai: 7 of 21} (Table~\ref{tab:r2task}).  ETTh2 clears at every
+capacity: Small $h{=}96$ ($+0.874$) and $h{=}192$ ($+0.932$), Base $h{=}96$
+($+0.777$) and $h{=}192$ ($+0.925$), Large $h{=}96$ ($+0.875$).  ETTm2 clears
+at two of four, Small $h{=}192$ ($+0.352$) and Base $h{=}192$ ($+0.211$).
+Every other dataset fails at every capacity, and every failing cell is below the
+baseline rather than short of the threshold.  Capacity does not help: Moirai-Base
+is 6.6$\times$ larger than Moirai-Small and further behind the baseline on both
+ETTh1 and Weather.
+
+\textbf{Chronos-T5-Small: 0 of 5; TimesFM-2.5: 0 of 4}
+(Table~\ref{tab:crossbackbone}).  All nine fall in a narrow band about zero,
+$-0.275$ to $+0.082$.  On ETTh2, where Moirai clears at every capacity, Chronos
+is below the fitted baseline ($-0.184$ on selection, $-0.325$ on held-out), so
+the advantage is not a property of the dataset alone.
+
+\textbf{One rung of eight.}  Scored against a ladder of eight baselines on the
+same windows, with the training mean as an admissibility floor, \textbf{no cell of
+the 31 clears $0.20$} against the strongest admissible rung it faces, and none
+does on two further window sets.  \textbf{20 of the 31 clear it against at
+least one admissible rung (14 Moirai, 3 Chronos, 3 TimesFM)}, and that union is
+the scope of every drift analysis below, so those analyses span all three
+backbones.  ``Seven cells clear the gate'' always means seven clear the fitted
+ridge rung; per-rung counts, a matched-lookback baseline and the four cells a
+near-constant rung would admit are in Appendix~\ref{app:baselines}.
+
+\textbf{Prospectively, the gate is a conditioning device, not a detector.}
+\label{sec:analysis:prospective}%
+Predictions for eight unrun cells were committed to git before any of them was
+trained.  None of the eight degraded and the gate flagged all eight
+(\textbf{TP~0, FP~8, FN~0}), a test at zero prevalence that shows the gate's
+positive predictions were wrong here and says nothing about its sensitivity.  A
+second registered batch, on 9 of its 10 cells, gives specificity $0.78$
+(Appendices~\ref{app:prospective2},~\ref{app:prospective3}).  What the gate does
+is decide where the harm question can be asked at all: a cell that fails it has
+no demonstrated advantage to lose, and 24 of our 31 fail it.

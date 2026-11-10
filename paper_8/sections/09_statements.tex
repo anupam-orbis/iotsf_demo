@@ -1,0 +1,330 @@
+% ============================================================
+% Ethics, Reproducibility and AI-assistant statements.  ICLR excludes these from the 9-page
+% main-text limit, so nothing here competes with the body for space.  They are
+% placed after the conclusion and before the references, per the ICLR template.
+% ============================================================
+
+\section*{Ethics Statement}
+
+\textbf{Data.}  Every experiment uses public benchmark data and involves no human
+subjects and no personally identifying information.  The forecasting datasets
+(ETTh1, ETTh2, ETTm2, Weather and Electricity) are standard public
+releases of instrument and utility measurements.  The ILI cell uses public
+aggregate influenza-surveillance counts, not individual health records.  The IoT
+negative control uses N-BaIoT, network traffic captured from a laboratory
+testbed of consumer devices rather than from a deployed network.  We introduce no
+new data collection.
+
+\textbf{The main risk in this paper is that its negative result is read too
+broadly.}  We report that on these benchmarks we could not construct a cell in
+which fine-tuning demonstrably damages a pre-trained capability, and that a
+diagnostic we proposed for predicting such damage has no positive instance to
+predict.  That is a statement about six standard forecasting benchmarks and three
+backbones, and \S\ref{sec:limitations} states what it does not license.  It is
+\emph{not} evidence that fine-tuning is safe in general, and a practitioner who
+reads it as permission to skip the frozen-encoder control would be drawing the
+opposite of our recommendation: our prescription is to \emph{run} that control,
+because we found the observational shortcuts unreliable.  Domains where a
+pre-trained checkpoint holds a large, well-established advantage (which these
+benchmarks do not, on 24 of the 31 cells we screened) are exactly where the
+question remains open.
+
+\textbf{Scope of the claims: one adaptation protocol, not fine-tuning in
+general.}  Three facts bound every number in this paper, and we state them
+together here rather than leaving them to be assembled from three appendices.
+\emph{(i)~The training objective differs by backbone, and one of the three is not
+native.}  Moirai is fine-tuned through its own probabilistic NLL, and TimesFM
+through its own point head's loss (MSE on the mean channel plus pinball on the
+nine decile channels), with no head attached to either.  The five
+Chronos-T5-Small cells in the main matrix are instead fine-tuned through an
+\emph{added} MSE regression head on mean-pooled encoder features, which bypasses
+the tokenised cross-entropy Chronos was pre-trained with.  That mismatch is why
+Chronos's per-condition forgetting is flagged confounded in the code and excluded
+wherever a forgetting comparison is made (Appendix~\ref{app:predictor}), and why
+the M4-Monthly arm, which \emph{is} fine-tuned through the native cross-entropy,
+is reported separately (Appendix~\ref{app:chronos_detail}) instead of pooled with
+those five.  \emph{(ii)~The outcome is one metric on one channel.}  Every
+forecasting result is MSE on a single target channel at a fixed horizon; we test
+no multivariate-target, multi-task or classification adaptation beyond the IoT
+negative control.  \emph{(iii)~One adaptation step, not a task sequence}
+(\S\ref{sec:background}).  ``Encoder adaptation'' in this paper therefore means
+what this protocol does, and our results say nothing about a backbone fine-tuned
+through its own decoder on a task we did not run.
+
+% Round 8 (C1/C2), and it is HERE rather than in the body for one reason: ICLR excludes these statements
+% from the 9-page limit, the body has zero slack, and a reader who wants the boundary of a negative result
+% is a reader who will follow one pointer to find it. S1's scope paragraph points at this list by name.
+%
+% Every item below is a reading a reviewer of the previous draft actually offered back to us as our
+% claim, so this is not a list of straw positions -- it is the set of five things the paper was read as
+% saying and does not say. Two of them were named inline in S1 until this round ("we do not claim that
+% fine-tuning is safe, nor that foundation models are useless for forecasting"); they are items (iii)
+% and (v) here, so the enumeration replaces those two rather than adding to them.
+\textbf{What we do not claim.}  Five readings of this paper's negative results are
+ones we explicitly decline.  \emph{(i)}~That CKA fails to measure representation
+change: it does measure it, and we use it as a measurement throughout.  What we
+test is whether a change in it is evidence of harm.
+\emph{(ii)}~That CKA can never predict downstream utility.  We report that it does
+not reliably order the intervention outcome across the cells we ran, with the one
+backbone family large enough to condition on carrying the cleanest evidence; a
+larger matrix, another family or another protocol could show otherwise.
+\emph{(iii)}~That fine-tuning never causes catastrophic forgetting, or that
+fine-tuning is safe.  Out of domain it does forget (\S\ref{sec:exp4:ood}); on the
+target task we could not construct a cell in which it demonstrably destroys a
+demonstrated capability, which is a failure to demonstrate and not a
+demonstration of absence.  \emph{(iv)}~That freezing, L2-SP, EWC or
+low-rank adaptation are useless.  Our prescription is to \emph{run} the
+frozen-encoder control rather than to skip it, because it is the observational
+shortcuts we found unreliable, not the mitigations.  \emph{(v)}~That foundation
+models are useless for forecasting, or that these results establish the absence of
+encoder-adaptation effects in time-series foundation models in general: seven of 31
+cells cleared a deliberately weak screen, and the domains where a pre-trained
+advantage is large and well established are exactly where the question stays open.
+What we do claim is narrower than any of those: \textbf{within the intervention
+cells we evaluated, and with the cleanest evidence inside the Moirai family, a
+drop in CKA is not reliable evidence that encoder adaptation was harmful, on the
+target task or out of domain, and no cell meets our prespecified criterion for
+harmful encoder adaptation on the target task.}
+Appendix~\ref{app:claims} tabulates every claim we do make with its evidence and its
+strength.
+% The pointer to app:claims lives here because the conclusion's copy of it went with the disclaimer this
+% list replaced (see the comment in 09_conclusion.tex). An appendix nothing in the paper points at is an
+% appendix no reader reaches, so the reference had to land somewhere, and the paragraph enumerating what
+% we do NOT claim is the right neighbour for the table of what we do.
+
+\textbf{The value gate is a screen, not a verdict on a checkpoint.}  A cell that
+fails the gate is one where the pre-trained model does not beat a linear regression
+fit on that cell's own target data; it is \emph{not} a cell we claim holds no
+pre-trained knowledge, and $\Vb{b}$ is a property of the (checkpoint, dataset,
+baseline) triple rather than of the checkpoint (\S\ref{sec:method}).  The screen's
+role is to decide where the question ``was something valuable destroyed?'' is even
+askable.  Two things follow that are easy to misread.  Failing cells here fail
+\emph{widely}: every failing Moirai cell is below its baseline rather than short of
+the $0.20$ threshold, so the emptiness of the screen is not an artefact of where the
+bar sits.  And gate-failing cells are still measured and still reported (CKA,
+$\denc$ and the paired intervals are computed on all 31), because the dissociation
+between drift and outcome is a claim about the measurement, not about the survivors.
+
+\textbf{Broader impact.}  This is a diagnostic study on public forecasting
+benchmarks, and the effect we intend is to raise the bar for claims about
+forgetting in time-series foundation models: a paper reporting that fine-tuning
+damaged pre-trained features should say what baseline established that the
+features were valuable, and how that baseline was fit.  The controlled
+comparison remains the way to answer the question for any particular cell, and
+\S\ref{sec:analysis:degradation} claims only that the harm cannot be demonstrated
+on these benchmarks.
+
+\textbf{Corrections to an earlier version.}  An earlier public version of this
+work used an unfitted linear baseline for the capability screen and reported a
+linear-probe diagnostic that does not survive a temporal split.  Both are
+corrected here, and the supplementary file \texttt{ERRATA.md} lists every
+changed claim.
+
+\textbf{Compute.}  The experiments are small by contemporary standards: no run
+exceeds 10{,}000 training windows, and the sweep reported here runs on a single
+GPU or on Apple silicon.  We report the protocol deviations forced by the
+hardware available (Appendix~\ref{app:layerunfreeze}) rather than presenting the
+runs as environment-independent.
+
+\section*{Reproducibility Statement}
+
+The paper is organised so that every quantity can be traced to a stored run
+record, and we have tried to make the failure modes we hit ourselves cheap for
+others to avoid.
+
+\textbf{Where the numbers come from.}  Every table the source
+\texttt{\textbackslash input}s is written by a named emitter that reads the per-run
+JSON records (none is assembled by hand), and
+\texttt{scripts/rederive\_all.sh} runs all of them in one command and then reports
+which generated files changed.  A clean run means the PDF agrees with the run
+records; any diff is a number that was stale.  The per-run records carry the
+fields the tables use (\texttt{final\_cka}, \texttt{forgetting\_pct},
+\texttt{final\_val\_mse}, \texttt{final\_weight\_drift} and the early-stopping
+block), together with the seed, epoch budget and sample count, so the dispersion
+conventions can be recomputed rather than taken on trust.
+
+\textbf{What ``reproducible'' means here, exactly, and what it does not.}
+Auditability is not independent reproduction, and we distinguish three tiers
+rather than letting the stronger word cover the weaker work.  \emph{(i)}~Every
+table and figure is re-derivable from a clean clone with no data and no
+checkpoints, because the run records are in the release; that is what
+\texttt{rederive\_all.sh} checks.  \emph{(ii)}~Re-running the value gate or any
+fine-tuning cell additionally needs the benchmark CSVs, which are public but not
+ours to redistribute.  The obstacle there is not the download but knowing you
+fetched the same file: ETT and Weather circulate in variants that differ in column
+order and date parsing, and a variant with the same name changes every window and
+so every MSE.  \texttt{results/data\_manifest.json} therefore records the
+SHA-256, shape and date range of each CSV we used, and
+\texttt{scripts/data\_manifest.py --check} verifies a local copy against it.
+\emph{(iii)}~The drift-metric battery's geometry pass needs the fine-tuned
+encoders themselves, which are excluded for size; its stored output is released,
+so the table is re-derivable even though the measurement behind it is not.
+\textbf{No third party has run any of this.}  What we offer is re-derivation from
+committed run records and a bounded two-cell from-scratch check, not independent
+replication.
+
+\textbf{What the two-cell check found, and why we report it rather than a
+tolerance.}  \texttt{scripts/rerun\_two\_cells.sh} retrains one Moirai cell
+(Small/ETTh2 $h{=}96$, $n{=}500$, seed 42, full fine-tuning~(B)) and one non-Moirai
+cell (TimesFM/ETTh1 $h{=}24$, $n{=}1{,}000$, seed 42, the same condition) from the raw
+CSVs
+and diffs every stored field.  \textbf{TimesFM reproduces exactly}: all nine
+fields, including CKA and weight drift, are bit-identical.  \textbf{Moirai
+reproduces its MSEs to within a few percent but not its forgetting percentage}:
+zero-shot MSE moves $-0.8\%$, held-out MSE $+0.8\%$, the selection-window MSE
+$+3.2\%$, CKA $-0.6\%$ ($0.957$ to $0.952$), and weight drift $+25.2\%$, while
+forg.$_\text{B}$ moves from $+6.81$ to $+11.14$, a $63.5\%$ relative change.
+That last figure is the informative one and it is not a failure of the smaller
+ones, it is those smaller ones compounded: forg.$_\text{B}$ is
+$(\text{MSE}_\text{val}-\text{MSE}_\text{ZS})/\text{MSE}_\text{ZS}$ on two nearly
+equal quantities, so a $-0.8\%$ move in the denominator against a $+3.2\%$ move in
+the numerator's larger term is amplified into $+63.5\%$ in the ratio.
+% 2026-09-26 (B5). A reviewer asks the paper to de-emphasise percent-of-zero-shot metrics, citing this
+% very reproduction as evidence that they are unstable. They are right about the metric and the
+% instability was already reported here -- but as ARITHMETIC ABOUT ONE CELL. `grep -rn "amplif"` over
+% every .tex in paper_8 returned exactly one line, the one above, so the paper had the instance and never
+% the general statement, which is the weaker of the two things to have.
+% Two sentences, and the SECOND is the one that matters, because it is the bound: the amplification is a
+% property of forg_B, and \denc does not inherit it. That was already derivable from 03_protocol.tex:96-99
+% ("Both arms share the zero-shot denominator, so $\denc$ is the raw contrast ... rescaled per cell") but
+% nothing anywhere connected the two, so a reviewer reading S9's 63.5% had no way to see that the paper's
+% headline quantity is not exposed to it. THE CLAIM IS DELIBERATELY LIMITED TO THE SIGN: a per-cell
+% rescaling by a shared positive quantity cannot flip the contrast, but it can reorder cells against each
+% other, so "sign" is what is claimed and not "ordering".
+% This whole statement sits after \section*{Conclusion} and is excluded from the 9-page limit
+% (main.tex:202-205), so it costs the body nothing -- which is why the generalisation goes here and not
+% in \S5.
+This is a property of the percent-of-zero-shot scale rather than a fact about this
+cell: wherever the fine-tuned and zero-shot losses are close, a ratio of their
+difference to one of them magnifies absolute moves that are themselves small, which
+makes forg.$_\text{B}$ the least stable quantity this paper reports.
+\textbf{$\denc$ does not inherit that instability}: both arms share the same
+zero-shot denominator, so $\denc$ is the B-versus-D contrast rescaled per cell
+(Equation~\ref{eq:denc}), and a shared positive rescaling cannot change its sign,
+which is what every claim in the paper is stated in terms of.
+Moirai scores the median of 20 sampled forecasts and TimesFM emits a point
+forecast, which is why only one of the two is reproducible to the bit.  Every
+sign-bearing field kept its sign, which is what the paper's claims are stated in
+terms of, but a reader should treat any single-seed Moirai forgetting figure as
+carrying at least this much run-to-run variation, and that is why the paper
+reports cells at 3--10 seeds with a dispersion and never a single run.
+
+\textbf{Two things are required to reproduce the Moirai runs at all.}  First, the
+\texttt{uni2ts} \texttt{PackedStdScaler} performs an in-place write that silently
+detaches the gradient tape for losses depending on scaled statistics; without the
+patch of Appendix~\ref{app:scaler_patch} training can appear to run while not
+converging.  Second, the frozen-encoder condition is not a strict freeze (the
+input projections and mask encoding remain trainable, which is why its CKA is not
+$1.000$), and the strictly-frozen variant is reported separately
+(Appendix~\ref{app:strictfreeze}).  Comparisons against a ``frozen'' baseline are
+not comparable across papers unless which parameters were frozen is stated.
+
+\textbf{Scoring protocol.}  All headline comparisons are scored on windows
+disjoint from the ones used for selection.  This is not a refinement:
+\S\ref{sec:analysis:heldout} shows that scoring on the selection windows instead
+reverses the sign of the frozen-encoder comparison in 4 of the 31 intervention
+cells, always in the same direction.  Reproducing our numbers therefore requires
+reproducing the split discipline, and Appendix
+Table~\ref{tab:heldout_decomp} gives the per-arm decomposition needed to check
+which split a given number was scored on.
+
+\textbf{Pre-registration.}  The prospective test of
+\S\ref{sec:analysis:prospective} was registered before any outcome run for
+those cells existed: \texttt{results/v47\_prospective/preregistration.json} for
+the first batch and \texttt{results/v57\_prospective3/preregistration\_v3.json}
+for the second, each committed before the first condition-B or condition-D run
+of its own arm was launched.  The scorer,
+\texttt{score\_prospective.py}, reads those files and the finished runs and makes
+no decisions of its own.  All are in the release, and each registration's commit
+precedes every run it scores.  \textbf{That ordering is checkable in the
+version-control history, and the supplementary archive does not carry one.}  What
+travels with the archive is each registration's own \texttt{written\_utc} and the
+commit hash it was written at; the per-run records store no timestamp, so the
+archive alone cannot order them against it.  We state the limit rather than let
+``checkable'' cover a check the archive does not support: from the archive a
+reader has the hashes and our word, and the ordering itself is verifiable against
+the repository released with the paper.  The Chronos/M4-Monthly re-run of
+Appendix~\ref{app:chronos_detail} carries a second registration
+(\texttt{results/chronos\_m4/preregistration.json}), on the same terms and with
+the same check available.  That arm is \emph{not} prospective (an earlier run on
+the cell had already been seen), so what its registration fixes is only what
+was still fixable: the gate's estimator and split, the seeds, the decision rule,
+and what each gate outcome would be taken to mean.  The gate was computed after
+that file was committed, which matters because the estimator was itself one of
+the things being corrected.
+% The ladder top-up's registration, named here on the same footing as the other two non-prospective
+% ones. This section is page-exempt, so there is nothing to trade against naming it, and the appendix
+% that reports the rungs cites the same file. What makes it worth a sentence is the last clause: the
+% outcome that fired is the one the registration called inconvenient in advance, so the rule that
+% decided what the body says was fixed before the runs rather than chosen after them.
+The $N{=}4$ and $N{=}5$ rungs of Appendix~\ref{app:layerunfreeze} carry a third
+(\texttt{results/v49\_layerunfreeze\_10seed/preregistration\_ladder.json}),
+committed before the first of their six runs.  It is also not prospective, and
+what it fixes is the rungs, the seeds, the condition and flag, the reported
+statistic, and \textbf{what each outcome would mean for the body}: that a
+non-monotone forgetting profile across depth, or a thin rung landing outside the
+matched pair's range, would be reported as found with the body's claim narrowed to
+the matched pair rather than the ladder being dropped.  Both of those outcomes
+occurred, and that is the rule we followed.  The out-of-domain retention arm
+(\texttt{results/v59\_ood\_retention/preregistration.json}) and the Traffic arm
+(\texttt{results/v60\_second\_family/preregistration.json}) were registered the
+same way, each committed with its thresholds and three outcomes before its first
+run; outcomes O2 and O3 fired, and both are reported as registered.
+
+\textbf{The figures check themselves.}  Both generated figures read their values
+from \texttt{scripts/cell\_matrix.py} and \emph{assert} at draw time every count the
+body quotes from them: the number of gate-passing cells, the number of degradation
+cells, the number of sign reversals and the sign of each correlation.  A run record
+that moved would fail the figure rather than change it silently, which is the one
+staleness path the table emitters do not cover.
+
+\textbf{What we release.}  The analysis and experiment scripts, the per-run JSON
+records behind every table, the emitter for every table and the one-command
+re-derivation script, the benchmark-data manifest, every pre-registration file, and
+the \LaTeX{} source and style files needed to build this paper.  Model checkpoints
+are excluded for size; the appendices state which runs retained a checkpoint.
+
+% ============================================================
+% Required by the ICLR 2027 main track.  Placed with the other statements, after the
+% conclusion and before the references, on the same footing as Ethics and
+% Reproducibility.  Written to be checkable rather than reassuring: the commit count
+% below is a fact about the released history, and the division between what the
+% assistant produced and what it could not produce is the same division the
+% Reproducibility Statement already enforces mechanically.
+% ============================================================
+\section*{Use of AI Assistants}
+
+An LLM-based coding assistant was
+used in this work: \textbf{a large fraction of commits in this project's
+version-control history carry an AI co-author trailer}.
+
+\textbf{Where it was used.}  Implementation and prose. It wrote the initial draft of most
+of the analysis and experiment scripts, including the table emitters, the
+one-command re-derivation sweep, the prose-number checker, the figure scripts, and
+the anonymity and bundle-inventory gates; and it drafted and edited some of the sections of the paper's
+text.
+
+\textbf{Where it was not used.}  It produced no experimental result.  Every number
+in this paper comes from a run that executed and wrote a JSON record, and the
+registered checks in \texttt{scripts/check\_paper\_numbers.py} compare the prose
+against those records, never against anything a model asserted.  The
+research question, the study design, the pre-registered predictions and decision
+rules, the choice of what to cut and what to report, and every claim the paper
+makes are ours.
+
+% The venue's AI policy asks for an explicit affirmation that the AI-assisted work was reviewed, and
+% the boilerplate it ships states it in these words. Added verbatim rather than left implicit in
+% "full responsibility": the policy makes an undisclosed or unaffirmed use a Code of Ethics matter,
+% and this section is exempt from the page limit, so there is nothing to trade against saying it.
+\textbf{Responsibility, and one caveat.}  We have reviewed all AI-assisted work
+in this paper, and we take full
+responsibility for everything in it, errors introduced during
+AI-assisted work included.  Such errors did occur, and the two kinds we hit
+repeatedly are worth naming:
+tables whose numbers had been typed by hand and then drifted from the records
+they were supposed to summarise, and claims that were reworded in one place while
+a restatement elsewhere kept the old figure.  Neither was caught by
+rereading the paper; each was caught by a mechanical check.  That is the reason
+having a verification apparatus is critical, and it is
+the part of this methodology we would recommend to anyone writing a paper this
+way.

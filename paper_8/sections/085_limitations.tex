@@ -1,0 +1,25 @@
+% ============================================================
+\section{Limitations}
+\label{sec:limitations}
+% ============================================================
+
+(1)~\emph{One backbone carries the within-backbone association.}  The seven
+gate-passing matrix cells are Moirai on two series.  Of three further datasets we
+screened, only Traffic admits Chronos and TimesFM, marginally on held-out windows
+($+0.231$, $+0.207$); a pre-registered arm there finds full fine-tuning better
+than the strict freeze in every seed on both (Chronos $-39.3$~pp, TimesFM
+$-10.2$~pp) at CKA $0.144$ and $0.242$ (Appendix~\ref{app:secondfamily}).  Two
+cells on one dataset replicate the per-cell finding, not the correlation.
+(2)~\emph{A null is not a proof of absence.}  What would settle the harm question
+is a cell with a large pre-trained margin over a strong baseline, which these
+benchmarks do not supply (\S\ref{sec:forecasting}).
+(3)~\emph{Seed counts are small}, 3 to 10 per cell, so most per-cell calls are
+inconclusive by construction (\S\ref{sec:analysis:degradation}).
+(4)~\emph{Horizon differs by backbone}: $h{=}24$ for Chronos and TimesFM,
+$h{\in}\{96,192\}$ for Moirai, so the two are never pooled.
+(5)~\emph{Out-of-domain retention is measured on the paper's own benchmarks}, not
+on Moirai's pre-training corpus (\S\ref{sec:exp4:ood}).
+(6)~\emph{We measure whether restructuring was necessary, not what it changed}:
+linear probes on these encoders do not generalise under a temporal split
+(supplementary \texttt{ERRATA.md}).  Further detail is in
+Appendix~\ref{app:limitations}.

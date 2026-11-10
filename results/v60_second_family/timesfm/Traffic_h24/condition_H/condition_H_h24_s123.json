@@ -1,0 +1,33 @@
+{
+  "backbone": "timesfm",
+  "model_id": "google/timesfm-2.5-200m-pytorch",
+  "dataset": "Traffic",
+  "horizon": 24,
+  "lookback": 96,
+  "condition": "H",
+  "seed": 123,
+  "test_seed": 0,
+  "loss_type": "native_point_head",
+  "n_test_windows": 200,
+  "n_val_windows": 200,
+  "zeroshot_mse": 0.07158921394109172,
+  "zeroshot_test_mse": 0.0997774834286253,
+  "final_val_mse": 0.05967429338181162,
+  "test_mse": 0.09166949761776158,
+  "best_epoch": 20,
+  "epochs": 20,
+  "lr": 0.0001,
+  "batch_size": 16,
+  "max_train_samples": 1000,
+  "n_trainable": 32768000,
+  "n_params": 231289280,
+  "frozen_modules": [
+    "stacked_xf",
+    "tokenizer"
+  ],
+  "final_cka": 1.0000000095712887,
+  "final_weight_drift": 0.0,
+  "has_drift": false,
+  "forgetting_pct_test": -8.126067658003901,
+  "forgetting_pct_val": -16.643457726864376
+}

@@ -1,0 +1,1836 @@
+% ============================================================
+% Consolidated Appendix
+% ============================================================
+\newpage
+\appendix
+% A1, A2, ... rather than the class default \Alph{section}: the appendix now has more than 26
+% sections, and \Alph overflows with "Counter too large" at the 27th. A1-style numbering also reads
+% unambiguously next to the body's numbered sections, which single letters did not.
+\renewcommand{\thesection}{A\arabic{section}}
+
+% \appendix switches the numbering but prints no title, so the notation note below used to open
+% page 14 as a bare italic paragraph directly under the running head, with the references ending
+% on the page before and the first heading (A1) only after it. It read as orphaned text rather
+% than as the front matter of the appendix. A starred heading gives it something to sit under and
+% does not touch the A1..A29 numbering, since \section* leaves the counter alone.
+\section*{Appendix}
+
+\noindent\emph{Notation.} The appendices write the paper's estimand in its
+condition form, $\text{B}{-}\text{D}$, because they compare conditions directly
+(for instance $\text{B}{-}\text{D}$ against $\text{B}{-}\text{H}$).  It is the
+same quantity the body calls $\denc$; the two are interchangeable throughout.
+
+% ============================================================
+\section{What This Paper Claims, and What It Does Not}
+\label{app:claims}
+% ============================================================
+% Added 21 Sep 2026. The distinction between these three claims has been in the conclusion's last
+% paragraph since round five, and a reviewer still read the paper as asserting the broad version. That
+% is a fair reading of where we put it: a scope restriction stated once, in one sentence, at the end of
+% nine pages, after a title that invites the broad version, is a restriction most readers will not
+% reach. So it is a table now, in one place, with each claim's evidence and strength beside it -- and
+% the three readings we do NOT make are rows of the same table rather than a trailing disclaimer,
+% because they are the three a reader is most likely to supply unprompted.
+%
+% ON THE NUMBERS. Every figure in this table is written in the SAME words as a site the body already
+% carries, so the patterns in scripts/check_paper_numbers.py that pin the body pin this table too. That
+% is deliberate and it is the opposite of the usual instinct to reword for variety: a restatement in
+% fresh words is a site no check reaches, and this project has already had ten tables drift that way.
+
+Three claims of unequal strength are made in this paper, and they are not
+interchangeable.  \textbf{C1} is a null in \emph{prediction}, established out of
+sample under an analysis registered before it was run.  \textbf{C2} is a positive
+claim about what the screen does, at an operating point we chose rather than
+derived.  \textbf{C3} is methodological, and it is the only one of the three we
+would defend outside these benchmarks.
+
+\begin{table}[!htbp]
+\centering\small
+\caption{The paper's three claims with their evidence and their strength, and then
+the three readings we do \emph{not} claim.  The rows are ordered by how far each
+travels: C1 holds for the cells we evaluate, C2 for the screen at the threshold we
+state, C3 for any study that reads a post-treatment similarity statistic as
+evidence about a treatment's value.  The three N rows are not hedges: each is a
+proposition this paper's own evidence is insufficient to support, and two of them
+would be supported by results we report if the scope restriction were dropped.}
+\label{tab:claims}
+\begin{tabular}{@{}p{0.04\textwidth}p{0.26\textwidth}p{0.31\textwidth}p{0.29\textwidth}@{}}
+\toprule
+& Claim & Evidence & Strength and scope \\
+\midrule
+C1 & CKA magnitude does not identify whether encoder adaptation
+     contributed, in the cells we evaluate.
+   & within Moirai, the only arm with enough cells to ask, $\rho{=}{+}0.168$,
+     clustered CI $[-0.469,{+}0.717]$, and no cut on CKA separates the cells
+     encoder adaptation helped from the ones it hurt
+     (\S\ref{sec:exp3}).  Out of sample, with the ladder fixed in advance,
+     leave-one-cluster-out $R^2$ over the 15 clusters \emph{falls} when CKA is
+     added: it \emph{lowers} $R^2$ from $+0.201$ to $+0.176$
+     (Appendix~\ref{app:loco}).
+   & A null in \emph{prediction}, not evidence of no relationship.  The
+     in-sample slope is $+43$~pp per unit CKA with a cluster interval of
+     $[-31, +107]$, which admits a moderate positive relationship.  Scope: the 31
+     intervention cells; the within-backbone form is Moirai only. \\
+\addlinespace
+C2 & The screen locates cells where no advantage over a fitted baseline is
+     measurable under a definition we state.
+   & only 7 of 31 cells show a pre-trained advantage over a lookback-96 ridge
+     \emph{fit on the target data} (\S\ref{sec:forecasting}), and no cell beats
+     every admissible rung of the eight-baseline ladder
+     (Appendix~\ref{app:baselines}).
+   & Positive, but at a prespecified operating point of $0.20$ we chose and did
+     not derive, and $\Vb{b}$ is a property of the model--baseline pair rather
+     than of the checkpoint (\S\ref{sec:method}).  A cell the screen fails is one
+     where \emph{this} ladder finds no advantage. \\
+\addlinespace
+C3 & A post-treatment similarity statistic cannot be assumed to identify the
+     value of a treatment that changed the representation.
+   & Structural rather than statistical: the statistic is measured after the
+     treatment and on the object the treatment altered
+     (\S\ref{sec:method}).  Our results are consistent with it; they are not what
+     establishes it.
+   & The one claim we would defend outside these benchmarks.  It licenses no
+     threshold and predicts no effect size: it says a similarity statistic is
+     the wrong instrument for this question whatever its value. \\
+\midrule
+N1 & \emph{Not claimed:} that drift is generally unpredictive across time-series
+     foundation models.
+   & Three backbones cannot establish it, and pooled across backbones the same
+     correlation is in fact clearly positive, which we report rather than set
+     aside (\S\ref{sec:exp3}).
+   & Would require a backbone sample this paper does not have.  C1 is a
+     statement about our cells. \\
+\addlinespace
+N2 & \emph{Not claimed:} that fine-tuning does not harm time-series foundation
+     models.
+   & No cell met a degradation definition fixed in advance, under any protocol we
+     ran; that is a statement about these benchmarks and these protocols
+     (Appendix~\ref{app:defsensitivity}).
+   & A zero count at a stated definition, not a safety guarantee.  Loosening the
+     definition produces degradation cells, and we show which
+     (Appendix~\ref{app:defsensitivity}). \\
+\addlinespace
+N3 & \emph{Not claimed:} that mitigation methods are unnecessary.
+   & LoRA, L2-SP and EWC were run as a full spectrum on one cell only, and we
+     report what they did there (\S\ref{sec:exp2},
+     Appendices~\ref{app:full_tables},~\ref{app:loravaluecells}).
+   & One cell does not generalise in either direction.  Our claim is about the
+     \emph{diagnostic} that would trigger mitigation, not about mitigation. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ============================================================
+\section{Extended Limitations and Future Work}
+\label{app:limitations}
+% ============================================================
+
+\textbf{(1) Single-backbone scope of the dissociation claim.}
+The drift--utility dissociation is established on the \emph{Moirai
+family} only (Small 13.8M, Base 91M, Large 311M across ETTh1, ETTh2,
+ETTm2).  We attempted three further backbones as second-model
+controls across three ETT datasets (Table~\ref{tab:backbone_screen}).
+
+\begin{table}[!htbp]
+\centering\small
+\caption{The initial non-Moirai screen, at $h{=}96$ with a lookback of $192$, one
+seed (42) and $300$ test windows. \textbf{This is a different protocol from the
+paper's non-Moirai screen} (Table~\ref{tab:crossbackbone}), which runs $h{=}24$
+at lookback~$96$ with three seeds and a paired frozen-encoder condition; the two
+are therefore not comparable cell by cell, and only the latter feeds the 32-cell
+count. Chronos-T5-Base/Large and MOMENT appear here and nowhere else. Advantage
+is $\Vb{\text{ridge}}$ as a percentage. Rows trace to
+\texttt{results/v10\_chronos\_etth2.json}, \texttt{v14\_*}, \texttt{v18\_backbone\_gate/*}
+and \texttt{v12\_moment\_etth2\_gate.json}.}
+\label{tab:backbone_screen}
+\begin{tabular}{llccc}
+\toprule
+Backbone & Dataset & ZS MSE & Linear MSE & Advantage \\
+\midrule
+Chronos-T5-Small  & ETTh2 & 0.304 & 0.213 & $-$42.6\% \\
+Chronos-T5-Small  & ETTh1 & 0.118 & 0.092 & $-$28.8\% \\
+Chronos-T5-Small  & ETTm2 & 0.188 & 0.110 & $-$70.2\% \\
+Chronos-T5-Base   & ETTh2 & 0.286 & 0.213 & $-$34.3\% \\
+Chronos-T5-Large  & ETTh2 & 0.288 & 0.213 & $-$35.2\% \\
+TimesFM-2.5-200M  & ETTh2 & 0.242 & 0.213 & $-$13.8\% \\
+TimesFM-2.5-200M  & ETTh1 & 0.105 & 0.092 & $-$13.9\% \\
+TimesFM-2.5-200M  & ETTm2 & 0.190 & 0.110 & $-$72.6\% \\
+MOMENT-1-base     & ETTh2 & 0.528 & 0.213$^{*}$ & $-$148\%  \\
+\bottomrule
+\end{tabular}
+
+\vspace{2pt}
+{\footnotesize $^{*}$MOMENT was screened at lookback~$96$, whose baseline is
+$0.235$; its margin was nonetheless computed against the lookback-192 baseline
+$0.213$, and we print the comparator actually used. Against $0.235$ the margin is
+$-125\%$, so the verdict is unchanged either way.}
+\end{table}
+
+All nine backbone$\times$dataset cells gate-fail (ZS under-performs
+the Linear baseline by 14\% to 148\%), consistent with ETT-family
+distributions being outside the pre-training coverage of these
+backbones at these sizes.  The Chronos capacity sweep
+(Chronos-T5-Small/Base/Large on ETTh2) confirms the gap is
+size-invariant: scaling from Small (210M) to Large (710M)
+yields no improvement ($-$42.6\% $\to$ $-$34.3\% $\to$ $-$35.2\%).
+TimesFM-2.5-200M and MOMENT-1-base gate-fail across all tested datasets.
+We interpret this pattern as a substantive finding about
+\emph{backbone-specific ETT coverage} rather than evidence against
+generality of the dissociation: matched-protocol ZS under-performance
+on a value-gate design means fine-tuning these backbones on ETT
+cannot meaningfully distinguish drift-as-forgetting from
+drift-as-adaptation (there is no valuable feature to forget).  A
+gate-passing second backbone on a different dataset (Traffic, ILI,
+Exchange, or a model with explicit ETT pre-training coverage)
+remains the most direct path to a multi-backbone replication and
+is the highest-priority future-work direction.
+
+\textbf{(2) Sample-sweep depth and seed count.}
+The sample-size sweep (Table~\ref{tab:sample_sweep}) covers Moirai-Small/ETTh2,
+$h{=}96$, at $n \in \{500, 1\text{k}, 2\text{k}, 5\text{k}, 10\text{k}\}$.
+At $n{=}10$k the reported arm is the CUDA run: 10 seeds (42, 101, 123, 202, 303,
+456, 777, 789, 888, 999), \texttt{--deterministic}
+(\texttt{CUBLAS\_WORKSPACE\_CONFIG=:4096:8}, \texttt{cudnn.deterministic=True},
+seeded DataLoader, PYTHONHASHSEED), 10 epochs early-stopped at a mean best epoch
+of $4.2{\pm}1.3$.  Three further $n{=}10$k records exist under other protocols,
+and Table~\ref{tab:n10k_protocols} scores all four against the same held-out
+zero-shot reference.  \emph{Dispersions here are standard deviations over seeds
+($\text{ddof}{=}1$), because the protocols differ in seed count.}
+
+\begin{table}[!htbp]
+\centering\small
+\caption{Moirai-Small/ETTh2 $h{=}96$, $n{=}10$k, condition~B, under four
+protocols.  Held-out forgetting is against the held-out zero-shot MSE
+($0.4923$); selection-window forgetting is the trainer's
+\texttt{forgetting\_pct}.  Mean${\pm}$std over seeds.}
+\label{tab:n10k_protocols}
+\begin{tabular}{@{}llccc@{}}
+\toprule
+Record & Protocol & $k$ & Held-out forg.\% (neg.) & Selection forg.\% \\
+\midrule
+\texttt{v19\_cuda\_etth2\_n10k} & CUDA, 10 ep., early-stopped & 10 & $-18.5{\pm}8.8$ (10/10) & $-5.3{\pm}6.6$ \\
+\texttt{v18\_mps\_deterministic\_n10k} & MPS, early-stopped & 10 & $-21.3{\pm}6.3$ (10/10) & $-5.7{\pm}10.4$ \\
+\texttt{v17\_etth2\_n10k\_es} & MPS, early-stopped & 5 & $-16.6{\pm}11.6$ (4/5) & $-11.7{\pm}5.3$ \\
+\texttt{v16\_etth2\_n10k} & MPS, 20 ep., final epoch & 3 & $-16.1{\pm}5.2$ (3/3) & $+10.6{\pm}9.8$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent On held-out windows the four protocols agree: full fine-tuning at
+$n{=}10$k improves on the released checkpoint by 16--21\%, in 27 of 28 seeds.  On
+the selection windows the same records span $-11.7\%$ to $+10.6\%$ and change
+sign.  That spread is the selection-window instability of
+\S\ref{sec:analysis:heldout}, not a property of the stopping rule.
+A full $n$-sweep on Moirai-Base and Moirai-Large is future work.
+
+\textbf{(3) Out-of-domain retention is measured on the paper's benchmarks.}
+The retention arm (\S\ref{sec:exp4:ood}) scores each checkpoint on the other
+four datasets of this study, not on Moirai's pre-training corpus, which is not
+released in a form we can evaluate on.
+
+\textbf{(4) Two pre-registered predictions were falsified.}  ILI's CKA prediction
+of $0.90$--$0.95$ (Appendix~\ref{app:ili_gate}), and the prospective value-gate
+predictor, which scored precision $0.00$ at every threshold in $[0.10, 0.60]$
+(\S\ref{sec:analysis:prospective}).  We report both as failures of our own
+diagnostic, which is what the pre-registration was for.
+
+\textbf{(5) Why similarity is not mechanism, in two directions.}  A representation
+can drift far and still carry the task information in a transformed basis, so a
+low CKA need not mean a capability was lost; and a small drift can destroy one
+critical direction, so a high CKA need not mean one was kept.  Both directions are
+consistent with the positive control of Appendix~\ref{app:poscontrol}, where CKA
+on task~A's inputs falls to $0.063$ while task~A itself \emph{improves}.  Our
+negative claim is about \emph{identifying} damage from similarity alone, not about
+CKA's validity as a measure of similarity, which we do not dispute.
+
+% ============================================================
+\section{Training Protocol per Trainer}
+\label{app:trainers}
+The 31 intervention cells come from four trainers, and their stopping rules
+differ.  Every entry is read from the stored run records except where marked
+$^{d}$, which is the trainer's default, not overridden by its launcher.  Epoch
+selection, where it happens, uses the selection windows only; the held-out
+windows every outcome is scored on take no part in it.
+
+\begin{table}[!htbp]
+\centering
+\caption{\textbf{Training protocol per trainer.}  ``Final'' means the cell is read
+at its last epoch; ``best'' means the epoch with the lowest selection-window loss
+is restored before held-out scoring.}
+\label{tab:trainers}
+\small
+\begin{tabular}{@{}llllll@{}}
+\toprule
+cells & trainer & $n$ & lr & epochs & epoch read \\
+\midrule
+Moirai, 21 cells & \texttt{finetune\_forecasting.py} & 500--1k & $10^{-4}$ & 20 & final \\
+Moirai-Small/ILI & \texttt{finetune\_ili.py} & 452 & $10^{-4}$ & 20 & best, patience 3 \\
+TimesFM-2.5, 4 cells & \texttt{finetune\_timesfm.py} & 1k & $10^{-4}$ & 20 & best, patience $7^{d}$ \\
+Chronos-T5, 5 cells, B & \texttt{chronos\_mse\_finetune.py} & 8k & $10^{-4}$ & 30 & best, patience $7^{d}$ \\
+Chronos-T5, 5 cells, D & \texttt{chronos\_frozen\_converged.py} & 8k & $10^{-3}$ & ${\leq}3000$ & best, patience 200 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Under D, Chronos trains only a head on cached frozen-encoder features, so it is
+run to convergence rather than for a fixed budget.  The ILI cell also differs in
+checkpoint (Moirai 1.0-R-small) and lookback (104).  The sample-size sweep
+(Table~\ref{tab:sample_sweep}) is separate from these cells: its
+$n{\leq}5\text{k}$ points use the first row's protocol, and its $n{=}10\text{k}$
+point is early-stopped on a 10-epoch budget.
+
+\textbf{Condition C's objective and its contrastive labels.}
+Condition~B fine-tunes on NLL only; condition~C adds a supervised contrastive
+term~\citep{khosla2020supcon},
+$\mathcal{L}(\theta) = \mathcal{L}_{\text{NLL}}(\theta) +
+\lambda\,\mathcal{L}_{\text{SupCon}}(\mathbf{z}, \mathbf{y};\, \tau)$, with
+$\lambda = 0.5$ and $\tau = 0.07$.  Condition~C appears in this paper only as a
+protocol variant of~B and carries no claim; the comparison every claim turns on
+is B against~D.
+For the contrastive labels we divide training sequences into
+8 temporal clusters based on their position in the time series.
+Sequences within the same cluster are positive pairs; sequences from
+different clusters are negatives.
+This encourages the encoder to maintain temporal-regime awareness.
+
+Dataset splits, the exact window construction (with a figure, generated from the
+window builders, showing that no target value enters the model input) and the
+choice of horizons are in Supplement~\ref{app:etth2_details}.
+
+% ============================================================
+\section{Out-of-Domain Retention Arm}
+\label{app:ood}
+The design, thresholds and outcomes of this arm are fixed in
+\texttt{results/v59\_ood\_retention/preregistration.json}, committed before its
+first run.  Checkpoints are scored with the positive control's evaluator
+(\texttt{scripts/eval\_retention.py}), unchanged; \texttt{scripts/score\_ood\_retention.py}
+applies the registered rules and writes Table~\ref{tab:ood_retention}.  Retention
+is $(\text{MSE}_\text{fine-tuned}-\text{MSE}_\text{zero-shot})/\text{MSE}_\text{zero-shot}$
+on 300 held-out windows of each out-of-domain dataset, positive meaning worse.
+Every strict-freeze checkpoint reads CKA $1.000$ on every out-of-domain input, as
+it must.
+
+\begin{table}[!htbp]
+\centering\scriptsize
+\caption{Out-of-domain retention (\%, mean over seeds 42/123/456) under full
+fine-tuning (B), the frozen encoder (D) and the strict freeze (H); B$-$H with its
+two-sided 95\% $t$-interval; CKA of B on the out-of-domain inputs.  Rows marked
+in \S\ref{sec:exp4:ood} as harmful are those with B$-$H${\geq}10$~pp in every seed.}
+\label{tab:ood_retention}
+\input{tables/ood_retention}
+\end{table}
+
+\paragraph{Registered association, and a size contrast.}  Over the 84 B records,
+$\rho(1{-}\text{CKA}, \text{ret}_\text{B}){=}{-}0.229$; resampling whole cells
+(10{,}000 draws, seed 0) gives $[-0.390,{+}0.137]$.  The rule required
+$\rho{\geq}0.5$ with an interval excluding zero, so outcome O2 fired.  CKA levels
+separate by model size rather than by forgetting (Small $0.81$--$0.96$, Base and
+Large $0.38$--$0.73$).  Within a size, which we did not register, $\rho$ is
+${+}0.488$ for Small (36 records, 3 cells), ${-}0.279$ for Base (36, 3) and
+${+}0.084$ for Large (12, 1).
+
+\paragraph{Reproducibility against the matrix.}  The registration asks for each
+rerun's target-task test MSE beside the matrix record it repeats.  The reruns ran
+on an NVIDIA A10G, the matrix on Apple MPS.  The frozen encoder reproduces closely
+(median absolute difference $1.7\%$ over 21 runs), full fine-tuning less so
+(median $10.0\%$, largest $53.0\%$).  The largest gap is a matrix outlier rather than a
+rerun one: the published Moirai-Small/ETTh2 $h{=}96$ seed-42 records sit at
+$0.94$--$0.98$ under both B and D, against $0.40$--$0.64$ for the other nine seeds of that
+cell and $0.46$/$0.48$ in the rerun.  The retention analysis uses the reruns only,
+paired on seed, and never pools them with matrix records.
+
+% ============================================================
+\section{ETTh2 Drift Diagnosis and Mitigation (Full Tables)}
+\label{app:full_tables}
+% ============================================================
+
+This section contains the full tables referenced in \S\ref{sec:forecasting}.
+Table~\ref{tab:mitigation_spectrum} shows the mitigation spectrum, conditions~B
+through~H on Moirai-Small/ETTh2 at both horizons.
+
+\input{tables/r2task}
+
+Table~\ref{tab:sample_sweep} gives the sample-size sweep on ETTh2
+($h{=}96$, condition~B) referenced in \S\ref{sec:exp3}.
+
+\input{tables/sample_sweep}
+
+\paragraph{The full 31-cell intervention evidence base.}
+Table~\ref{tab:heldout_all} lists every cell carrying a paired B/D
+intervention behind the headline claim of \S\ref{sec:intro}: 31 of the 32
+screened cells, the screen itself being a gate value and needing no
+intervention run: three backbones, six datasets, three Moirai capacities and
+two horizons, each with its selection-split gate and the intervention contrast
+B$-$D (positive ${=}$ the frozen encoder was better). It is generated by
+\texttt{scripts/cell\_matrix.py --latex} directly from the committed run
+JSON; no value in it is transcribed by hand. The two protocol arms
+(\S\ref{sec:forecasting} at $h{=}96/192$, \S\ref{sec:forecasting:nonmoirai}
+at $h{=}24$) are listed together for completeness but are never pooled into a
+single statistic.
+
+\begin{table}[!htbp]
+\centering
+\caption{All 31 intervention cells (the 31 of 32 screened cells with a paired
+B/D run): \textbf{selection-split} gate $\Vb{\text{ridge}}$ (the primary gate of
+\S\ref{sec:forecasting:gate}, scored on windows disjoint from the outcome columns
+beside it), then
+B$-$D on validation and on held-out windows (positive ${=}$ the frozen
+encoder was better), and whether the validation and held-out readings
+disagree in sign. Every row names its own $n$ because $n$ is \emph{not}
+constant down the column: the ETTh2 spectrum cells ran at 500 while their
+same-dataset neighbours ran at 1{,}000, and a row that stayed silent would read
+as sharing its neighbour's. ILI is the one cell with no cap: it trains on its
+whole 452-window split, since it is the only series small enough, so its
+$n$ is a size rather than a subsample. Generated by
+\texttt{scripts/cell\_matrix.py --latex}.}
+\label{tab:heldout_all}
+\input{tables/heldout_all}
+\end{table}
+
+
+\begin{table}[!htbp]
+\centering
+\caption{\textbf{The four sign reversals between selection and held-out
+windows} (\S\ref{sec:analysis:heldout}). $\Delta$ adapted and $\Delta$ frozen
+are the change in each arm's forgetting when scoring moves from the selection
+split to the held-out split; $\text{zs}_\text{test}/\text{zs}_\text{val}$ is
+the untrained checkpoint's error ratio between the two splits, an
+exchangeability check that involves no fine-tuning. All four reversals run from
+``frozen better'' to ``adapted better''. $n$ is per row and not constant
+(Table~\ref{tab:heldout_all}), and is taken from the published row rather than
+re-read here. Generated by \texttt{scripts/heldout\_decomposition.py}.}
+\label{tab:heldout_decomp}
+\input{tables/heldout_decomposition}
+\end{table}
+
+\paragraph{Why the four reverse in one direction, and the two mechanisms behind it.}
+\textbf{The four reversals of \S\ref{sec:analysis:heldout} do not share one per-arm
+story.}  Normalising each arm by the zero-shot error on its own split is an identity
+rather than a model, so the two arms' held-out-minus-selection moves account for the
+reversal exactly.  On \textbf{two of the four} the frozen arm collapses out of sample
+and the selection-optimism reading holds: Chronos/ETTh1 is the largest reversal in the
+matrix at $+6.8$ on the selection windows against $-39.2$ held out, a $46.0$-point
+swing ($\Delta$ frozen $+53.9$ against $\Delta$ adapted $+8.0$ on Chronos/ETTh1, the
+largest of the four).  On the \textbf{other two} both arms finish \emph{better} than
+their own zero-shot out of sample and nothing degrades at all (the adapted arm
+merely gains more), so half the reversals are a different phenomenon wearing the
+same sign change.  What all four share is not a mechanism but a location:
+they concentrate where the two splits are least exchangeable: the
+\emph{untrained} checkpoint's held-out-to-selection error ratio spans $0.98$ to
+$5.07$ across these four cells, a quantity that involves no fine-tuning at all.  A
+frozen encoder cannot adapt to that shift and a fine-tuned one partly can, which is
+exactly the asymmetry that makes same-split scoring flatter freezing, so the
+direction of the four reversals is not a coincidence to be noted but a consequence
+to be expected, and it is why scoring $\denc$ on selection windows is not a
+defensible option rather than merely a less careful one.
+
+
+\begin{table}[!htbp]
+\centering
+\caption{\textbf{Cross-backbone results ($h{=}24$)}
+(\S\ref{sec:forecasting:nonmoirai}). Every non-Moirai cell with a paired
+frozen-encoder run: \textbf{selection-split} gate $\Vb{\text{ridge}}$
+(\textsuperscript{f}${=}$gate-fail at the $0.20$ operating point; all nine
+fail, as does the screened-only TimesFM/Electricity cell, which has no paired run
+and so no selection-split gate: it scores $+0.132$ on the held-out windows), CKA
+after full fine-tuning, and the two outcome readings as \% change against
+zero-shot (\emph{negative is better than zero-shot}). \textbf{Protocol note:}
+this arm is univariate OT, lookback 96, $h{=}24$, 200 held-out windows,
+per-window $z$-scored; the Moirai arm of \S\ref{sec:forecasting} is lookback
+192, $h{=}96$, 300 windows, train-normalised. Gates for both arms come from one
+source (\texttt{results/gate\_val\_side.json}, via
+\texttt{scripts/cell\_matrix.py}); the two arms are never pooled.}
+\label{tab:crossbackbone}
+\input{tables/crossbackbone}
+\end{table}
+
+
+\paragraph{The mitigation spectrum, cell by cell.}
+Table~\ref{tab:mitigation_spectrum} reports five strategies spanning
+unconstrained fine-tuning to full freezing, all on Moirai/ETTh2. The body
+(\S\ref{sec:exp3}) states only the conclusion; the per-method
+readings are here. \textbf{LoRA} ($r{=}8$, $\alpha{=}16$) improves over
+zero-shot at $h{=}96$ at CKA $0.979$, but is not uniformly safe: on
+Moirai-Large it fails at the default learning rate ($+25.7\%$) and only a
+$10\times$ LR reduction rescues it ($-8.5\%$, CKA $0.989$), so tune the
+learning rate before the rank (Appendix~\ref{app:lora_rank}). \textbf{EWC and
+L2-SP} reduce drift without buying utility: at $n{=}1{,}000$, $h{=}96$, each
+scored against its own zero-shot, they land at $+13.4$ to $+16.0\%$, against the
+$+11.1\%$ full fine-tuning reaches at $n{=}500$.  Those two figures are not
+matched on training-set size (no full-fine-tuning arm at $n{=}1{,}000$ on this
+cell has more than a single seed), so what we read off them is that anchoring
+buys no utility, not an ordering between anchoring and full fine-tuning. \textbf{Freezing} eliminates drift but cannot adapt, and the
+strict freeze of Appendix~\ref{app:strictfreeze} shows that even the residual
+adaptation condition~D permits is doing work. The screen is what makes this
+spectrum hard to act on: none of these methods has a demonstrated advantage to
+protect on 27 of our 32 cells, and on three of the remaining five the
+unconstrained condition beats both of the others run there: zero-shot by
+$31$--$42\%$ and the frozen encoder by $20$--$22$ points.
+
+\textbf{Condition coverage differs by cell, and we state it rather than let the
+widest row imply it.} The full six-condition comparison exists only for
+Moirai-Small/ETTh2, so ``best of six'' is not a claim available for any other
+cell. Every intervention cell has B and D. Condition~H (strict freeze) adds 22
+cells (Appendix~\ref{app:strictfreeze}) and condition~E (LoRA) adds 8
+(Appendix~\ref{app:loravaluecells}), both on the seeds given in their own tables;
+L2-SP and EWC exist on Moirai-Small/ETTh2 alone. A claim about a cell is
+therefore a claim about the conditions that cell ran, and the per-cell seed
+counts are printed in every table rather than summarised into one figure.
+
+\input{tables/mitigation_spectrum}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figures/dissociation_trajectory.pdf}
+\caption{Sample-size sweep on Moirai-Small/ETTh2 (full fine-tuning, $h{=}96$),
+read from the same records as Table~\ref{tab:sample_sweep}; error bars are
+standard errors over seeds.  (a)~CKA against the pre-trained encoder falls as
+$n$ grows.  (b)~Held-out forgetting falls with it, so more drift goes with a
+better outcome; scored on the selection windows instead, forgetting is
+non-monotonic.  Hollow markers at $n{=}10$k are the early-stopped arm.}
+\label{fig:dissociation}
+\end{figure}
+
+% ============================================================
+\section{The Strict-Freeze Control}
+\label{app:strictfreeze}
+% ============================================================
+
+% Added 20 Sep 2026: a reviewer asked where exactly the freeze boundary falls, which the paragraph
+% below states in words and four module names. The grid is transcribed from finetune_forecasting.py's
+% requires_grad blocks by figA_freeze_boundary.py, which also asserts H's CKA is exactly 1 from the
+% run records -- so the figure fails rather than misleads if the training code's freeze logic changes.
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figA_freeze_boundary.pdf}
+\caption{\textbf{Where the freeze boundary falls, module by module.} Green boxes are
+parameters the optimiser may move; hatched boxes are held at their pre-trained
+values.  The grid is transcribed from the \texttt{requires\_grad} assignments in
+\texttt{scripts/finetune\_forecasting.py}.  Two of our seven survivors change the
+sign of $\denc$ between~D and~H (Table~\ref{tab:strictfreeze}), so which of these
+columns a paper means by ``we froze the encoder'' is not a detail.}
+\label{fig:freezeboundary}
+\end{figure}
+
+Condition~D freezes the encoder's own weights but leaves the input projection
+(\texttt{in\_proj}, $247{,}680$ parameters) and \texttt{mask\_encoding} ($384$)
+trainable alongside the distribution head (\texttt{param\_proj},
+$2{,}956{,}800$).  What the encoder receives therefore keeps changing, and D's
+measured CKA is $0.76$--$0.99$ rather than $1$.  Condition~H freezes those two
+modules as well, so only \texttt{param\_proj} trains and the encoder's output is
+fixed by construction (measured CKA $1.0000$ on every run).  B$-$H is the clean
+read of what allowing any encoder-side change was worth, and it is the primary
+contrast on every Moirai cell (Table~\ref{tab:strictfreeze}); B$-$D is restricted
+to the seeds H ran and reported beside it.  The reading rule was fixed before the
+runs: a cell where the two disagree in sign has its gap attributed in part to
+input re-fitting, and is reported as such.
+
+\textbf{Calls.}  With the paper's paired $t$-interval and Benjamini--Hochberg
+across all 22 Moirai cells (Appendix~\ref{app:pairedinference}), B$-$H gives
+\textbf{0 freezing-better}, 3 adaptation-better (Moirai-Base/ETTh2 $h{=}192$,
+Moirai-Large/ETTh2 $h{=}96$, ILI) and 19 inconclusive; B$-$D on the same cells and
+seeds gives 1, 3 and 18.  Three seeds leave most cells unresolved even where the
+mean is large: Moirai-Small/Weather $h{=}192$ reads $+56.7{\pm}13.5$, whose
+two-degree-of-freedom interval still includes zero.
+
+\textbf{Sign.}  B$-$H keeps B$-$D's sign on 18 of 22 cells.  On those the
+magnitude moves by $-13.1$ to $+0.5$~pp, nearly always towards adaptation, so
+condition~D slightly flatters freezing.  The exception is Moirai-Small/ETTh2
+$h{=}96$ ($+13.7 \to +42.6{\pm}29.5$), carried by seed~42: that seed diverges
+under both B ($+98.9\%$) and D ($+91.1\%$), and cannot diverge under H, where only
+the head trains.  Over its other two seeds B$-$H is $+14.4$ against B$-$D's
+$+16.7$.  The four cells that reverse are all four Moirai/ETTm2 cells: Small
+$h{=}96$ from $+7.3{\pm}2.9$ to $-6.8{\pm}2.0$, Base $h{=}96$ from $+7.0{\pm}2.4$
+to $-9.2{\pm}3.1$, Small $h{=}192$ from $+4.2{\pm}5.8$ to $-2.7{\pm}6.1$, Base
+$h{=}192$ from $+1.3{\pm}3.4$ to $-2.4{\pm}2.9$.  Only the two $h{=}96$ shifts are
+several SEMs; the $h{=}192$ pair are shifts in the mean, not resolved reversals.
+All four move towards adaptation, so none recovers a degradation case, and they
+show that condition~D does not measure encoder adaptation alone: on ETTm2 its sign
+is set by the input projection.
+
+\begin{table}[!htbp]
+\centering
+\caption{The strict freeze (H) beside the frozen encoder (D) on all 22 Moirai
+cells, $\denc$ on held-out windows (pp, mean${\pm}$SEM over the seeds H ran).
+\textbf{B$-$H reverses B$-$D's sign on the four ETTm2 cells only.}  $n$ varies
+by cell; ILI's $452$ is its whole training split.  Generated by
+\texttt{scripts/cell\_matrix.py --latex}.}
+\label{tab:strictfreeze}
+\input{tables/strictfreeze}
+\end{table}
+
+\textbf{The degradation definition under H.}  ``Degradation'' needs fine-tuning
+to end worse than the un-tuned model \emph{and} the frozen arm to improve on it.
+The strict freeze improves on zero-shot on 20 of 22 cells (forg$_\text{H}$ from
+$-0.2\%$ to $-22.2\%$).  On Moirai-Small/ETTh1 $h{=}192$ (${+}1.2{\pm}0.4\%$) and
+Moirai-Small/ETTm2 $h{=}192$ (${+}1.3{\pm}0.3\%$), positive in every seed, the
+head alone cannot recover the zero-shot forecast, and D's improvement there came
+from re-fitting the input projection.
+
+% ============================================================
+\section{A Second and Third Backbone Where There Is Something to Protect}
+\label{app:secondfamily}
+% ============================================================
+
+Every Chronos and TimesFM cell of the matrix fails the fitted screen, so off Moirai
+the matrix shows drift without a capability to lose.  We screened three further
+datasets with the matrix's non-Moirai protocol (univariate OT, lookback $96$,
+$h{=}24$, per-window $z$-scored, 200 windows per split) and no training
+(\texttt{scripts/screen\_second\_family.py}, \texttt{results/v60\_second\_family/screen.json}).
+Exchange and ILI fail for both backbones on both splits; \textbf{Traffic passes for
+both on both}, though only marginally on held-out windows.  On every one of the six
+dataset-backbone pairs the fitted ridge beats the training-mean predictor, so each
+screen value is admissible.
+
+We then ran the intervention on the two Traffic cells under a registration committed
+before the first outcome run (\texttt{results/v60\_second\_family/preregistration.json}):
+each backbone's own matrix trainer and settings, unchanged (Table~\ref{tab:trainers}),
+5 seeds per arm, held-out windows as the outcome.  On Chronos the frozen arm freezes
+the encoder together with the shared token embedding, so it is a strict freeze by
+construction; on TimesFM the strict freeze (H) trains only the output heads and the
+trainer asserts that the stack and input tokenizer stay bit-identical.  Every frozen
+run reads CKA $1.000$.  Chronos is read only through B$-$D, because its zero-shot
+reference runs through the generative decoder and both trained arms through an MSE
+head.  All 25 runs are fresh on one A10G and are not pooled with the matrix's
+records: Chronos's sampled zero-shot differs across devices by about $1\%$.
+
+
+\textbf{Result: registered outcome O3.}  On both backbones the interval lies wholly
+below zero and no seed favours freezing (Table~\ref{tab:secondfamily} in \S\ref{sec:exp2:traffic}).  TimesFM is
+scored through its own head on both sides, so its forgetting is readable directly:
+full fine-tuning improves on the released checkpoint by $18.1\%$ in 5 of 5 seeds, the
+frozen encoder by $9.3\%$ and the strict freeze by $8.0\%$, and no cell meets the
+degradation definition.  These are also the largest representation changes in the
+paper: Chronos ends at CKA $0.144$, below the random-initialisation floor of
+Appendix~\ref{app:cka_calibration}, and full fine-tuning still beats the strict
+freeze by $39$~pp in every seed.
+
+\textbf{Pre-training exposure.}  Traffic is in Chronos's zero-shot benchmark, which
+its authors held out of training \citep{ansari2024chronos}, and in TimesFM's
+pre-training corpus \citep{das2024timeseries}.  The second matters less than it might:
+the question is whether there is a capability to protect, not where it came from,
+and pre-training exposure if anything makes one more likely.
+
+\textbf{Scope.}  Two cells on one dataset replicate the per-cell finding (adaptation
+is not harmful where a capability exists) on two further backbones.  They cannot
+estimate a correlation between CKA and $\denc$.
+
+% ============================================================
+\section{LoRA on the Value-Cells: the Constrained Middle of the Adaptation Axis}
+\label{app:loravaluecells}
+% ============================================================
+
+Conditions~B and~D bracket the adaptation axis: everything trains, or the
+encoder body does not. Neither tells a practitioner whether a \emph{cheap
+constrained} adaptation would have beaten the extreme their cell happened to
+run. Condition~\textbf{E} (LoRA, $r{=}8$, $\alpha{=}16$) is that middle point.
+Beyond Moirai-Small/ETTh2 we ran E on the eight Moirai value-cells that lacked it,
+seeds $42/123/456$, each at its own arm's $n$ and epoch budget
+(Table~\ref{tab:lora_valuecells}).
+
+\textbf{What E can and cannot measure, fixed before the runs.} LoRA adds
+trainable low-rank updates to the encoder's attention projections, so the
+encoder's \emph{function} changes while its base weights do not: $\ell_2$ weight
+drift is exactly $0.0$ on all 24 records by construction, and it is omitted from
+the table rather than printed as a column of zeros that would invite the reading
+that the encoder was held still. CKA is the measure that still reads on E. $\denc$
+remains B$-$D; E is not a second estimate of it.
+
+\textbf{The one-cell reading does not survive.} CKA$_\text{E}$ spans
+$0.5482$ to $0.9674$ across these eight cells, against the ${\approx}0.98$ the
+single-cell spectrum reports, so LoRA is not a representation-preserving method
+in general; it is one on some cells. Full fine-tuning finishes ahead of LoRA
+(B$-$E${}<0$) on \textbf{4 of the 8}. LoRA is itself worse than not fine-tuning
+at all on two cells (forg$_\text{E}={+}11.9\%$, 2 of 3 seeds, on
+Moirai-Base/ETTh2 $h{=}96$; ${+}11.2\%$, 3 of 3, on Moirai-Base/ETTm2
+$h{=}192$).
+
+\textbf{Against the frozen encoder, read as a paired contrast.} D$-$E is paired
+per seed rather than taken as the difference of two means, which matters: on
+Moirai-Small/ETTh1 the B$-$E and B$-$D means sit $0.2$~pp apart with a SEM of
+$4.9$, and a difference of means there would read as ``LoRA beat freezing'' on
+a cell that cannot separate them. Paired and requiring a unanimous sign,
+\textbf{LoRA beats freezing on 3 of 8 cells, freezing beats LoRA on 2, and 3 are
+inseparable}. Moirai-Base/ETTh2 $h{=}192$ is the one cell that orders all three
+points cleanly (full fine-tuning, then LoRA, then frozen), and it is a
+gate-passing cell, so the ordering is on a cell with something to preserve.
+
+\textbf{Why this belongs in a paper about drift as a diagnostic.} It is a third
+condition on which the paper's central claim holds. Across these eight cells
+CKA$_\text{E}$ does not order the outcome of constraining adaptation
+($\rho{=}{-}0.167$ against B$-$E; ${-}0.333$ against B$-$D on the same cells):
+the highest-CKA cell here, Moirai-Large/ETTh2 at $0.9674$, is one where the
+constrained option \emph{loses} to full fine-tuning by $27.8$~pp, and the
+lowest, Moirai-Base/ETTm2 $h{=}96$ at $0.5482$, is one where it wins. As with
+B$-$D, how much the representation moved does not tell you whether constraining
+the move helped.
+
+\textbf{Two limits of this arm.} The two Moirai-Small/ETTh2 cells already
+carrying E are excluded here: their E arm ran at $n{=}1{,}000$ against B/D at
+$n{=}500$, a mismatch disclosed in Table~\ref{tab:mitigation_spectrum}'s caption
+and not improved by adding a third $n$. And $\alpha$ is not written into the run
+records (only $r$ is), so $\alpha{=}16$ is traceable to
+\texttt{scripts/run\_lora\_valuecells.sh} and its committed command line rather
+than to the per-run JSONs, the same limitation the learning rate carries.
+
+\begin{table}[!htbp]
+\centering
+\caption{\textbf{Condition E (LoRA, $r{=}8$, $\alpha{=}16$) on the eight Moirai
+value-cells that lacked it.} All contrasts are held-out test MSE, normalised by
+the cell's zero-shot test MSE, in percentage points; $\pm$ is SEM over the seeds
+in the Seeds column. Sign convention matches B$-$D and B$-$H throughout:
+\textbf{positive means full fine-tuning did worse than the comparison arm}. B$-$D
+is recomputed on E's seeds, so it is comparable to B$-$E within a row and may
+differ from the same cell's row in Table~\ref{tab:heldout_all}, which averages
+that cell's full seed set. Parenthesised counts are the seeds sharing the mean's
+sign. $\ell_2$ weight drift is exactly $0.0$ for every run and is not shown:
+LoRA leaves the base parameters untouched by construction, which is why CKA, not
+drift, is the representation measure here. Rows ordered by D$-$E.}
+\label{tab:lora_valuecells}
+\input{tables/lora_valuecells}
+\end{table}
+
+% ============================================================
+\section{CKA Calibration: Random-Initialisation Baseline}
+\label{app:cka_calibration}
+% ============================================================
+
+A CKA of $0.09$ is only interpretable against a floor: the value two
+\emph{unrelated} encoders of this architecture score against each other.  We
+measure it by re-initialising the Moirai-Small encoder randomly and comparing it
+to the pre-trained one over the same 200 ETTh2 validation windows and the same
+pooled-representation hook used for every other CKA in this paper
+(\texttt{scripts/cka\_random\_init\_floor.py}, records in
+\texttt{results/v50\_cka\_floor/}).  Restoring the pre-trained weights afterwards
+returns CKA $1.000000$, so the comparison measures re-initialisation and nothing
+else.
+
+\textbf{The floor is not zero.}  The measured floor is \textbf{0.215}:
+
+\begin{table}[!htbp]
+\centering
+\caption{CKA calibration, measured.  The floor is the CKA of a randomly
+re-initialised encoder against the pre-trained one (5 seeds each, mean$\pm$std,
+$\text{ddof}{=}1$); the two initialisation schemes agree.  Reference rows are
+scoped to the cells they come from, since CKA at $n{=}500$ and at $n{=}10$k on the
+same cell differ by more than the floor itself.}
+\label{tab:cka_calibration}
+\small
+\begin{tabular}{lcc}
+\toprule
+Comparison & CKA & Source \\
+\midrule
+\textbf{Floor}: random re-init, library-default & $\mathbf{0.215{\pm}0.054}$ & \texttt{v50\_cka\_floor} \\
+\textbf{Floor}: random re-init, Xavier weights & $\mathbf{0.219{\pm}0.047}$ & \texttt{v50\_cka\_floor} \\
+\midrule
+Moirai-S/ETTh2 $h{=}96$, cond.\ B, $n{=}500$ (10 seeds) & $0.937{\pm}0.029$ & \texttt{ff\_20ep} \\
+Moirai-S/ETTh2 $h{=}96$, cond.\ B, $n{=}10$k (10 seeds) & $0.465{\pm}0.123$ & \texttt{v49} \\
+Chronos, cond.\ B, 4 cells at $h{=}24$ & 0.092--0.169 & \texttt{v44} \\
+Frozen encoder, cond.\ D, Moirai (134 runs) & 0.889--0.9999 & \texttt{v5--v57} \\
+Strict freeze, cond.\ H (7/7 cells) & 1.0000 & \texttt{v45} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Why a naive re-initialisation reads zero is worth recording: ``Xavier for weight tensors, zeros for
+biases'' also zeroes LayerNorm's scale parameter, which annihilates the signal at
+the first normalisation and drives the encoder to a \emph{constant} output.  CKA
+is then $0$ because one side has no variance, not because the two share no
+structure.  Our script asserts that the randomised encoder's output variance is
+non-trivial, and reports $0.215$ once normalisation parameters are left at
+$\gamma{=}1$; initialising every layer with its library default instead gives the
+same answer to within one standard deviation.
+
+\textbf{What this changes.}  ``ETT fine-tuning preserves most pre-trained
+structure'' cannot be read off small-$n$ runs: the same cell at $n{=}10$k reads
+$0.465$, and the range across all 31 cells is $0.092$ to $0.970$.  The condition-D row also
+needs a scope: D is uniform only within Moirai, and its 134 runs exclude the
+partial-unfreeze arm of Appendix~\ref{app:layerunfreeze}, whose runs are stored
+under the same \texttt{condition\_D} filenames and reach down to CKA $0.317$
+while three to five of six layers train.  Because D leaves \texttt{in\_proj}
+and \texttt{mask\_encoding} trainable (\S\ref{sec:method}), TimesFM's D falls as
+low as $0.376$, while Chronos's D and every condition-H run are exactly $1.0000$;
+only H is $1.0000$ by construction.
+
+\textbf{What it adds.}  Comparing the floor against all 31 cells,
+\textbf{four fall below it} outright (the Chronos cells at
+CKA $0.092$, $0.094$, $0.112$ and $0.169$), and two more (Chronos/Electricity
+$0.232$, TimesFM/ETTh2 $0.246$) sit inside the floor's own seed-to-seed range
+($0.132$ to $0.288$).  This is a measured basis for a claim
+\S\ref{sec:forecasting:nonmoirai} otherwise has to assert: on those cells CKA is
+at or beneath what an \emph{untrained} encoder scores, so it cannot order them,
+and their outcomes span $-39.2$ to $-2.7$ in held-out $\text{B}{-}\text{D}$
+regardless.  The remaining 25 cells, including all five gate-passing survivors and
+both arms of the layer-unfreeze comparison ($0.716$ and $0.465$,
+Appendix~\ref{app:layerunfreeze}), sit clear of the floor, so CKA differences
+among them are readable.
+
+% ============================================================
+\section{Layer-Wise Unfreeze Localization}
+\label{app:layerunfreeze}
+% ============================================================
+
+Moirai-Small has 6 transformer layers.  The \texttt{--unfreeze-top-n-layers} flag
+of \texttt{finetune\_forecasting.py} leaves the top $N$ trainable, and we swept
+$N$ on ETTh2 $n{=}10$k, $h{=}96$; $N{=}0$ is condition~D and $N{=}6$ is
+condition~B.  $N{=}3$ and $N{=}6$ are 10 seeds each, and $N{=}4$ and $N{=}5$ are a
+pre-registered 3-seed top-up
+(\texttt{results/v49\_layerunfreeze\_10seed/preregistration\_ladder.json}), all in
+one root, protocol and environment: Apple MPS, torch~2.14,
+\texttt{PYTORCH\_ENABLE\_MPS\_FALLBACK=1}, early-stopped with the best
+selection-window state restored.  (Below torch~2.5, \texttt{uni2ts}'s declared pin,
+the NegativeBinomial component of Moirai's output mixture collapses to
+\texttt{total\_count}${=}0$ on MPS and training dies in the first NLL step.)
+$N{=}0$ is an older 5-seed record read at the final epoch, and is context rather
+than part of the comparison.  At $N{=}1$ training diverged (NaN activations at
+epoch~11) at the default learning rate despite gradient clipping, and left no
+record.
+
+\input{tables/layerunfreeze}
+
+\textbf{Finding: on held-out windows, more unfreezing is better, and drift grows
+with it.}  Held-out forgetting falls with every rung, from $-5.3\%$ at $N{=}0$ to
+$-22.9\%$ at $N{=}6$ (10/10 seeds improving), while CKA falls from $0.999$ to
+$0.465$ and $\ell_2$ weight drift rises from $3.9$ to $13.5$
+(Table~\ref{tab:layerunfreeze}).  The matched pair is separated by $13.3$ points
+on a standard error of the difference of $3.3$ ($4.0$~SE): unfreezing all six
+layers drifts further and forecasts better than unfreezing three.  This is the
+sample-size sweep's pattern (Table~\ref{tab:sample_sweep}) inside a single
+encoder, and the only claim we draw from the ladder.  The two 3-seed rungs sit
+between the pair, in order, but are too imprecise to establish a shape.  The
+held-out reading is post hoc: the top-up's registration fixed selection-window
+forgetting as its statistic, and on that statistic its registered non-monotone
+outcome fired, so the claim stays with the matched pair.
+
+Scored on the selection windows the ladder has no order ($-5.9$, $-9.5$, $-3.5$,
+$-7.9\%$ across $N{=}3$--$6$) and the matched pair is indistinguishable.  That is
+the selection-window instability of \S\ref{sec:analysis:heldout} again: the
+stopping rule picked each run's epoch on those windows, so their error is
+optimistic in a way that compresses differences between arms.
+
+\textbf{Per-layer CKA.}  CKA of each layer's mean-pooled output against the same
+layer of the untrained checkpoint, over the same 200 selection windows, on the
+$N{=}6$ set and on the CUDA set of Table~\ref{tab:sample_sweep}
+(\texttt{scripts/layerwise\_cka\_from\_ckpt.py}, records in
+\texttt{results/v49\_layerunfreeze\_10seed/per\_layer\_cka\_*.json}):
+
+\begin{center}
+\small
+\begin{tabular}{lccc}
+\toprule
+Layer & Re-run $N{=}6$ (v49) & Older CUDA set (v19) & Group \\
+\midrule
+1 (bottom) & $0.998{\pm}0.001$ & $0.998{\pm}0.000$ & bottom 3 \\
+2          & $0.969{\pm}0.011$ & $0.980{\pm}0.005$ & bottom 3 \\
+3          & $0.783{\pm}0.081$ & $0.816{\pm}0.080$ & bottom 3 \\
+4          & $0.589{\pm}0.127$ & $0.675{\pm}0.091$ & top 3 \\
+5          & $0.939{\pm}0.044$ & $0.947{\pm}0.023$ & top 3 \\
+6 (top)    & $0.937{\pm}0.047$ & $0.945{\pm}0.023$ & top 3 \\
+\midrule
+Bottom 3 mean & $0.917$ & $0.931$ & \\
+Top 3 mean    & $0.821$ & $0.855$ & \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent The drift is not monotone in depth: it concentrates in the middle of the
+stack, with a trough at layer~4 and near-identity at layer~1, and the top 3 layers
+drift more than the bottom 3.  The layers the ladder adds at $N{=}4$, $5$ and $6$
+are layers 3, 2 and 1, the \emph{least} displaced under full unfreezing, so the
+CKA drop at $N{=}6$ cannot be charged to the layer that rung adds.  Two scale
+caveats: computed token-flattened instead of mean-pooled, every layer reads
+${\geq}0.94$ and the profile is too compressed to order; and the per-layer mean is
+not the global CKA of Table~\ref{tab:layerunfreeze} ($0.869$ against $0.465$),
+because the global figure compares the encoder's final pooled representation.  We
+offer no mechanism; that would need per-layer gradient norms.
+
+% ============================================================
+\section{Eight Denominators, One Numerator: Is the Screen a Property of the Estimator?}
+\label{app:baselines}
+% ============================================================
+
+The screen's verdict barely moves when the $0.20$ threshold is swept, but moves
+for 17 of 21 Moirai cells between the unfitted and fitted linear baselines
+(Appendix~\ref{app:gatecorrection}).  The estimator is the parameter that
+matters, so this appendix varies it across a family, on \emph{both} splits: the selection windows every
+admission decision in the paper is made on (Table~\ref{tab:baselinefamilyval}, the
+31 cells with a paired frozen-encoder run) and the held-out windows the
+retrospective variant scored (Table~\ref{tab:baselinefamily}, all 32 screened
+cells).  The body's counts are the selection-split ones.
+
+\textbf{What is held identical.}  $\Vb{b}{=}1{-}\text{MSE}_\text{ZS} /
+\text{MSE}_\text{base}$, and only the denominator depends on the estimator, so
+the numerator is read from the published gate for that split
+(\texttt{results/gate\_val\_side.json} or \texttt{gate\_test\_side.json}) and never
+recomputed: each column differs from the published one in exactly one respect.
+Before anything is reported, \texttt{scripts/gate\_baseline\_sensitivity.py}
+recomputes the \texttt{fitted} column through the alternative-baseline code path
+and checks it against both the published denominator \emph{and} the published
+$\Vb{b}$; all 32 cells agree to a relative tolerance of $10^{-6}$, and
+the script refuses to emit a table if any does not.  The two checks are not
+redundant, and the ILI cell is why: its denominator matched while its
+$\Vb{b}$ did not, because that cell aggregates as a mean over features
+of per-feature ratios where every other cell is a ratio of means
+(\texttt{gate\_all\_cells.ili\_gate}, matching \texttt{finetune\_ili}).  A
+denominator check alone would have published one row of this table on a
+convention no other number in the paper uses.
+
+\textbf{The estimators.}  \emph{Persistence} repeats the last observed value for
+all $h$ steps and is the bottom of the ladder.  \emph{Seasonal naive} repeats the
+last seasonal period
+and fits nothing; periods are declared per dataset (24 steps for the hourly ETT,
+Weather and Electricity series, 96 for 15-minute ETTm2, 52 for weekly ILI) rather
+than inferred, because inferring one from an autocorrelation peak returns 1 on
+the flatter series and quietly substitutes a persistence baseline.
+\emph{Per-feature AR} is the paper's map with the cross-channel terms removed, so
+it isolates how much of the gate rests on multivariate information.
+\emph{DLinear} is a single linear map on the trend/seasonal decomposition of the
+lookback, shared across channels.  \emph{MLP} is one two-layer network per channel
+(hidden 128) with the penalty selected per channel on a chronological holdout;
+the channels that hit the 200-iteration budget are recorded per cell.  \emph{Tuned
+ridge} is the paper's own estimator with $\lambda$ selected on a chronological
+20\% holdout of the training windows rather than fixed at $10^{-4}$; the selected
+values span $10^{-6}$ to $10^{4}$, and on all five ETTh2 cells the selection lands
+at $10^{3}$ or $10^{4}$, so the fixed $10^{-4}$ the paper uses is badly
+under-regularised there.  \emph{Boosted trees} is one
+\texttt{HistGradientBoostingRegressor} per feature over that feature's lags plus
+the horizon step as an input feature; one model per (feature, step) would be 672
+fits on a 7-feature $h{=}96$ cell.  Its rows are windows${\times}$steps, capped at
+$200{,}000$ per feature, which on the Moirai cells uses 1{,}041--2{,}083 of the
+10{,}165--48{,}777 available windows.  Every cap and every selected penalty is
+recorded per cell in \texttt{results/gate\_baselines.json} rather than only in the
+source.
+
+\textbf{Four columns coincide on the single-channel arms, and that is arithmetic
+rather than a copy.}  On the Chronos and TimesFM cells, which score one target
+channel, the fitted map, per-feature AR and DLinear are the \emph{same estimator}:
+with $F{=}1$ there are no cross-channel terms for AR to drop, and DLinear's
+trend/seasonal split is an invertible linear reparameterisation of the lookback, so
+a shared linear head on it spans exactly the maps a lookback regression spans.
+Their columns therefore agree to three decimals by construction, and tuned ridge
+differs from them only through $\lambda$.  A reader who sees four identical entries
+on those rows is seeing the ladder collapse where the data has one dimension, not
+a transcription error.
+
+\subsection{The ladder on the selection windows (the paper's primary)}
+\label{app:baselines:val}
+
+\begin{table}[!htbp]
+\centering
+\caption{\textbf{Gate $\Vb{b}$ under eight denominators and a floor, on the
+\emph{selection} windows.}  Same conventions as
+Table~\ref{tab:baselinefamily}; this is the split every admission decision in the
+body is made on, and the numerator comes from
+\texttt{results/gate\_val\_side.json}.  Generated by
+\texttt{scripts/gate\_baseline\_sensitivity.py --split val}.}
+\label{tab:baselinefamilyval}
+\input{tables/gate_baseline_family_val}
+\end{table}
+
+\textbf{The fitted map is admissible everywhere; the two rungs that are not are
+the cheap ones.}  On the selection windows the fitted map clears the training-mean
+floor on all 31 cells, per-feature AR, DLinear and tuned ridge on all 31, and the
+MLP on 30.  Persistence falls below the floor on 12 cells, boosted trees on 15 and
+seasonal naive on 3; for the trees the reason is the same as on the held-out
+windows, that they cannot extrapolate past their training range.  Counting only
+admissible passes, the eight rungs give
+\textbf{7, 8, 5, 6, 4, 7, 9 and 5 of 31} on this split.
+
+\textbf{Read as a graded axis, the union spans all three backbones.}  With
+$\Vbest$ measured against the strongest admissible rival each cell
+faces (a minimum over rungs), \textbf{no cell of the 31 clears $0.20$ against
+every admissible rung}, and \textbf{20 clear it against at least one: 14 Moirai, 3
+Chronos, 3 TimesFM}.  That union is what \S\ref{sec:exp3} uses as its analysis
+scope, and it matters for a specific objection: the seven cells that clear the
+fitted ridge are all Moirai on two series, so on the fitted rung alone the
+gate-positive evidence looks confined to one backbone.  It is not: 13 of the 20
+union cells \emph{fail} the fitted ridge and are admitted by some other admissible
+rung, including every Chronos and TimesFM cell in the union.  The seven that do
+clear the fitted ridge have $\Vbest$ between $-0.545$ and
+$+0.134$, five of them set by seasonal naive and two by DLinear.
+
+\textbf{On this split the definition does have positive instances, under two
+weak rungs.}  With clause~(i) taken from each estimator and clauses~(ii)
+and~(iii) unchanged, the count is zero under the fitted map, seasonal naive,
+per-feature AR, DLinear, tuned ridge and the MLP; \textbf{three under persistence}
+(Moirai-Small/ETTh1 $h{=}96$ at $n{=}1$k, Moirai-Base/ETTh1 $h{=}96$,
+Moirai-Large/ETTh1 $h{=}96$, with forg.$_\text{B}{=}{+}18.5$, $+22.8$ and $+14.1$
+unanimously and forg.$_\text{D}{=}{-}3.5$, $-14.7$ and $-14.1$ unanimously); and
+\textbf{one under boosted trees} (Moirai-Small/Weather $h{=}96$,
+forg.$_\text{B}{=}{+}37.3$ in 3/3, forg.$_\text{D}{=}{-}15.8$ in 3/3).  We report
+these rather than absorbing them.  Three facts bound how much they carry.  All
+four are ETTh1 or Weather cells, the same datasets as the eight instances the
+unfitted baseline produces (Appendix~\ref{app:gatecorrection}).  Both admitting denominators sit just above the floor: persistence
+scores $1.053$ against the training mean's $1.104$ on ETTh1, and the trees $0.5363$
+against $0.5397$ on Weather, so each is within $5\%$ of a constant and roughly
+twice the fitted ridge's error ($0.576$ and $0.266$) on the same windows.  And
+every one of the four has \emph{no} demonstrated advantage against a rung that is
+not near-constant: the fitted ridge puts them at $-0.18$ to $-0.55$ and the
+strongest admissible rung each faces at $-0.23$ to $-0.55$.  The direction of
+the sensitivity is therefore the same as between the unfitted and fitted
+baselines: what manufactures a
+degradation cell is a \emph{weaker} baseline, not a stronger one revealing damage
+we missed.  Taking that trend to its limit confirms it from the other side: under
+the training-mean floor itself the count is \textbf{five}, the four above plus
+Moirai-Small/Weather $h{=}192$, and all five are among the eight the unfitted
+baseline admits.
+
+\section{Fitted Versus Unfitted Linear Baseline}
+\label{app:gatecorrection}
+
+\textbf{Two estimators that share a name.}  The capability screen is
+$\Vb{\text{ridge}} = 1 - \text{MSE}_\text{ZS}/\text{MSE}_\text{ridge}$ with
+threshold $0.20$, where $\text{MSE}_\text{ridge}$ is a lookback-96 linear map
+\emph{fit on the cell's training windows}: a single ridge-OLS map from
+$96{\times}D$ inputs to $h{\times}D$ outputs, applied unchanged out of sample
+(\texttt{gate\_linear\_baseline.fit\_linear\_map}).  A common alternative that is
+also called a ``linear baseline'' fits a slope and intercept to the last 96 steps
+\emph{inside each evaluation window} and extrapolates them forward
+(\texttt{linear\_forecast}), using no training data.  This appendix shows why the
+choice matters: it is the first of the two measurement prerequisites in
+\S\ref{sec:method}.
+
+\textbf{The unfitted estimator is weaker than a constant.}
+Table~\ref{tab:gate_baselines} measures four denominators on the same 300
+matched test windows, on the train-normalised scale of the stored zero-shot MSE.
+On ETTh1 $h{=}96$, predicting the training mean scores $0.9937$ against the
+trend extrapolation's $1.2207$.  A baseline that a constant beats cannot support
+the inference the screen exists to license, that there is a pre-trained
+capability here worth preserving.  The fitted estimator is stronger by a factor
+of about three on ETTh1 and $9.4$ on Weather.  Its ETTh1 $h{=}96$ MSE of $0.4145$
+is in line with published multivariate Linear/DLinear results
+\citep{zeng2023transformers}.  The screen keeps one asymmetry: Moirai sees
+$\text{lookback}+h$ steps of context while the linear map sees $96$, so the
+screen is a lower bound on the linear model's strength
+(Appendix~\ref{app:baselines:matchedlb}).
+
+\begin{table}[!htbp]
+\centering\small
+\caption{Baseline strength: train-normalised MSE on 300 matched test windows.
+Row~1 is the unfitted per-window estimator; row~4 is the
+denominator \S\ref{sec:method} defines. Row~1 is beaten by predicting the
+training mean (row~3) on \emph{both} cells and is several times weaker than
+row~4. On the train-normalised scale the constant-mean predictor's MSE is just
+the mean squared normalised target, so row~3 needs no fitting; a value near
+$1.0$ is what an on-distribution test split should give.}
+\label{tab:gate_baselines}
+\begin{tabular}{@{}lcc@{}}
+\toprule
+Denominator estimator & ETTh1 $h{=}96$ & Weather $h{=}192$ \\
+\midrule
+Per-window trend extrapolation (\texttt{linear\_forecast}) & 1.2207 & 5.0707 \\
+Persistence (last observed value held) & 1.1984 & 1.2227 \\
+Constant training mean & 0.9937 & 0.8619 \\
+Fitted lookback-96 regression (\texttt{fit\_linear\_map}) & \textbf{0.4145} & \textbf{0.5403} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{What the choice moves, cell by cell}
+(\texttt{gate\_all\_cells.py --baseline \{fitted,trend\}}, held-out windows):
+
+\begin{itemize}\itemsep1pt
+\item \textbf{Moirai:} \textbf{5 of 21} cells clear $0.20$ under the fitted
+  baseline, against 20 of 21 under the unfitted one. Seventeen cells change
+  status: 16 flip pass${\to}$fail, and one (Moirai-Large/ETTh2 $h{=}96$) flips
+  fail${\to}$pass at $+0.219$.
+\item \textbf{Chronos:} \textbf{0 of 5}, against 4 of 5: ETTh1 $-0.123$, ETTh2
+  $-0.325$, Weather $-0.103$, ETTm2 $-1.281$, Electricity $+0.048$.
+\item \textbf{TimesFM:} \textbf{0 of 5}, against 5 of 5: ETTh1 $-0.101$, ETTh2
+  $-0.287$, Weather $-0.077$, ETTm2 $-0.945$, Electricity $+0.132$.
+\item \textbf{ILI} (Moirai-Small): $\mathbf{-1.625}$ (Appendix~\ref{app:ili_gate}).
+\end{itemize}
+
+\noindent Across arms, \textbf{7 of 31 cells pass on the selection split (the
+paper's primary), and 5 of 32 on the held-out variant}. Every survivor under
+either is Moirai; the selection split adds two ETTm2 cells to the five ETTh2
+ones.  Per-cell Moirai values are in Table~\ref{tab:r2task}, and the held-out
+survivors are in Table~\ref{tab:gate_survivors}.  Four of the seven survivors
+\emph{improve} on the released checkpoint under full fine-tuning \emph{in every
+seed}, three of them by 31--42\% and the ETTm2/Base cell by $8.4\%$.  The two
+whose mean is harmful have only 4/10 and 5/10 seeds in that direction.  The
+seventh, Moirai-Small/ETTm2 $h{=}192$, is the mirror image: its mean is a
+$1.10\%$ \emph{improvement} but 3 of its 5 seeds are harmful.  We count
+unanimity rather than means throughout, because a cell whose sign depends on
+which seeds were drawn supports no statement in either direction.
+
+\textbf{The $h{=}96$ cell's mean is one seed.}  Seed 42 of
+Moirai-Small/ETTh2 $h{=}96$ diverges to $+98.9\%$ under full fine-tuning
+\emph{and} to $+91.1\%$ under the frozen encoder, so it is an optimisation
+failure rather than an encoder-drift effect; under the strict freeze it cannot
+diverge at all (Appendix~\ref{app:strictfreeze}).  Dropping it leaves
+forg.$_\text{B}{=}{-}0.20{\pm}4.15$ over 9 seeds (3 positive) and
+forg.$_\text{D}{=}{-}2.45{\pm}0.16$.  We nonetheless report every cell mean
+including seed 42, because a rule that discards runs after seeing their outcome
+is not one we are willing to apply.
+
+\begin{table}[!htbp]
+\centering\footnotesize
+\caption{The five cells that still clear $\Vb{\text{ridge}}{\geq}0.20$ on
+held-out windows under the fitted baseline. Forg.\% is percent change against
+zero-shot, so a \emph{negative} entry means fine-tuning improved on the
+released checkpoint. The bracketed counts are the seeds whose sign matches the
+degradation direction: positive for B, negative for D. B$-$D positive means
+the frozen encoder was better.}
+\label{tab:gate_survivors}
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+Cell & Gate & B Forg.\% ($+$) & D Forg.\% ($-$) & B$-$D val & B$-$D held-out \\
+\midrule
+Small/ETTh2 $h{=}192$, $n{=}500$  & $+0.464$ & $+1.99$ (5/10)  & $-4.16$ (10/10) & $+17.4$ & $+6.1$ \\
+Small/ETTh2 $h{=}96$, $n{=}500$   & $+0.400$ & $+9.71$ (4/10)  & $+6.91$ (9/10)  & $+10.6$ & $+2.8$ \\
+Base/ETTh2 $h{=}96$, $n{=}1000$   & $+0.361$ & $-31.44$ (0/3)  & $-9.11$ (3/3)   & $+3.8$  & $-22.3$ \\
+Base/ETTh2 $h{=}192$, $n{=}1000$  & $+0.275$ & $-36.35$ (0/3)  & $-16.12$ (3/3)  & $-3.9$  & $-20.2$ \\
+Large/ETTh2 $h{=}96$, $n{=}500$   & $+0.219$ & $-42.42$ (0/3)  & $-21.62$ (3/3)  & $+7.2$  & $-20.8$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{No cell meets the degradation definition.}  The definition (gate
+${\geq}\,0.20$, \emph{and} condition-B forgetting positive in every seed,
+\emph{and} condition-D forgetting negative in every seed) returns zero cells
+under the fitted baseline.  There is one candidate, and the unanimity rule
+excludes it:
+
+\begin{quote}\small\ttfamily
+excluded: Moirai-small/ETTh2 h192 n500 \quad gate=+0.464\\
+\hspace*{2em}forg\_B=+1.99$\pm$3.32SEM (5/10 pos)\\
+\hspace*{2em}forg\_D=$-$4.16$\pm$0.20SEM (10/10 neg) \quad B-D=+6.15\\
+=> 1 excluded for seed disagreement
+\end{quote}
+
+\noindent Half its seeds go the other way on condition~B.
+Appendix~\ref{app:defsensitivity} shows that weakening the rule, in seven
+directions and at both gate thresholds, does not recover a cell either.  Under
+the unfitted baseline the same definition returns eight cells, all on ETTh1 or
+Weather at $h{\in}\{96,192\}$, and all eight fail the screen once it is fitted:
+the measurement choice alone produces the degradation instances.
+
+\textbf{Prospective arm and threshold sweep.}  With no positive instances, the
+pre-registered prospective test has nothing for the gate to find: on the eight
+pre-registered cells it scores \textbf{TP~0, FP~8, precision~0.00}, and recall is
+undefined.  The threshold sweep (Table~\ref{tab:gate_sensitivity}) gives
+precision~$0.00$ at \emph{every} threshold in $\{0.10, 0.20, 0.30, 0.40, 0.50,
+0.60\}$, with $8/8/6/5/3/2$ cells flagged, so the failure is not a badly chosen
+operating point.
+
+Within Moirai ($n{=}22$ cells), the gate correlates with held-out B$-$D at
+Spearman $\rho = -0.518$: higher gate goes with adapting the encoder having been
+the better choice.  The interval excludes zero when cells are resampled,
+$[-0.840, -0.040]$, and includes it when the six $(\text{backbone},
+\text{dataset})$ clusters are, $[-0.810, +0.500]$; we report the latter and read
+only the direction (Appendix~\ref{app:clustered}).  The CKA comparison is
+gate-independent: $\rho = +0.168$, clustered CI $[-0.469, +0.717]$ within Moirai.
+
+\textbf{Reproducing either screen.}  \texttt{gate\_all\_cells.py} takes
+\texttt{--baseline \{fitted,trend\}} with \texttt{fitted} as the default, and the
+unfitted values are kept in \texttt{results/gate\_test\_side\_trend.json} and
+\texttt{results/gate\_val\_side\_trend.json}.  The evaluation windows are built
+with $\texttt{ext\_lb} = \text{lookback} + h$, matching the extended lookback the
+fine-tuning script evaluates with.
+
+% ============================================================
+\section{The ILI Cell}
+\label{app:ili_gate}
+
+The cell is Moirai-1.0-R-Small on national influenza-like illness: 966 weekly
+observations, 7~features, $h{=}24$, lookback$=$104, split 579/193/194
+chronologically, 10 seeds, early-stopped with patience~3 (Table~\ref{tab:trainers}).
+At ${\approx}450$ training windows it is a case study rather than a pillar.
+
+\textbf{ILI fails the screen by a wide margin.}  Against the fitted baseline the
+held-out gate is $\mathbf{-1.625}$, the value in Table~\ref{tab:heldout_all}.
+On the selection split the mean is $-10.206$, but that mean is dominated by
+\textsc{num.\ of providers}, whose near-straight validation segment the ridge map
+fits to MSE~$0.034$ and which alone contributes $-44.0$.  The median per-feature
+reading is $-3.40$ on selection windows and $-1.51$ held out, and \textbf{0 of 7
+features clear $0.20$ on either split}, so the verdict is robust where the mean
+is not.  ILI is therefore not a degradation cell, and no claim in
+\S\ref{sec:exp3} rests on its gate.
+
+\textbf{Adaptation helps, and most of the gain needs the encoder.}  Under full
+fine-tuning the encoder restructures heavily (CKA $0.456{\pm}0.008$) and the
+forecast improves by $-80.0{\pm}0.6\%$ on selection windows and
+$-50.77{\pm}0.49\%$ held out (10/10 negative on both).  With the encoder frozen
+(condition~D, the $3.2$M parameters outside it trained), the forecast improves by
+$-12.18{\pm}1.28\%$ held out (10/10 negative), and the gap B$-$D is
+$-62.6{\pm}1.4$ on selection windows and $-38.6{\pm}1.3$ held out (10/10
+negative on both).  D reaches CKA $0.76$--$0.90$, not $1.000$, because the
+projections feeding the encoder remain trainable (Appendix~\ref{app:strictfreeze}).
+Table~\ref{tab:ili_perseed} gives the per-seed values.
+
+\begin{table}[!htbp]
+\centering\small
+\caption{ILI per-seed results (Moirai-Small, $h{=}24$, lookback$=$104), both
+conditions.}
+\label{tab:ili_perseed}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+ & \multicolumn{2}{c}{B (full fine-tuning)} & D (frozen encoder) \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-4}
+Seed & CKA & Forg.\% (val / held-out) & CKA \quad Forg.\% (val / held-out) \\
+\midrule
+42  & 0.458 & $-78.6$ / $-51.5$ & 0.804 \quad $-16.2$ / $-14.6$ \\
+101 & 0.465 & $-81.4$ / $-50.1$ & 0.898 \quad $-13.5$ / $-6.7$ \\
+123 & 0.476 & $-80.0$ / $-48.9$ & 0.756 \quad $-27.6$ / $-19.5$ \\
+202 & 0.457 & $-81.4$ / $-52.1$ & 0.791 \quad $-19.7$ / $-13.6$ \\
+303 & 0.409 & $-78.1$ / $-49.0$ & 0.823 \quad $-18.3$ / $-11.5$ \\
+456 & 0.463 & $-75.5$ / $-50.0$ & 0.851 \quad $-15.4$ / $-13.2$ \\
+777 & 0.437 & $-81.6$ / $-52.5$ & 0.822 \quad $-18.0$ / $-12.4$ \\
+789 & 0.449 & $-80.3$ / $-49.5$ & 0.865 \quad $-12.7$ / $-4.9$ \\
+888 & 0.505 & $-82.0$ / $-50.8$ & 0.848 \quad $-16.1$ / $-12.8$ \\
+999 & 0.437 & $-80.8$ / $-53.4$ & 0.807 \quad $-16.1$ / $-12.7$ \\
+\midrule
+Mean & 0.456 & $-80.0$ / $-50.8$ & 0.827 \quad $-17.4$ / $-12.2$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{A falsified prediction.}  The pre-registered CKA prediction for this
+cell, $0.90$--$0.95$ (intermediate restructuring), is \textbf{falsified}: CKA is
+$0.456$.  What it establishes is narrow: screen strength does not linearly
+predict drift magnitude.  ILI's low CKA is consistent with its small training set,
+which permits aggressive restructuring within the stopping budget.
+
+% ============================================================
+\section{Paired Inference on Encoder Adaptation, and What These Seed Counts Can
+Resolve}
+\label{app:pairedinference}
+% ============================================================
+
+A unanimity count is not inference.  This appendix reports $\denc$ per cell as a
+paired estimate with an interval, an effect size, two $p$-values and a
+multiplicity-adjusted $q$; states the three-way call the body is built on; and
+then says plainly what the matrix's seed counts can and cannot resolve.
+
+\input{tables/paired_inference}
+
+\textbf{The call, and why it has three outcomes.}  Thirty-one cells are tested,
+so we adjust: Benjamini--Hochberg across the cells within this contrast gives the
+$q$ column, and a cell is called decisive only at $q{<}0.05$.  That yields
+\textbf{2 cells where freezing is decisively better, 4 where adapting is
+decisively better, and 25 inconclusive}.  The third category is the substantive
+addition.  Our published criterion recorded a cell with no measurable effect and a
+cell with a large effect its seeds disagreed about identically, as ``not
+degrading''; under the interval rule the second says \emph{inconclusive}, which is
+what it is, and the minimum detectable effect below is what separates the two.
+
+\textbf{Where the decisive cells sit relative to the screen.}  Both cells where
+freezing is decisively better, Moirai-Small/ETTh1 at $h{=}96$ ($\denc{=}{+}22.1$,
+$q{=}0.011$) and $h{=}192$ ($+13.5$, $q{=}0.014$), \textbf{fail} the screen, at
+$\Vb{\text{ridge}}$ of $-0.177$ and $-0.347$.  Two of the four cells where adapting
+is decisively better, Moirai-Base/ETTh2 $h{=}192$ ($-20.2$, $q{=}0.018$) and
+Moirai-Large/ETTh2 $h{=}96$ ($-20.8$, $q{=}0.022$), \textbf{pass} it.  So on this
+matrix the screen admits cells where adaptation decisively wins and rejects the
+only cells where preservation decisively wins.  That is a sharper statement against
+the screen than the unanimity tally could make, and it is stated here because it
+counts against our own instrument.  It also has exactly one exception at the augmented
+seed counts of Table~\ref{tab:power_topup}, reported there rather than here because
+every number in this paragraph is at the published $n$.
+
+\textbf{Both degradation criteria are reported, and both return zero.}  Clause (i)
+of the definition in \S\ref{sec:method} is unchanged.  Replacing the unanimity
+clauses (ii) and (iii) with interval clauses (the CI on
+$\Delta_\text{FT}{=}\text{B}{-}\text{ZS}$ entirely above zero, the CI on
+$\Delta_\text{frz}{=}\text{D}{-}\text{ZS}$ entirely below) selects
+\textbf{zero cells}, exactly as the pre-registered unanimity version does.  The two
+rules can disagree in principle, in either direction, so the agreement is a result
+and not a tautology; \texttt{scripts/paired\_inference.py} computes both and
+cross-checks the unanimity list against \texttt{cell\_matrix.degradation\_cells},
+which is the definition of record, rather than trusting two spellings of one rule
+to stay in step.
+
+\textbf{The zero-shot reference's own error is propagated, and only where it
+belongs.}  On the 21 Moirai cells the zero-shot denominator is a per-cell mean over
+condition-A seeds rather than each seed's own measurement, so the B$-$ZS and D$-$ZS
+intervals above are widened by that mean's SEM,
+$\text{se}{=}\sqrt{\text{se}_\text{within}^2+\text{se}_\text{ZS}^2}$.  $\denc$ is
+\emph{not} widened and must not be: the reference cancels from its numerator and
+survives only as a common scale factor.  That asymmetry is one of the reasons
+$\denc$ is the estimand.  The widening is material on 13 cells and is nominally
+zero on 8, where the reference ran a single condition-A seed; on those the
+reference's error is \emph{unestimated}, not zero, and we say so rather than let a
+$0.00$ read as a check that passed.
+
+\input{tables/power_mde}
+
+\textbf{What these seed counts could have detected.}  Table~\ref{tab:power_mde}
+turns ``the interval is wide'' into a number for the seven cells the screen admits,
+which are the only cells about which we make a preservation recommendation.  At the
+multiplicity-adjusted level the call actually uses, \textbf{4 of the 7 are
+unresolvable within our feasibility cap of 20 paired seeds}: they would need 29,
+36, 182 and 212.  Two of the remaining three are already decisive.  So on the cells
+where a practitioner would consult this screen, the honest summary is that our
+design settles two of seven and cannot settle four of seven at any budget we could
+run, which is a limitation of this matrix, not evidence that the effects are
+absent, and it is the reason \S\ref{sec:method} reports an interval rather than a
+sign count.
+
+\textbf{The exact test's resolution is set by $N$ alone.} A sign-flip permutation
+test on $N$ paired differences has $2^N$ assignments, so its smallest attainable
+two-sided $p$ is $2/2^N$: $0.25$ at $N{=}3$, $0.0625$ at $N{=}5$, $0.002$ at
+$N{=}10$.  The paired-$N$ histogram across the 31 cells is $\{3{:}24,\ 5{:}4,\
+10{:}3\}$, so \textbf{only 3 of 31 cells can reach $p{<}0.05$ without a
+distributional assumption}, and only one does (ILI, $p{=}0.002$).  Thirteen cells
+have a $t$-interval excluding zero where the exact test cannot reject at any
+effect size.  We report both columns rather than the more favourable one: the
+$t$-test's rejections are real inferences under its normality assumption, and the
+exact column is the price of not making that assumption.
+
+\textbf{Why the reported interval is the $t$-interval, not the bootstrap.} At
+$N{=}3$ every percentile-bootstrap resample mean lies inside $[\min, \max]$ of the
+three differences, so a same-sign triple excludes zero \emph{by construction}.
+Such an interval reports the sign of the data, not the uncertainty of the mean.
+The bootstrap is computed and stored in \texttt{results/paired\_inference.json};
+the table prints the paired $t$-interval beside the exact $p$.
+
+\textbf{The aggregate straddles zero.} Averaging cell means and resampling
+$(\text{backbone}, \text{dataset})$ clusters, the 20 value-cells give
+$\denc{=}{+}0.7$ with CI $[-11.1, {+}14.1]$ and 10 of 20 positive; all 31 give
+$+2.9$ with CI $[-12.7, {+}15.1]$ and 16 of 31 positive.  Neither excludes zero in
+either direction.  This is the honest aggregate statement of the paper's central
+contrast: across these benchmarks we cannot establish that allowing encoder
+adaptation systematically helps \emph{or} hurts, which is a different and weaker
+claim than either regime law the literature offers.
+
+% ============================================================
+% Phase F3, 25 Sep 2026. The top-up's whole point is that its budget was fixed before its seeds ran,
+% so the reporting has to make the ordering visible rather than assert it: the registration file, the
+% run count the emitter refuses to proceed without, and the ladder that names the n at which the one
+% call moved. The paragraph after the table reports a FAILED registered prediction as a failure. The
+% registration is not edited to match -- a registration that can be revised after the outcome is not
+% a registration, and the only honest repair is to say in the paper what went wrong with the
+% prediction and why.
+% ============================================================
+\section{Cross-Cell Statistics, and a Pooled Analysis We Do Not License}
+\label{app:crosscell}
+% ============================================================
+
+Across the 31 intervention cells of Table~\ref{tab:heldout_all} we ask whether
+either observational diagnostic (CKA, or $\ell_2$ weight drift) orders the
+held-out intervention contrast B$-$D. Two predictors rather than one is
+deliberate: if \emph{both} fail, the statement is about observational measures
+of fine-tuning in general and not about CKA specifically. The statistic is
+Spearman $\rho$ with a $10{,}000$-resample bootstrap CI (seed~$0$), reported at
+two resampling levels: over cells, and over the $(\text{backbone},
+\text{dataset})$ clusters that Appendix~\ref{app:clustered} argues is the correct
+level, and emitted by \texttt{scripts/clustered\_inference.py}. Pooled over all
+31 cells:
+
+\input{tables/clustered_pooled}
+
+\noindent The $\ell_2$ row covers 25 of the 31 cells because the five Chronos
+cells and ILI retain no weight-drift measurement in their run records. No
+$p$-values are reported in this appendix or the next: cell-level resampling
+mis-states the dependence between cells, and this analysis is descriptive
+(Appendix~\ref{app:clustered}).
+
+\textbf{The pooled CKA row is not a licensed analysis, and it is the row that
+would help us.} The three backbones occupy almost disjoint CKA ranges (Moirai
+$0.36$--$0.97$, Chronos $0.09$--$0.23$, TimesFM $0.25$--$0.56$), \emph{and}
+differ systematically in outcome: every Chronos and TimesFM cell favours
+adaptation, and every large positive B$-$D is Moirai's. A rank
+correlation pooled over 31 cells drawn from three such groups therefore
+measures which backbone a cell came from at least as much as how far its
+encoder moved: it is a textbook setting for a group-level artefact of the
+Simpson's-paradox kind, and CKA magnitude is representation-dependent, which is
+why this paper compares CKA only within a backbone
+(\S\ref{sec:forecasting:nonmoirai}). We stress the direction of the incentive.
+The pooled figure is the \emph{favourable} one (it is the only reading in this
+appendix under which a diagnostic we introduced orders the intervention with an
+interval excluding zero), and the body nevertheless leads with the
+within-backbone figure. We decline to make the positive claim the pooled number
+would support, because the restriction that forbids it was fixed before these
+cells were run rather than chosen after seeing them.
+
+\begin{table}[!htbp]
+\centering\footnotesize
+\caption{Is the pooled CKA correlation a backbone artefact? The same statistic
+(Spearman $\rho$ of CKA against held-out B$-$D, $10{,}000$-resample bootstrap CI)
+computed pooled and then stratified by backbone, at both resampling levels.
+``Cl.'' is the number of $(\text{backbone}, \text{dataset})$ clusters, which is
+the effective sample size for the clustered interval and is far below $n$. Values
+are emitted by \texttt{scripts/clustered\_inference.py}. The pooled row is
+reported for audit, not read as evidence; the two small arms carry essentially no
+information at their cell counts, and for them the two levels coincide because
+every cell is already its own cluster.}
+\label{tab:crosscell}
+\input{tables/clustered_backbone}
+\end{table}
+
+\textbf{Within Moirai the interval is wide, and we say so rather than round it
+to zero.} On the 22 Moirai cells $\rho{=}{+}0.168$ with a cell-level CI
+$[-0.328, +0.598]$, widening to $[-0.469, +0.717]$ over the six clusters, a
+width of $0.93$ on a scale whose whole range is $2$, and $1.19$ once the
+dependence is propagated, which is the honest bound this evidence supports. That
+interval comfortably
+admits a moderate positive relationship, and 22 cells cannot rule one out. The
+claim we license is the one the body makes: \emph{CKA does not order our
+cells}. It is not that CKA is uninformative in general, and a reader who
+expects a real within-backbone relationship to exist will find nothing here
+that contradicts them; what they will not find is a cell ordering they could
+have acted on.
+
+\textbf{The sharpest form of the dissociation, inside one capacity.} Restricting
+further to Moirai-Base (eight cells, one backbone, one capacity, so neither
+architecture nor parameter count varies), the ordering CKA gives is not merely
+uninformative but \emph{reversed} (Table~\ref{tab:dissociation}). Sorted by CKA,
+condition-B forgetting runs monotonically from $-36.3\%$ at the most drifted cell
+to $+39.5\%$ and $+22.8\%$ at the two least drifted, and those two least drifted
+cells are the only two in the arm that degrade at all. A practitioner reading
+``CKA is low, the encoder has been restructured, intervene'' would have
+intervened on exactly the six cells that did not need it and left alone the two
+that did. Eight cells cannot establish the reverse relationship either (this is
+the same interval as above, restricted), which is the point: the sign of the
+association is not stable enough within a single backbone and capacity to carry a
+decision.
+
+\begin{table}[!htbp]
+\centering\footnotesize
+\caption{\textbf{The within-backbone dissociation, one capacity, eight cells.}
+Every Moirai-Base cell, ordered by CKA (most drifted first). ``Full FT'' and
+``Frozen'' are percent change in held-out MSE against zero-shot, so negative is
+better and positive is task-level forgetting; $\denc$ is the manipulated contrast
+between them. Gate values marked~\textsuperscript{f} fail the $0.20$ screen.
+Reading down the CKA column, the outcome reverses sign: the two least drifted
+cells are the only two that degrade. Emitted by
+\texttt{scripts/emit\_dissociation.py}, which asserts both of those claims
+against the run records and exits non-zero if they stop holding.}
+\label{tab:dissociation}
+\input{tables/dissociation}
+\end{table}
+
+\textbf{Chronos and TimesFM cannot be asked at all.} With $n{=}5$ and $n{=}4$
+the bootstrap resamples only a handful of distinct rank permutations and the
+interval spans nearly the entire admissible range, $[-1.000, +1.000]$ and
+$[-0.778, +1.000]$. Both rows are tabulated for completeness and neither
+carries information. In particular the $+0.400$ on four TimesFM cells must not
+be read as agreement with the pooled sign: it is one of very few values the
+statistic can take on four cells, and its interval covers almost everything.
+
+\textbf{$\ell_2$ weight drift does no better, and it is the second of the two
+diagnostics we defined.} Pooled (already the reading most likely to manufacture
+a correlation), weight drift gives $\rho{=}{+}0.118$ with a CI that includes
+zero at both resampling levels, widening from $[-0.300, +0.518]$ over cells to
+$[-0.489, +0.545]$ over its nine clusters. Since \S\ref{sec:method} defines
+exactly these two representation
+diagnostics, their joint failure is the more useful statement: it is not that we
+picked the wrong summary of the encoder's movement, but that neither summary we
+defined orders the outcome. The two are also not redundant and can move
+independently: a stack whose weight drift is \emph{exactly} zero can read CKA
+well below one when the projections feeding it are trainable, which is what
+condition~D does on TimesFM, where $\ell_2$ drift over the transformer stack is
+$0.00$ by construction while its measured CKA runs $0.38$--$0.89$
+(\S\ref{sec:method}, \S\ref{sec:forecasting:nonmoirai}; the analogous Moirai
+control is Appendix~\ref{app:strictfreeze}). A geometric battery (RBF CKA,
+SVCCA, orthogonal Procrustes, mean cosine and effective-rank change, on the 59
+encoders that retained checkpoints) is Appendix~\ref{app:driftmetrics}. None of
+those measures orders the outcome either, and they do not order the
+\emph{encoders} alike, so the failure is not a property of the summary we
+happened to pick.
+
+\textbf{A backbone fixed-effects reading, and its limits.} The natural
+alternative to subsetting is to absorb backbone identity and let CKA enter as a
+continuous regressor, which answers the objection that we adopted the split that
+removes the significant relationship. We do fit it
+(Table~\ref{tab:clustered_fe}, \texttt{scripts/cka\_fixed\_effects.py}): the
+within-backbone slope of held-out B$-$D on CKA is $+39.1$~pp per unit CKA with
+backbone fixed effects and $+39.9$ once CKA${\times}$backbone interactions are
+added, against $+47.7$ with no backbone term at all. Both adjusted intervals
+include zero once clusters rather than cells are resampled. So the reduction from
+$+47.7$ to $+39.1$ shows that absorbing backbone identity does \emph{not} by
+itself destroy the pooled slope (most of it survives adjustment), while the
+interval shows that 31 cells drawn from 15 clusters cannot pin the surviving
+slope down. What we do \emph{not} do is fit variance components: with $22$, $5$
+and $4$ cells in the three groups there is no repeated-measures structure to
+estimate them from, so a mixed model over three groups of that size is not
+identified and any interval it produced would be an artefact of the
+specification. Cells here are unequally powered and not independent, so every
+cross-cell number in this appendix is descriptive.
+
+% ============================================================
+\section{Cells Are Not Independent: Clustered Intervals for Every Cross-Cell Statistic}
+\label{app:clustered}
+% ============================================================
+
+Resampling \emph{cells} would treat each cell as an independent observation.
+They are not. A cell is a (backbone, size, dataset,
+horizon) combination, so the 31 cells draw on 3 backbones and 7 series: the
+Moirai-Small, -Base and -Large runs on ETTh2 at $h{=}96$ and $h{=}192$ share the
+series, the chronological split, the normalisation constants and (at fixed
+size) the pretrained checkpoint. Resampling cells therefore counts shared facts
+repeatedly and produces intervals that are too narrow, and a $p$-value computed
+from that scheme is not conventional inferential evidence. This is a fair
+objection to how the paper reported these numbers and it is answerable without
+new runs.
+
+\textbf{The resampling unit.} We take the cluster to be the
+$(\text{backbone}, \text{dataset})$ pair: the level at which the pretraining
+corpus, the series, the split and the checkpoint family are shared. Clusters are
+drawn with replacement and all of a drawn cluster's cells enter together
+(\texttt{scripts/cluster\_keys.py}, one definition shared by
+\texttt{cell\_matrix.py} and \texttt{cka\_fixed\_effects.py} so the two cannot
+drift apart). A draw spanning fewer than three distinct predictor values admits no
+rank correlation and is discarded, which is why the draws kept are reported
+alongside every interval; on the 31-cell and 22-cell analyses the discard rate is
+under $0.1\%$, and it is material only on the four- and five-cell arms, which
+carry no information anyway. The effective sample size falls sharply: 31 cells are
+15 clusters, the 22 Moirai cells are 6, and the 25 cells with a weight-drift
+record are 9.
+
+\textbf{What changes, in full.} Of the eleven cross-cell correlations reported in
+this paper, \textbf{exactly one changes verdict} when the interval is taken over
+clusters instead of cells, and it changes against us. Both levels appear side by
+side in Table~\ref{tab:crosscell} and in the two tables of
+Appendices~\ref{app:crosscell} and~\ref{app:predictor}; the summary is:
+
+\begin{itemize}
+\item \textbf{Unchanged, and these carry the body's claims.} CKA does not order
+  B$-$D within Moirai at either level ($\rho{=}{+}0.168$; cells
+  $[-0.328, +0.598]$, clusters $[-0.469, +0.717]$). $\ell_2$ weight drift does not
+  order it at either level, pooled ($\rho{=}{+}0.118$) or within Moirai
+  ($\rho{=}{+}0.318$). forg$_\text{B}$ still orders it with an interval far from
+  zero ($\rho{=}{+}0.894$; clusters $[+0.594, +0.965]$), which is expected,
+  since that relationship is close to an identity
+  (Appendix~\ref{app:predictor}). The unlicensed pooled CKA correlation still
+  excludes zero, and we still decline to read it.
+\item \textbf{Changed: the gate's anti-predictive interval.} On the retrospective
+  test-side gate, $\rho{=}{-}0.518$ between the gate and B$-$D moves from
+  $[-0.840, -0.040]$ over cells to $[-0.810, +0.500]$ over the six Moirai
+  clusters, so we report only the direction, as a description of these 22
+  cells. On the primary selection-split gate the correlation is
+  $\rho{=}{-}0.293$ and no level excludes zero. The mechanism (the highest-gate
+  cells are the ETTh2 and ETTm2 cells where adaptation pays best) remains visible
+  cell by cell in Table~\ref{tab:heldout_all} and does not rest on the interval.
+\end{itemize}
+
+\textbf{Backbone fixed effects.} The cluster bootstrap also lets us report the
+adjustment the previous version of this appendix declined to fit
+(Table~\ref{tab:clustered_fe}).
+
+\begin{table}[!htbp]
+\centering\footnotesize
+\caption{Within-backbone slope of held-out B$-$D on CKA, in percentage points per
+unit of CKA, with backbone identity absorbed as a fixed effect rather than by
+subsetting. Intervals are $10{,}000$ cluster-bootstrap draws over the 15
+$(\text{backbone}, \text{dataset})$ clusters of 31 cells; draws in which the fixed
+effects are unidentified or the design is rank-deficient are discarded, and the
+kept count is reported. Emitted by \texttt{scripts/clustered\_inference.py} from
+\texttt{scripts/cka\_fixed\_effects.py}.}
+\label{tab:clustered_fe}
+\input{tables/clustered_fixedeffects}
+\end{table}
+
+Most of the unadjusted slope survives adjustment ($+47.7$ falls only to
+$+39.1$), so it is not the case that absorbing backbone identity destroys the
+pooled relationship, and we do not claim it. What the intervals say is that 15
+clusters cannot pin the surviving slope down. \textbf{A wide interval is not
+evidence of absence.} At this cluster count an interval including zero means the
+design cannot resolve the sign, which is weaker than ``CKA carries no
+information'' and is the only thing we assert.
+
+% 2026-09-26 (C). THE ONE NEW NUMBER THIS ROUND, and it goes here because the paragraph above already
+% says "at this cluster count an interval including zero means the design cannot resolve the sign" --
+% which is a claim with a SIZE, stated without one. A reviewer put the objection this answers as the one
+% they expected to decide the paper: "you haven't demonstrated that CKA fails, you've demonstrated that
+% 22-ish Moirai observations cannot identify its correlation with adequate precision." That is not
+% answerable by rewording, and it is answerable by reporting what the design could have resolved.
+% NOT NEW MACHINERY, which the same reviewer asked us not to add: the paper already uses a minimum
+% detectable effect as its absence-of-evidence device for the paired B-vs-D contrast (S5,
+% app:pairedinference, preregister_power.py). This applies that device to the quantity under attack.
+% Every digit is emitted by scripts/cka_correlation_mde.py --json and read from its JSON by
+% check_paper_numbers.py, which also asserts the two things the prose below cannot carry in a capture
+% group: that the observed rho stays BELOW the MDE (if it ever does not, this paragraph is wrong, not
+% the number) and that the interval's size stays near nominal (if it does not, the MDE is optimistic by
+% more than the sentence below admits).
+\textbf{What this design could have resolved.} ``The design cannot resolve the
+sign'' is a claim with a size, so we report the size. This analysis is \emph{post hoc}:
+it was specified after seeing the interval it explains, and is not part of
+the pre-registration.  We simulate this exact design and ask for the smallest
+true Spearman correlation at which \emph{our own} clustered interval excludes zero
+in $80\%$ of realisations: $\mathrm{MDE}_{80}{\gtrsim}0.5$. The observed
+$\rho{=}{+}0.168$ is less than half of it.
+% ONE DECIMAL, AND THE REASON IS MEASURED. --seedcheck runs the whole curve under master seeds 0/1/7/13
+% and reports 0.500/0.543/0.538/0.524: the figure survives rounding to 0.1 and does NOT survive rounding
+% to 0.05, so a two-decimal MDE here would be a digit no re-run reproduces. That is the same finding
+% cka_decision_value.py --seedcheck produced for the decision interval, which is why S6 prints that one
+% in whole percentage points. The checker reads the ONE-DECIMAL FLOOR of the committed run rather than
+% its value, so the registered claim is the direction that cannot overstate what the design resolved.
+Only one decimal is quoted: four master
+seeds place the figure between $0.5$ and $0.6$ and do not agree on a second digit,
+which \texttt{-{}-seedcheck} reports rather than leaving to be discovered. So the
+reading this appendix asserts is \textbf{un-usability at this sample size, not
+absence}: six clusters could not have resolved a correlation of the size CKA
+appears to have, and a reader who believes CKA's true association with $\denc$ is
+$0.3$ should conclude that we could not have seen it, which is a different
+sentence from ours and is compatible with it.
+
+\textbf{And more cells of the same kind would not fix it.} On normal scores the
+intracluster correlation of CKA is $0.05$ while that of $\denc$ is $0.74$: within
+Moirai, CKA varies almost entirely \emph{within} cluster (across model size and
+horizon) while the outcome varies almost entirely \emph{between} clusters, across
+series. \textbf{A predictor with no cluster-level signal cannot order an outcome
+that is almost all cluster-level}, so the width of the interval is a property of
+where the two quantities' variance sits and not only of $n$; adding Moirai
+sizes or horizons on the series we already have would add predictor variance in
+the direction that carries no outcome signal. This is also the second, independent
+reason this paper reads CKA within a backbone rather than pooled
+(\S\ref{sec:exp3}, Appendix~\ref{app:crosscell}).
+
+\textbf{How the number was obtained, and the three ways it cuts against us.} The
+observed CKA is conditioned on rather than simulated, so the real cluster sizes,
+spread and tie structure are used; only the outcome's latent is drawn, as
+$r z + \sqrt{1-r^2}\,(\sqrt{t}\,C_\text{cluster} + \sqrt{1-t}\,W_\text{cell})$
+with $z$ the normal scores of the observed CKA ranks. Because Spearman is
+rank-invariant \textbf{no marginal for $\denc$ is assumed at all}, and the
+assumption reduces to a monotone association with a Gaussian residual carrying an
+exchangeable cluster effect; $r$ is calibrated to $\rho$ by simulation rather than
+by the bivariate-normal inverse, which is measurably wrong on a fixed 22-point
+score vector. Three things then work against our own claim and are reported rather
+than buried. First, the headline residual cluster fraction is the \emph{estimated}
+one, and it gives \textbf{the smallest MDE of the three settings we ran} at every
+one of the four master seeds, so the figure we quote is the least favourable point
+of the sensitivity range for our own claim.  That is the only answer we can give
+to ``you tuned the simulation'' that is checkable rather than asserted, and the
+emitter asserts it. Second, every analytic
+cross-check is \emph{higher}: a Fisher-$z$ minimum detectable correlation with the
+Bonett--Wright factor gives $0.58$ at $n{=}22$, $0.60$ at the Moulton effective
+$n$ of $20.1$ and $0.93$ at the six clusters, and inverting the observed
+half-width gives $0.59$. The simulation is authoritative where they disagree,
+because it simulates the rule that produced our verdict and they describe a test
+we never ran, but the direction of the disagreement is a measured defect in our
+own estimator, and we report it: the six-cluster percentile interval is mildly
+anti-conservative, rejecting a true zero in $7\%$ of realisations against a
+nominal $5\%$, and $10$--$11\%$ in the two sensitivity settings; these are
+Monte-Carlo estimates on $300$ and $100$ realisations and reseeding moves them by
+about a point, so what they establish is that the interval is mildly
+anti-conservative and not by how much. \textbf{So the figure we quote is the
+optimistic end}, and a correctly sized rule would put the MDE \emph{higher} and
+this paragraph's claim on firmer ground rather than weaker. Third, an MDE bounds
+what a \emph{rank}
+statistic could have seen, and no rank statistic detects a non-monotone relation
+at any $n$; the evidence bearing on that case is the pre-specified out-of-sample
+ladder of Appendix~\ref{app:loco} and the decision pricing of
+Appendix~\ref{app:decision}, neither of which is rank-based. We do not report
+observed power at the observed $\rho$: conditioning power on the estimate it is
+meant to judge is circular, and the emitter records it under
+\texttt{not\_a\_claim} for that reason.
+
+\textbf{Two things this appendix does not do.} It does not fit variance
+components: with 22, 5 and 4 cells in the three backbone groups a mixed model is
+not identified, and any interval it produced would be a property of the
+specification. And it does not recompute $p$-values at the cluster level. A
+$p$-value would need a null distribution for a rank correlation among dependent
+observations at an effective sample size near 6, and the paper describes this
+analysis as descriptive; printing $p{=}0.0136$ beside that sentence was a
+contradiction, so the $p$-columns are removed rather than re-derived.
+
+% ============================================================
+\section{Does CKA Add Predictive Information Beyond Backbone Identity? A Pre-Specified
+Out-of-Sample Test}
+\label{app:loco}
+% ============================================================
+
+A wide interval on a within-backbone slope shows that a design cannot resolve a
+sign; it does not show that the predictor is uninformative, and the previous
+appendix says so in those words.  That leaves the reader with a genuine question
+we had not answered: \emph{if you already know which backbone you are on, the
+horizon and the training-set size, does measuring CKA improve your prediction of
+the value of encoder adaptation?}  This appendix answers the decision-relevant
+version of that question out of sample.
+
+\textbf{The analysis was fixed before it was run, and the guarantee is weaker than
+the prospective arm's.}  The model ladder, the covariate construction, the
+deciding statistic and the sentence this paper would print under each of three
+possible outcomes were all written to
+\texttt{results/preregister\_loco.json} and committed before any of the models was
+fitted.  That is a real guarantee against specification search, and it is
+\emph{not} the guarantee of \S\ref{sec:analysis:prospective}: there the outcome runs did not
+yet exist, whereas here the outcome (held-out B$-$D) was already computed and
+already published in Table~\ref{tab:heldout_all}.  What is frozen is the
+\emph{analysis}, not a prediction about unseen data, and the registration file says
+so on its first page.  The registered prediction was
+$\Delta R^2 \leq 0$.
+
+\textbf{The ladder, and why dataset identity is absent from it.}
+Table~\ref{tab:cka_loco} fits five nested models to $\denc$ over all 31 scored
+cells, validated by leaving out one $(\text{backbone}, \text{dataset})$ cluster at
+a time.  The review that prompted this analysis asked for dataset fixed effects
+\emph{and} leave-one-cluster-out validation; those two requests are jointly
+unsatisfiable, and satisfying them naively would have produced a table that looks
+right and means nothing.  A cluster \emph{is} a (backbone, dataset) pair, so
+holding one out removes the only cells that identify that dataset's fixed effect,
+its column is all-zero in the training fold, and the fold silently scores a model
+nobody specified.  Three of the seven series (Electricity, Electricity-7, ILI) are
+covered by a single backbone each, so no other fold could identify them even in
+principle.  We therefore run two schemes and label each for what it is.  The
+leave-one-cluster-out ladder excludes dataset fixed effects and is genuinely
+out-of-sample; it is where $\Delta R^2$ is computed.  The variant that
+\emph{carries} dataset fixed effects is reported as an in-sample fit ($R^2$ rising
+from $+0.642$ to $+0.711$, an incremental $+0.069$ from CKA, on 7 series and 31
+cells with 12 parameters) and is explicitly not called validation.
+
+\textbf{The result.}  The registered prediction fires.  Knowing the backbone buys
+$R^2_\text{LOCO}{=}{+}0.137$; adding horizon and $\log n$ takes it to $+0.201$;
+adding CKA \emph{lowers} it to $+0.176$.  $\Delta R^2{=}{-}0.025$, the median
+bootstrap draw is $-0.083$, and adding CKA fails to help in $69\%$ of
+cluster-bootstrap draws.  Two conventions in that sentence are worth stating.
+First, out-of-sample $R^2$ is scored against the \textbf{training-fold mean},
+never the held-out fold's own mean: against its own mean a fold with little
+internal spread looks catastrophic and one with a lot looks good, so the aggregate
+would report fold composition rather than model quality.  The intercept-only model
+scores exactly $+0.000$, which is the check that this convention is implemented as
+described.  Second, mean absolute error is reported beside $R^2$ because the folds
+are unbalanced (cluster sizes run from 1 to 5 cells), and MAE moves in the same
+direction ($+0.59$~pp worse with CKA in the model).
+
+\textbf{One disclosed deviation from the registration, and it is a dispersion
+measure, not the deciding statistic.}  The registration said the cluster bootstrap
+would be reported on $\Delta R^2$ itself.  It cannot usefully be: an out-of-sample
+$R^2$ is unbounded below, so a draw that duplicates clusters and leaves a one-cell
+fold can score an arbitrarily large negative value, and the $2.5$th percentile of
+$\Delta R^2$ came out at $-3.3$, $-1.7$ and $-32.5$ on bootstrap seeds 0, 1 and 7
+while the point estimate, the median and the share of non-helping draws moved in
+the third decimal.  Quoting that percentile would have put a number in this paper
+that a reader re-running the script with another seed cannot reproduce; $\Delta$MAE's
+upper bound is unstable for the same reason.  Both therefore carry a median and an
+interquartile range, which are seed-stable, and the $95\%$ interval is quoted on the
+one \emph{linear} coefficient in the analysis, CKA's slope in M3, $+43$~pp per unit
+CKA with a cluster-bootstrap interval of $[-31, +107]$, whose bounds move by under
+$5$~pp across seeds.  The registered \emph{deciding statistic}, the sign of
+$\Delta R^2$, is unchanged.
+
+% tables/cka_loco.tex carries its own table environment, caption and label.
+\input{tables/cka_loco}
+
+\textbf{What this does and does not establish.}  It does not establish that CKA is
+uninformative about fine-tuning in general; it establishes that on these 31 cells,
+CKA carries no incremental out-of-sample information about the value of encoder
+adaptation once backbone identity, horizon and training-set size are known, and
+that the part of $\denc$ that \emph{is} predictable is predictable from protocol
+identity rather than from the representation-similarity measurement.  That is a
+sharper statement than a wide slope interval, and it is the sense in which a
+post-treatment similarity statistic is not evidence about the intervention's
+outcome.  It is also worth naming what the ladder shows about the alternative:
+the interaction model M4 collapses to $+0.019$, barely better than the intercept,
+so ``CKA predicts $\denc$ but with a backbone-specific slope'' is the worst
+performing account of these data, not a rescue of the pooled correlation.
+
+% Added 26 Sep 2026. A reviewer of the previous build made the fair objection that every negative
+% result in this paper is a statement about an INTERVAL -- a wide clustered CI, a dR2 whose sign is
+% negative but whose dispersion is unquotable -- and that a reader is therefore being asked to accept
+% a null. This subsection answers it in the one framing where "not actionable" is falsifiable rather
+% than merely unproven: what the rule would have been WORTH. It is post-hoc and labelled so in three
+% places (the emitter's docstring, the table caption and the first sentence below), and it is reported
+% in the direction the numbers actually go, which is not uniformly the direction this paper argues.
+\section{The Pre-Registered Positive Control, in Full}
+\label{app:poscontrol}
+% ============================================================
+% The complete record of the arm S7.3 states in three paragraphs. Written so the arm can be read as a
+% null without a reader having to trust us: the registration fixed all three outcome sentences and the
+% destruction threshold before the first run, scripts/emit_positive_control.py quotes the sentence that
+% fired rather than composing one, and Table \ref{tab:poscontrol} is generated from the 21 run records.
+
+\textbf{What was registered, and when.}
+% \allowbreak after the slash: the path is 45 characters of \texttt and TeX will not hyphenate it, so
+% without a break point it overran \linewidth by 6.4pt and tripped the Overfull gate.
+\texttt{results/positive\_control/\allowbreak preregistration.json} was committed at a named
+revision before any run of this arm existed, and it fixed: task A, chosen from the
+run records as $\arg\max\Vb{\text{ridge}}$ over the seven gate-passing cells
+(Moirai-Small/ETTh2, $h{=}192$, $\Vb{\text{ridge}}{=}{+}0.932$); task B by
+SHA-256, with its generator (\texttt{scripts/make\_conflicting\_series.py}); the
+grid; the primary readout; \emph{which checkpoint is primary}; \emph{where CKA is
+measured}; two falsifiable validity conditions; and all three outcome sentences.
+
+\textbf{Task B, and why its construction matters.} $x_j(t) = a_j\,(-1)^{\lfloor
+t/P\rfloor}\,s_j(t \bmod P) + \sigma_j\varepsilon$, with $s_j$ a three-harmonic
+unit-variance periodic shape and $P{=}192{=}h$.  The correct forecast is
+therefore the \emph{negation} of the previous period, so the seasonal-naive
+prior (which is task A's own strongest admissible baseline rung) is maximally
+wrong on task B: seasonal-naive loses to its own negation by $200.9\times$.  This
+is what makes learning B a genuine conflict with A rather than the addition of an
+unrelated skill, and it is the reason a null here is informative.
+
+\textbf{Where CKA is measured, and why it differs from the main matrix.} On
+\textbf{task A's} inputs, not task B's.  In the main matrix the two coincide,
+because a cell trains and is evaluated on one series; here they cannot, and
+measuring drift on the series being trained \emph{on} would answer a different
+question than ``did the representation supporting A change''.  This was the
+design choice we expected to be probed, so it is registered and stated rather
+than buried.
+
+\textbf{Both checkpoints, and the noise floor that makes them readable.} The
+early-stopped state is primary, as registered; the final-epoch state is reported
+beside it as the maximal-destruction bound, because the flag selects on task B's
+validation loss and so can return a checkpoint from before damage to A has finished
+developing.  \textbf{The registration's stated reason for that choice
+(comparability with the main matrix, ``which early-stops the same way'') is
+mistaken}: the 21 Moirai cells of the matrix pass no \texttt{-{}-early-stopping} flag and are read at their
+final epoch (\S\ref{sec:method}).  We leave the registered choice and the
+registration's wording as they are and report both states, so the error is in a
+stated rationale and not in a result; the arm's own runs do restore the best
+selection-split epoch, which is what the primary column is.  That epoch was
+often the last one, so the two states are frequently \emph{identical}, and then the gap
+between their two retention numbers is not redundancy but a direct read of the
+evaluator's own sampling noise, since Moirai's forecast is the median of 20
+samples.  Over the $17$ identical-state pairs that gap is at most $0.48$~pp and
+$0.20$~pp on average.  \textbf{Every retention number in this arm should be read
+against that floor}, which is why the emitter computes it across all such pairs
+rather than asserting a tolerance.
+
+\textbf{The validity conditions, both of which hold.} (i) Task B must actually be
+learned; destruction without learning is weight thrashing, not forgetting. It
+was, in \textbf{21 of 21} runs, by at least $+56.6\%$ against a registered $20\%$
+threshold. (ii) The frozen encoder should preserve task A; if it does not, the
+damage is not in the encoder. It does: retention stays inside $+5\%$ at all three
+completed rungs ($+1.3\pm0.4$, $+4.2\pm2.2$, $+3.4\pm9.4$), against a destruction
+threshold of $+50\%$.
+
+\textbf{The outcome, quoted from the registration.} Destruction was not achieved:
+the registered rule was retention$_A\!\geq\!50\%$ in a majority of seeds at some
+rung under condition B, and no rung meets it: the per-rung maxima are $-7.1$,
+$+26.7$, $+4.9$ and $-20.1$.  The registered sentence for this outcome reads:
+``the positive control failed to construct\ldots deliberately adversarial
+fine-tuning did not destroy the capability -- itself a finding about TSFM
+robustness, and a reason the main matrix's null is unsurprising.''  Across all 21
+runs Spearman $\rho$ between CKA on task A's inputs and retention is $+0.466$
+($p{=}0.03$, $n{=}21$): a positive coefficient is the wrong sign for a
+preservation heuristic, so the ordering fails here as it does retrospectively.
+
+\textbf{The declared extension, and the three runs that diverged.} The stopping
+rule permitted one extension to $\text{lr}{=}10^{-1}$ if destruction was not
+achieved at $10^{-2}$, and then a stop.  Condition B completed all three seeds
+and supplies the ladder's sharpest row.  Condition D diverged in 3 of 3: with the
+encoder frozen every gradient lands on the decoder, and its likelihood head
+leaves the domain its distribution requires: two seeds on the negative
+binomial's \texttt{total\_count}, one on a categorical's \texttt{logits}.
+\textbf{We do not re-run them.}  Guarding the evaluation call and retrying would
+be re-running the declared extension after seeing its outcome, which is the thing
+a pre-registration exists to prevent; the divergence is reported as the result
+for that rung.  It is also not load-bearing: condition D's role is to localise
+damage in the encoder, and there is no damage anywhere in the ladder to localise.
+
+\textbf{What this arm cannot show}, as registered: that the capability at stake
+was valuable against a strong baseline (task A beats seasonal-naive by only
+$+0.081$, and does not clear the full admissible ladder, so this tests
+\emph{detection} of a retention loss rather than the value of what is lost); that
+anything here generalises beyond one backbone, one series and one synthetic task
+B; or that a sign-inverting target task resembles a deployment scenario.  It also
+cannot show that a retention loss is impossible on these benchmarks, only that
+we could not construct one, having tried four learning-rate rungs spanning three
+orders of magnitude with a task built to conflict.
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{\textbf{The pre-registered positive control: 21 runs, no destruction.}
+Task A is Moirai-Small/ETTh2 $h{=}192$; task B is the anti-persistent synthetic
+series, fixed by SHA-256 before any run.  Retention on task A is
+$100(\text{MSE}_A(\theta_\text{FT}) - \text{MSE}_A(\theta_\text{ZS}))/\text{MSE}_A(\theta_\text{ZS})$,
+\emph{positive is worse}; the registered destruction threshold is $+50\%$ in a
+majority of seeds.  CKA is on task A's inputs; $\pm$ is the SEM over 3 seeds;
+$^{\dagger}$ marks the declared ladder extension; the evaluator noise floor is
+$0.48$~pp.}
+\label{tab:poscontrol}
+\input{tables/positive_control}
+\end{table}

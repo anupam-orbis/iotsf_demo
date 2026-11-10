@@ -1,0 +1,216 @@
+\begin{thebibliography}{26}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Andreassen et~al.(2022)Andreassen, Bahri, Neyshabur, and
+  Roelofs]{andreassen2023evolution}
+Anders Andreassen, Yasaman Bahri, Behnam Neyshabur, and Rebecca Roelofs.
+\newblock The evolution of out-of-distribution robustness throughout
+  fine-tuning.
+\newblock \emph{Transactions on Machine Learning Research (TMLR)}, 2022.
+\newblock URL \url{https://arxiv.org/abs/2106.15831}.
+
+\bibitem[Ansari et~al.(2024)]{ansari2024chronos}
+Abdul~Fatir Ansari et~al.
+\newblock Chronos: Learning the language of time series.
+\newblock \emph{Transactions on Machine Learning Research (TMLR)}, 2024.
+\newblock URL \url{https://arxiv.org/abs/2403.07815}.
+
+\bibitem[Das et~al.(2024)]{das2024timeseries}
+Abhimanyu Das et~al.
+\newblock A decoder-only foundation model for time-series forecasting.
+\newblock In \emph{International Conference on Machine Learning (ICML)}, 2024.
+\newblock URL \url{https://arxiv.org/abs/2310.10688}.
+
+\bibitem[Davari et~al.(2022)Davari, Asadi, Mudur, Aljundi, and
+  Belilovsky]{davari2022probing}
+MohammadReza Davari, Nader Asadi, Sudhir Mudur, Rahaf Aljundi, and Eugene
+  Belilovsky.
+\newblock Probing representation forgetting in supervised and unsupervised
+  continual learning.
+\newblock In \emph{IEEE/CVF Conference on Computer Vision and Pattern
+  Recognition (CVPR)}, 2022.
+\newblock URL \url{https://arxiv.org/abs/2203.13381}.
+
+\bibitem[Goswami et~al.(2024)]{goswami2024moment}
+Mononito Goswami et~al.
+\newblock {MOMENT}: A family of open time-series foundation models.
+\newblock In \emph{International Conference on Machine Learning (ICML)}, 2024.
+\newblock URL \url{https://arxiv.org/abs/2402.03885}.
+
+\bibitem[Gupta et~al.(2024)Gupta, Bhatti, Parmar, Dan, Liu, Shen, and
+  Lee]{gupta2024lowrank}
+Divij Gupta, Anubhav Bhatti, Suraj Parmar, Chen Dan, Yuwei Liu, Bingjie Shen,
+  and San Lee.
+\newblock Low-rank adaptation of time series foundational models for
+  out-of-domain modality forecasting.
+\newblock \emph{arXiv preprint arXiv:2405.10216}, 2024.
+\newblock URL \url{https://arxiv.org/abs/2405.10216}.
+
+\bibitem[Hewitt \& Manning(2019)Hewitt and Manning]{hewitt2019structural}
+John Hewitt and Christopher~D. Manning.
+\newblock A structural probe for finding syntax in word representations.
+\newblock In \emph{Proceedings of the 2019 Conference of the North American
+  Chapter of the Association for Computational Linguistics: Human Language
+  Technologies (NAACL-HLT)}, pp.\  4129--4138, 2019.
+\newblock \doi{10.18653/v1/N19-1419}.
+
+\bibitem[Jin et~al.(2024)Jin, Wang, Ma, Chu, Zhang, Shi, Chen, Liang, Li, Pan,
+  and Wen]{jin2024timellm}
+Ming Jin, Shiyu Wang, Lintao Ma, Zhixuan Chu, James~Y. Zhang, Xiaoming Shi,
+  Pin-Yu Chen, Yuxuan Liang, Yuan-Fang Li, Shirui Pan, and Qingsong Wen.
+\newblock Time-{LLM}: Time series forecasting by reprogramming large language
+  models.
+\newblock In \emph{International Conference on Learning Representations
+  (ICLR)}, 2024.
+\newblock URL \url{https://arxiv.org/abs/2310.01728}.
+
+\bibitem[Karaouli et~al.(2025)Karaouli, Coquenet, Fromont, Mermillod, and
+  Reyboz]{karaouli2025foundation}
+Nouha Karaouli, Denis Coquenet, Elisa Fromont, Martial Mermillod, and Marina
+  Reyboz.
+\newblock Foundation vs. specialized models: Evaluating catastrophic forgetting
+  in continual time series forecasting.
+\newblock \emph{arXiv preprint arXiv:2510.00809}, 2025.
+\newblock URL \url{https://arxiv.org/abs/2510.00809}.
+
+\bibitem[Khosla et~al.(2020)]{khosla2020supcon}
+Prannay Khosla et~al.
+\newblock Supervised contrastive learning.
+\newblock In \emph{Advances in Neural Information Processing Systems
+  (NeurIPS)}, 2020.
+\newblock URL \url{https://arxiv.org/abs/2004.11362}.
+
+\bibitem[Kirkpatrick et~al.(2017)Kirkpatrick, Pascanu, Rabinowitz,
+  et~al.]{kirkpatrick2017ewc}
+James Kirkpatrick, Razvan Pascanu, Neil Rabinowitz, et~al.
+\newblock Overcoming catastrophic forgetting in neural networks.
+\newblock \emph{Proceedings of the National Academy of Sciences}, 114\penalty0
+  (13):\penalty0 3521--3526, 2017.
+\newblock \doi{10.1073/pnas.1611835114}.
+
+\bibitem[Kornblith et~al.(2019)Kornblith, Norouzi, Lee, and
+  Hinton]{kornblith2019cka}
+Simon Kornblith, Mohammad Norouzi, Honglak Lee, and Geoffrey Hinton.
+\newblock Similarity of neural network representations revisited.
+\newblock In \emph{International Conference on Machine Learning (ICML)}, pp.\
+  3519--3529, 2019.
+\newblock URL \url{https://arxiv.org/abs/1905.00414}.
+
+\bibitem[Kumar et~al.(2022)Kumar, Raghunathan, Jones, Ma, and
+  Liang]{kumar2022finetuning}
+Ananya Kumar, Aditi Raghunathan, Robbie Jones, Tengyu Ma, and Percy Liang.
+\newblock Fine-tuning can distort pretrained features and underperform
+  out-of-distribution.
+\newblock In \emph{International Conference on Learning Representations
+  (ICLR)}, 2022.
+\newblock URL \url{https://arxiv.org/abs/2202.10054}.
+
+\bibitem[Laglil et~al.(2026)Laglil, Pracca, Devijver, and
+  Gaussier]{laglil2026foundation}
+Morad Laglil, Bertrand Pracca, Emilie Devijver, and Eric Gaussier.
+\newblock Foundation models and fine-tuning: Toward a new generation of models
+  for time series forecasting.
+\newblock \emph{arXiv preprint arXiv:2607.23146}, 2026.
+\newblock URL \url{https://arxiv.org/abs/2607.23146}.
+
+\bibitem[Li et~al.(2018)Li, Grandvalet, and Davoine]{li2018l2sp}
+Xuhong Li, Yves Grandvalet, and Franck Davoine.
+\newblock Explicit inductive bias for transfer learning with convolutional
+  networks.
+\newblock In \emph{International Conference on Machine Learning (ICML)}, 2018.
+\newblock URL \url{https://arxiv.org/abs/1802.01483}.
+
+\bibitem[Li \& Hoiem(2018)Li and Hoiem]{li2017lwf}
+Zhizhong Li and Derek Hoiem.
+\newblock Learning without forgetting.
+\newblock \emph{IEEE Transactions on Pattern Analysis and Machine
+  Intelligence}, 40\penalty0 (12):\penalty0 2935--2947, 2018.
+\newblock \doi{10.1109/TPAMI.2017.2773081}.
+
+\bibitem[Liu et~al.(2024)Liu, Zhang, Li, Huang, Wang, and Long]{liu2024timer}
+Yong Liu, Haoran Zhang, Chenyu Li, Xiangdong Huang, Jianmin Wang, and Mingsheng
+  Long.
+\newblock Timer: Generative pre-trained transformers are large time series
+  models.
+\newblock In \emph{International Conference on Machine Learning (ICML)}, 2024.
+\newblock URL \url{https://arxiv.org/abs/2402.02368}.
+
+\bibitem[Luo et~al.(2023)Luo, Yang, Meng, Li, Zhou, and
+  Zhang]{luo2023forgetting}
+Yun Luo, Zhen Yang, Fandong Meng, Yafu Li, Jie Zhou, and Yue Zhang.
+\newblock An empirical study of catastrophic forgetting in large language
+  models during continual fine-tuning.
+\newblock \emph{arXiv preprint arXiv:2308.08747}, 2023.
+
+\bibitem[Mian et~al.(2026)Mian, Cranmer, Favero, and
+  Mukhopadhyay]{mian2026frozen}
+Haaris Mian, Miles Cranmer, Alessandro Favero, and Payel Mukhopadhyay.
+\newblock Frozen in time: How a physics foundation model forgets under
+  sim-to-real adaptation.
+\newblock \emph{arXiv preprint arXiv:2610.40857}, 2026.
+\newblock URL \url{https://arxiv.org/abs/2610.40857}.
+
+\bibitem[Pimentel et~al.(2020)Pimentel, Valvoda, Hall~Maudslay, Zmigrod,
+  Williams, and Cotterell]{pimentel2020information}
+Tiago Pimentel, Josef Valvoda, Rowan Hall~Maudslay, Ran Zmigrod, Adina
+  Williams, and Ryan Cotterell.
+\newblock Information-theoretic probing for linguistic structure.
+\newblock In \emph{Proceedings of the 58th Annual Meeting of the Association
+  for Computational Linguistics (ACL)}, pp.\  4609--4622, 2020.
+\newblock \doi{10.18653/v1/2020.acl-main.420}.
+
+\bibitem[Ramasesh et~al.(2021)Ramasesh, Dyer, and Raghu]{ramasesh2021anatomy}
+Vinay~V. Ramasesh, Ethan Dyer, and Maithra Raghu.
+\newblock Anatomy of catastrophic forgetting: Hidden representations and task
+  semantics.
+\newblock In \emph{International Conference on Learning Representations
+  (ICLR)}, 2021.
+\newblock URL \url{https://arxiv.org/abs/2007.07400}.
+
+\bibitem[Rasul et~al.(2024)Rasul, Ashok, Williams, Ghonia, Bhagwatkar,
+  Khorasani, Bayazi, Adamopoulos, Riachi, Hassen, Bilo{\v{s}}, Garg, Schneider,
+  Chapados, Drouin, Zantedeschi, Nevmyvaka, and Rish]{rasul2024lagllama}
+Kashif Rasul, Arjun Ashok, Andrew~Robert Williams, Hena Ghonia, Rishika
+  Bhagwatkar, Arian Khorasani, Mohammad Javad~Darvishi Bayazi, George
+  Adamopoulos, Roland Riachi, Nadhir Hassen, Marin Bilo{\v{s}}, Sahil Garg,
+  Anderson Schneider, Nicolas Chapados, Alexandre Drouin, Valentina
+  Zantedeschi, Yuriy Nevmyvaka, and Irina Rish.
+\newblock Lag-llama: Towards foundation models for probabilistic time series
+  forecasting.
+\newblock \emph{arXiv preprint arXiv:2310.08278}, 2024.
+\newblock URL \url{https://arxiv.org/abs/2310.08278}.
+
+\bibitem[Wili{\'n}ski et~al.(2025)Wili{\'n}ski, Goswami, Potosnak,
+  {\.Z}ukowska, and Dubrawski]{wilinski2025representations}
+Micha{\l} Wili{\'n}ski, Mononito Goswami, Willa Potosnak, Nina {\.Z}ukowska,
+  and Artur Dubrawski.
+\newblock Exploring representations and interventions in time series foundation
+  models.
+\newblock In \emph{International Conference on Machine Learning (ICML)}, 2025.
+\newblock URL \url{https://arxiv.org/abs/2409.12915}.
+
+\bibitem[Woo et~al.(2024)]{woo2024moirai}
+Gerald Woo et~al.
+\newblock Unified training of universal time series forecasting transformers.
+\newblock In \emph{International Conference on Machine Learning (ICML)}, 2024.
+\newblock URL \url{https://arxiv.org/abs/2402.02592}.
+
+\bibitem[Zeng et~al.(2023)Zeng, Chen, Zhang, and Xu]{zeng2023transformers}
+Ailing Zeng, Muxi Chen, Lei Zhang, and Qiang Xu.
+\newblock Are transformers effective for time series forecasting?
+\newblock In \emph{Proceedings of the AAAI Conference on Artificial
+  Intelligence}, volume~37, pp.\  11121--11128, 2023.
+\newblock \doi{10.1609/aaai.v37i9.26317}.
+
+\bibitem[Zhou et~al.(2023)Zhou, Niu, Wang, Sun, and Jin]{zhou2023onefitsall}
+Tian Zhou, Peisong Niu, Xue Wang, Liang Sun, and Rong Jin.
+\newblock One fits all: Power general time series analysis by pretrained {LM}.
+\newblock In \emph{Advances in Neural Information Processing Systems
+  (NeurIPS)}, 2023.
+\newblock \doi{10.52202/075280-1877}.
+
+\end{thebibliography}

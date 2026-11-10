@@ -1,0 +1,18 @@
+{
+  "state": "results/v59_ood_retention/base_ETTm2_h192/condition_B/s42/final_state.pt",
+  "task_a_data": "data/forecasting/Electricity7.csv",
+  "model_size": "base",
+  "horizon": 192,
+  "lookback": 96,
+  "features": "M",
+  "n_eval_windows": 300,
+  "n_features": 7,
+  "mse_zeroshot": 0.19611345360026777,
+  "mae_zeroshot": 0.2808982416815986,
+  "mse_finetuned": 0.4442789940350114,
+  "mae_finetuned": 0.4499420941531815,
+  "retention_A_pct": 126.54182356125965,
+  "cka_on_task_a_inputs": 0.603529155254364,
+  "weight_drift": 15.715656700252188,
+  "cka_measured_on": "task A's held-out inputs -- NOT task B's; see the pre-registration"
+}
